@@ -17,6 +17,7 @@ import ForgotPassword from './ForgotPassword';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../CustomIcons';
 import AppTheme from "../theme/AppTheme";
 import ColorModeSelect from "../theme/ColorModeSelect";
+import authService from "../../services/authService";
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -82,10 +83,13 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
             return;
         }
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const email = data.get('email') as string | null;
+        const password = data.get('password') as string | null;
+        if (email && password) {
+            authService.login(email, password);
+        }
+        setEmailError(true);
+        setEmailErrorMessage("Something went wrong");
     };
 
     const validateInputs = () => {
@@ -119,7 +123,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
         <AppTheme {...props}>
             <CssBaseline enableColorScheme />
             <SignInContainer direction="column" justifyContent="space-between">
-                <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
+                <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }}/>
                 <Card variant="outlined">
                     <SitemarkIcon />
                     <Typography

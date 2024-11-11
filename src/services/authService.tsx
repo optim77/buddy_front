@@ -1,15 +1,24 @@
-// src/services/authService.ts
 import axios from 'axios';
+import {Navigate} from "react-router-dom";
 
-const API_URL = "https://example.com/api"; // Zastąp swoim adresem API
+const API_URL = "http://localhost:8080";
 
 const login = async (email: string, password: string) => {
-    const response = await axios.post(`${API_URL}/login`, { email, password });
-    localStorage.setItem("token", response.data.token);
+    const response = await axios.post(`${process.env.REACT_APP_API_ADDRESS}/authenticate`, { email, password }, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+    localStorage.setItem("buddy-token", response.data.token);
+    return <Navigate to="/dashboard" />
 };
 
 const register = async (email: string, password: string) => {
-    await axios.post(`${API_URL}/register`, { email, password });
+    await axios.post(`${process.env.REACT_APP_API_ADDRESS}/register`, { email, password }, {
+        headers: {
+            "content-type": "application/json"
+        }
+    });
 };
 
 const authService = {

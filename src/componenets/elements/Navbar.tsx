@@ -13,6 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import {SitemarkIcon} from "../CustomIcons";
 import ColorModeIconDropdown from '.././theme/ColorModeIconDropdown';
+import Link from "@mui/material/Link";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: 'flex',
@@ -53,24 +54,10 @@ export default function AppAppBar() {
                     <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
                         <SitemarkIcon />
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                            <Button variant="text" color="info" size="small">
-                                Features
-                            </Button>
-                            <Button variant="text" color="info" size="small">
-                                Testimonials
-                            </Button>
-                            <Button variant="text" color="info" size="small">
-                                Highlights
-                            </Button>
-                            <Button variant="text" color="info" size="small">
-                                Pricing
-                            </Button>
                             <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
                                 FAQ
                             </Button>
-                            <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
-                                Blog
-                            </Button>
+
                         </Box>
                     </Box>
                     <Box
@@ -80,11 +67,12 @@ export default function AppAppBar() {
                             alignItems: 'center',
                         }}
                     >
+
                         <Button color="primary" variant="text" size="small">
-                            Sign in
+                            <Link underline="none" href="/sign-in">Sign in</Link>
                         </Button>
                         <Button color="primary" variant="contained" size="small">
-                            Sign up
+                            <Link color="black" underline="none" href="/sign-up">Sign up</Link>
                         </Button>
                         <ColorModeIconDropdown />
                     </Box>
