@@ -133,10 +133,6 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
         if (email && password) {
             authService.register(email, password)
                 .then(function () {
-                    setPasswordError(false);
-                    setEmailError(false);
-                    setPasswordErrorMessage("");
-                    setEmailErrorMessage("");
                     navigate('/registered');
                 })
                 .catch((error) => {
@@ -154,8 +150,6 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                     }
                 });
         }
-        setEmailError(true);
-        setEmailErrorMessage("Something went wrong");
     };
 
 

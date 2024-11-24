@@ -18,6 +18,7 @@ import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../CustomIcons';
 import AppTheme from "../theme/AppTheme";
 import ColorModeSelect from "../theme/ColorModeSelect";
 import authService from "../../services/authService";
+import {useNavigate} from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -68,6 +69,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     const [passwordError, setPasswordError] = React.useState(false);
     const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
     const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -78,18 +80,29 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        if (emailError || passwordError) {
-            event.preventDefault();
-            return;
-        }
+        event.preventDefault();
         const data = new FormData(event.currentTarget);
         const email = data.get('email') as string | null;
         const password = data.get('password') as string | null;
         if (email && password) {
-            authService.login(email, password);
+            authService.login(email, password)
+                .then(function () {
+                    navigate(0);
+                })
+                .catch((error) => {
+                    if (error.response.data.message === "Invalid email format") {
+                        setEmailError(true);
+                        setEmailErrorMessage(error.response.data.message);
+                    }
+                    if (error.response.data.message === "Password does not meet the requirements (8-32 characters, upper and lower case, special character)") {
+                        setPasswordError(true);
+                        setPasswordErrorMessage(error.response.data.message);
+                    }else{
+                        setEmailError(true);
+                        setEmailErrorMessage("Wrong email or password");
+                    }
+                });
         }
-        setEmailError(true);
-        setEmailErrorMessage("Something went wrong");
     };
 
     const validateInputs = () => {

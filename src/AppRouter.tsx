@@ -7,9 +7,13 @@ import Navbar from "./componenets/elements/Navbar";
 import Dashboard from "./componenets/Dashboard";
 import SignUp from "./componenets/auth/SignUp";
 import Registered from "./pages/Registered";
+import Explore from './componenets/explore/Explore';
+import Account from "./componenets/account/Account";
+import Create from "./componenets/create/Create";
+import {getCookie} from "typescript-cookie";
 
 const AppRouter: React.FC = () => {
-    const isAuthenticated = !!localStorage.getItem("token");
+    const isAuthenticated = !!getCookie("buddy-token");
 
     return (
         <Router>
@@ -20,7 +24,11 @@ const AppRouter: React.FC = () => {
                 <Route path="/sign-in" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />} />
                 <Route path="/sign-up" element={isAuthenticated ? <Navigate to="/dashboard" /> : <SignUp />} />
                 <Route path="/register" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Register />} />
-                <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
+                <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/sign-in" />} />
+                <Route path="/explore" element={<Explore />} />
+                <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/sign-in" />} />
+                <Route path="/create" element={isAuthenticated ? <Create /> : <Navigate to="/sign-in" />} />
+
 
                 {/*pages*/}
                 <Route path="/registered" element={<Registered />} />
