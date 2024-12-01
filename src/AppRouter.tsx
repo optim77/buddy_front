@@ -11,6 +11,7 @@ import Explore from './componenets/explore/Explore';
 import Account from "./componenets/account/Account";
 import Create from "./componenets/create/Create";
 import {getCookie} from "typescript-cookie";
+import Profile from "./componenets/profile/Profile";
 
 const AppRouter: React.FC = () => {
     const isAuthenticated = !!getCookie("buddy-token");
@@ -26,6 +27,7 @@ const AppRouter: React.FC = () => {
                 <Route path="/register" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Register />} />
                 <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/sign-in" />} />
                 <Route path="/explore" element={<Explore />} />
+                <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/sign-in" />} />
                 <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/sign-in" />} />
                 <Route path="/create" element={isAuthenticated ? <Create /> : <Navigate to="/sign-in" />} />
 

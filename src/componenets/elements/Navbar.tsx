@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import {SitemarkIcon} from "../CustomIcons";
+import {SettingIcon, SitemarkIcon} from "../CustomIcons";
 import ColorModeIconDropdown from '.././theme/ColorModeIconDropdown';
 import authService from "../../services/authService";
 import {useNavigate} from "react-router-dom";
@@ -100,7 +100,7 @@ export default function AppAppBar() {
                             </Button>
                             {isAuthenticated ? (
                                 <Button variant="text" color="info" size="small" sx={{minWidth: 0}}>
-                                    <StyledLink className="link-styles" to="/account">Profile</StyledLink>
+                                    <StyledLink className="link-styles" to="/profile">Profile</StyledLink>
                                 </Button>
                             ) : null}
 
@@ -143,7 +143,7 @@ export default function AppAppBar() {
                                         aria-expanded={isOpen ? 'true' : undefined}
                                         onClick={handleClick}
                                     >
-                                        Dashboard
+                                        <SettingIcon />
                                     </Button>
                                     <Menu
                                         id="fade-menu"
@@ -155,7 +155,9 @@ export default function AppAppBar() {
                                         onClose={handleClose}
                                         TransitionComponent={Fade}
                                     >
-                                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                                        <MenuItem onClick={handleClose}>
+                                            <StyledLink className="link-styles" to="/account">Account</StyledLink>
+                                        </MenuItem>
                                         <MenuItem onClick={handleLogout}>Logout</MenuItem>
                                     </Menu>
                                 </div>

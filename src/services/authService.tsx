@@ -6,9 +6,16 @@ const setToken = (token: string) => {
     setCookie("buddy-token", token);
 
 }
+const setIds = (id: string) => {
+    setCookie("buddy-id", id);
+}
 
 const getToken = () => {
     return getCookie("buddy-token") || null;
+}
+
+const getIdFromCookie = () => {
+    return getCookie("buddy-id") || null;
 }
 
 const login = async (email: string, password: string) => {
@@ -31,6 +38,7 @@ const register = async (email: string, password: string) => {
 
 const logout = async (): Promise<void> => {
     removeCookie("buddy-token");
+    removeCookie("buddy-id");
     window.location.reload();
 };
 
@@ -38,7 +46,9 @@ const authService = {
     login,
     register,
     logout,
-    getToken
+    getToken,
+    getIdFromCookie,
+    setIds
 };
 
 export default authService;
