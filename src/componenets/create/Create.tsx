@@ -91,6 +91,9 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
             if (images.length > 0) {
                 setUploadedImage(images[0]);
             }
+            if (videos.length > 0){
+                setUploadedImage(videos[0]);
+            }
         }
     };
 
@@ -124,7 +127,7 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 }).then((res) => {
                     setIsSending(true);
                     if (res.status === 201){
-                        navigate("/image/" + res.data);
+                        navigate("/profile");
                     }else{
                         setErrorMessage(res.data);
                     }
@@ -160,6 +163,7 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         Upload file
                         <VisuallyHiddenInput
                             type="file"
+                            accept="image/*,video/*"
                             onChange={handleFileChange}
                             multiple
                         />

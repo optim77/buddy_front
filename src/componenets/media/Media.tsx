@@ -1,0 +1,154 @@
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import AppTheme from "../theme/AppTheme";
+import { styled } from "@mui/material/styles";
+import Stack from "@mui/material/Stack";
+import axios from "axios";
+import authService from "../../services/authService";
+import Avatar from "@mui/material/Avatar";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Button from "@mui/material/Button";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import Tooltip from "@mui/material/Tooltip";
+import {LikeButtonProps, likePhoto} from "../like/LikeService";
+import LikeButton from "../like/LikeButton";
+
+const DashboardContainer = styled(Stack)(({ theme }) => ({
+    height: "calc((1 - var(--template-frame-height, 0)) * 100dvh)",
+    minHeight: "100%",
+    padding: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+        padding: theme.spacing(4),
+    },
+    "&::before": {
+        content: '""',
+        display: "block",
+        position: "absolute",
+        zIndex: -1,
+        inset: 0,
+        backgroundImage:
+            "radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))",
+        backgroundRepeat: "no-repeat",
+        ...theme.applyStyles("dark", {
+            backgroundImage:
+                "radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))",
+        }),
+    },
+}));
+
+const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
+    const { imageId } = useParams<{ imageId: string }>();
+    const [media, setMedia] = useState<any>(null);
+    const [error, setError] = useState<string | null>(null);
+
+    const fetchMedia = async (imageId: string) => {
+        try {
+            const response = await axios.get(
+                `${process.env.REACT_APP_API_ADDRESS}/image/` + imageId,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + authService.getToken(),
+                    },
+                }
+            );
+            return response.data;
+        } catch (err) {
+            throw new Error("Error fetching media");
+        }
+    };
+
+    useEffect(() => {
+        if (imageId) {
+            fetchMedia(imageId)
+                .then((data) => {
+                    setMedia(data);
+                })
+                .catch(() => {
+                    setError("Failed to load media");
+                });
+        }
+    }, [imageId]);
+
+    const buildImageUrl = (relativePath: string) => {
+        return `${process.env.REACT_APP_API_ADDRESS}${relativePath.replace(/\\/g, "/")}`;
+    };
+
+
+
+    return (
+        <Container
+            maxWidth="lg"
+            component="main"
+            sx={{ display: "flex", flexDirection: "column", my: 16, gap: 4 }}
+        >
+            <AppTheme {...props}>
+                <CssBaseline enableColorScheme />
+                <DashboardContainer>
+                    {error ? (
+                        <Typography color="error">{error}</Typography>
+                    ) : media ? (
+                        <Card>
+                            {media.mediaType === "VIDEO" ? (
+                                <video
+                                    src={buildImageUrl(media.imageUrl)}
+                                    //controls
+                                    autoPlay
+                                    loop
+                                    muted
+                                    style={{ maxHeight: 500, width: "100%" }}
+                                />
+                            ) : (
+                                <CardMedia
+                                    component="img"
+                                    image={buildImageUrl(media.imageUrl)}
+                                    alt={media.description || "Image"}
+                                    sx={{ maxHeight: 500 }}
+                                />
+                            )}
+                            <CardContent>
+                                <Typography variant="h5" gutterBottom sx={{ marginBottom: 3 }}>
+                                    {media.description}
+                                </Typography>
+                                <Stack
+                                    direction="row"
+                                    spacing={2}
+                                    alignItems="center"
+                                    sx={{ marginBottom: 2 }}
+                                >
+                                    <Avatar
+                                        src={media.avatar ? buildImageUrl(media.avatar) : undefined}
+                                        alt={media.username}
+                                    />
+                                    <Typography variant="subtitle1">{media.username}</Typography>
+                                    <Tooltip title={`Uploaded on: ${new Date(media.uploadedDate).toLocaleString()}`}>
+                                        <Button variant="text" size="small">
+                                            Show Date
+                                        </Button>
+                                    </Tooltip>
+                                </Stack>
+                                <Typography variant="body2" color="text.secondary">
+                                    Likes: {media.likeCount}
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <LikeButton mediaId={media.id}></LikeButton>
+
+                            </CardActions>
+                        </Card>
+                    ) : (
+                        <Typography>Loading media...</Typography>
+                    )}
+                </DashboardContainer>
+            </AppTheme>
+        </Container>
+    );
+};
+
+export default Media;
