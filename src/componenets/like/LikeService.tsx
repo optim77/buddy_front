@@ -8,7 +8,7 @@ export interface LikeButtonProps {
 export async function likePhoto(photoId: string): Promise<void> {
     try {
         const response = await axios.post(
-            `${process.env.REACT_APP_API_ADDRESS}/like/image/`,
+            `${process.env.REACT_APP_API_ADDRESS}/like/image/` + photoId,
             { photoId },
             {
                 headers: {

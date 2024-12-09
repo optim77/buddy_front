@@ -15,6 +15,8 @@ import Container from "@mui/material/Container";
 import { Link } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import {TextFields} from "@mui/icons-material";
+import LikeButton from "../like/LikeButton";
+import {formatLikes} from "../../utils/FormatLike";
 
 const ProfileContainer = styled(Stack)(({ theme }) => ({
     height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
@@ -103,7 +105,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 <CssBaseline enableColorScheme />
                 <ProfileContainer>
                     {error && (<TextField value={error} />)}
-                    {isContent ? null : <Typography variant="h1" gutterBottom>There is no posts yet ;)</Typography> }
+                    {!isContent ? null : <Typography variant="h1" gutterBottom>There is no posts yet ;)</Typography> }
                     <Grid container spacing={4}>
                         {images.map((image) => (
                             <Grid item xs={12} sm={6} md={4} key={image.imageId}>
@@ -150,11 +152,9 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                             spacing={1}
                                             sx={{ mt: 1 }}
                                         >
-                                            <IconButton size="small" color="error">
-                                                <FavoriteIcon />
-                                            </IconButton>
+                                            <LikeButton mediaId={image.imageId} isLiked={image.likedByCurrentUser}></LikeButton>
                                             <Typography variant="body2" color="text.secondary">
-                                                {image.likeCount} Likes
+                                                {formatLikes(image.likeCount)}
                                             </Typography>
                                         </Stack>
                                     </CardContent>

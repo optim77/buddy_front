@@ -18,6 +18,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Tooltip from "@mui/material/Tooltip";
 import {LikeButtonProps, likePhoto} from "../like/LikeService";
 import LikeButton from "../like/LikeButton";
+import {formatLikes} from "../../utils/FormatLike";
 
 const DashboardContainer = styled(Stack)(({ theme }) => ({
     height: "calc((1 - var(--template-frame-height, 0)) * 100dvh)",
@@ -109,11 +110,12 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     component="img"
                                     image={buildImageUrl(media.imageUrl)}
                                     alt={media.description || "Image"}
-                                    sx={{ maxHeight: 500 }}
+                                    sx={{ maxHeight: 1000 }}
+
                                 />
                             )}
                             <CardContent>
-                                <Typography variant="h5" gutterBottom sx={{ marginBottom: 3 }}>
+                                <Typography gutterBottom sx={{ marginBottom: 5, marginTop:5, marginLeft: 1, marginRight: 1 }}>
                                     {media.description}
                                 </Typography>
                                 <Stack
@@ -129,17 +131,17 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     <Typography variant="subtitle1">{media.username}</Typography>
                                     <Tooltip title={`Uploaded on: ${new Date(media.uploadedDate).toLocaleString()}`}>
                                         <Button variant="text" size="small">
-                                            Show Date
+                                            Info
                                         </Button>
                                     </Tooltip>
                                 </Stack>
-                                <Typography variant="body2" color="text.secondary">
-                                    Likes: {media.likeCount}
-                                </Typography>
+
                             </CardContent>
                             <CardActions>
-                                <LikeButton mediaId={media.id}></LikeButton>
-
+                                <LikeButton mediaId={media.imageId} isLiked={media.likedByCurrentUser}></LikeButton>
+                                <Typography variant="body2" color="text.secondary">
+                                    {formatLikes(media.likeCount)}
+                                </Typography>
                             </CardActions>
                         </Card>
                     ) : (
