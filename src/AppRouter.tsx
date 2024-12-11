@@ -13,6 +13,7 @@ import Create from "./componenets/create/Create";
 import {getCookie} from "typescript-cookie";
 import Profile from "./componenets/profile/Profile";
 import Media from "./componenets/media/Media";
+import Tag from "./componenets/tag/Tag";
 
 const AppRouter: React.FC = () => {
     const isAuthenticated = !!getCookie("buddy-token");
@@ -32,6 +33,8 @@ const AppRouter: React.FC = () => {
                 <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/sign-in" />} />
                 <Route path="/create" element={isAuthenticated ? <Create /> : <Navigate to="/sign-in" />} />
                 <Route path="/image/:imageId" element={<Media />} />
+
+                <Route path="/tag/:tag" element={<Tag />} />
 
 
                 {/*pages*/}

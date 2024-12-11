@@ -106,7 +106,7 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
             setErrorMessage("Your file is to big, max size is 100Mb");
             return false;
         }
-        if (!description || !tags) {
+        if (!description) {
             setErrorMessage("Please fill in all fields!");
             return false;
         }
@@ -114,27 +114,34 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
     };
 
     const send = async () => {
-
         if (validateInput()) {
+            const formData = new FormData();
+            formData.append("file", uploadedImage as Blob); // Dodaj plik
+            formData.append("description", description as string); // Dodaj opis
+            formData.append("open", "true"); // Dodaj pole open (może być true/false jako string)
+            const tagsArray = tags ? tags.split(",").map(tag => tag.trim()) : [];
+            tagsArray.forEach(tag => formData.append("tagSet", tag)); // Dodaj tagi jako wielokrotne pola
 
-            if (authService.getToken()){
-                await axios.post(`${process.env.REACT_APP_API_ADDRESS}/image/upload`, { file: uploadedImage, description: description, tags: tags, open: true }, {
-                    headers: {
-                        "Content-type": "multipart/form-data",
-                        "Authorization": 'Bearer ' + authService.getToken(),
+            try {
+                const response = await axios.post(
+                    `${process.env.REACT_APP_API_ADDRESS}/image/upload`,
+                    formData,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data", // Ważne: `multipart/form-data`
+                            Authorization: `Bearer ${authService.getToken()}`, // Token autoryzacji
+                        },
+                    }
+                );
 
-                    }
-                }).then((res) => {
-                    setIsSending(true);
-                    if (res.status === 201){
-                        navigate("/profile");
-                    }else{
-                        setErrorMessage(res.data);
-                    }
-                })
+                if (response.status === 201) {
+                    navigate("/profile");
+                } else {
+                    setErrorMessage("An error occurred: " + response.data.message);
+                }
+            } catch (error: any) {
+                setErrorMessage(error.response?.data?.message || "An error occurred");
             }
-
-
         }
     };
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import Card from "@mui/material/Card";
@@ -19,6 +19,9 @@ import Tooltip from "@mui/material/Tooltip";
 import {LikeButtonProps, likePhoto} from "../like/LikeService";
 import LikeButton from "../like/LikeButton";
 import {formatLikes} from "../../utils/FormatLike";
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
+import {InfoIcon} from "../CustomIcons";
 
 const DashboardContainer = styled(Stack)(({ theme }) => ({
     height: "calc((1 - var(--template-frame-height, 0)) * 100dvh)",
@@ -115,6 +118,30 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                 />
                             )}
                             <CardContent>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexWrap: 'wrap',
+                                        gap: 1.5,
+                                        marginTop: 1,
+                                        marginBottom: 1,
+                                    }}
+                                >
+                                    {media.tags ? (
+                                        media.tags.map((tag: string) => (
+                                            <Link to={"/tag/" + tag}>
+                                                <Chip
+                                                    key={tag}
+                                                    label={tag}
+                                                    variant="filled"
+                                                    sx={{ fontSize: '1rem', padding: '10px' }}
+                                                />
+                                            </Link>
+
+                                        ))
+                                    ) : null}
+                                </Box>
+
                                 <Typography gutterBottom sx={{ marginBottom: 5, marginTop:5, marginLeft: 1, marginRight: 1 }}>
                                     {media.description}
                                 </Typography>
@@ -122,16 +149,20 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     direction="row"
                                     spacing={2}
                                     alignItems="center"
+                                    justifyContent="space-between"
                                     sx={{ marginBottom: 2 }}
                                 >
-                                    <Avatar
-                                        src={media.avatar ? buildImageUrl(media.avatar) : undefined}
-                                        alt={media.username}
-                                    />
-                                    <Typography variant="subtitle1">{media.username}</Typography>
+                                    <Stack direction="row" spacing={2} alignItems="center">
+                                        <Avatar
+                                            src={media.avatar ? buildImageUrl(media.avatar) : undefined}
+                                            alt={media.username}
+                                        />
+                                        <Typography variant="subtitle1">{media.username}</Typography>
+                                    </Stack>
+
                                     <Tooltip title={`Uploaded on: ${new Date(media.uploadedDate).toLocaleString()}`}>
                                         <Button variant="text" size="small">
-                                            Info
+                                            <InfoIcon />
                                         </Button>
                                     </Tooltip>
                                 </Stack>
