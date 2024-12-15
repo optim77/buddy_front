@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -6,7 +6,7 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import AppTheme from "../theme/AppTheme";
-import { styled } from "@mui/material/styles";
+import {styled} from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
 import authService from "../../services/authService";
@@ -21,9 +21,10 @@ import LikeButton from "../like/LikeButton";
 import {formatLikes} from "../../utils/FormatLike";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-import {InfoIcon} from "../CustomIcons";
+import {EditIcon, InfoIcon} from "../CustomIcons";
+import {isEditable} from "@testing-library/user-event/dist/utils";
 
-const DashboardContainer = styled(Stack)(({ theme }) => ({
+const DashboardContainer = styled(Stack)(({theme}) => ({
     height: "calc((1 - var(--template-frame-height, 0)) * 100dvh)",
     minHeight: "100%",
     padding: theme.spacing(2),
@@ -47,9 +48,10 @@ const DashboardContainer = styled(Stack)(({ theme }) => ({
 }));
 
 const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const { imageId } = useParams<{ imageId: string }>();
+    const {imageId} = useParams<{ imageId: string }>();
     const [media, setMedia] = useState<any>(null);
     const [error, setError] = useState<string | null>(null);
+    const [editable, setEditable] = useState(false);
 
     const fetchMedia = async (imageId: string) => {
         try {
@@ -73,6 +75,9 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
             fetchMedia(imageId)
                 .then((data) => {
                     setMedia(data);
+                    if (data.userId === authService.getBuddyUser()) {
+                        setEditable(true);
+                    }
                 })
                 .catch(() => {
                     setError("Failed to load media");
@@ -85,15 +90,14 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
     };
 
 
-
     return (
         <Container
             maxWidth="lg"
             component="main"
-            sx={{ display: "flex", flexDirection: "column", my: 16, gap: 4 }}
+            sx={{display: "flex", flexDirection: "column", my: 16, gap: 4}}
         >
             <AppTheme {...props}>
-                <CssBaseline enableColorScheme />
+                <CssBaseline enableColorScheme/>
                 <DashboardContainer>
                     {error ? (
                         <Typography color="error">{error}</Typography>
@@ -106,14 +110,14 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     autoPlay
                                     loop
                                     muted
-                                    style={{ maxHeight: 500, width: "100%" }}
+                                    style={{maxHeight: 500, width: "100%"}}
                                 />
                             ) : (
                                 <CardMedia
                                     component="img"
                                     image={buildImageUrl(media.imageUrl)}
                                     alt={media.description || "Image"}
-                                    sx={{ maxHeight: 1000 }}
+                                    sx={{maxHeight: 1000}}
 
                                 />
                             )}
@@ -134,7 +138,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                                     key={tag}
                                                     label={tag}
                                                     variant="filled"
-                                                    sx={{ fontSize: '1rem', padding: '10px' }}
+                                                    sx={{fontSize: '1rem', padding: '10px'}}
                                                 />
                                             </Link>
 
@@ -142,7 +146,8 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     ) : null}
                                 </Box>
 
-                                <Typography gutterBottom sx={{ marginBottom: 5, marginTop:5, marginLeft: 1, marginRight: 1 }}>
+                                <Typography gutterBottom
+                                            sx={{marginBottom: 5, marginTop: 5, marginLeft: 1, marginRight: 1}}>
                                     {media.description}
                                 </Typography>
                                 <Stack
@@ -160,11 +165,18 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                         <Typography variant="subtitle1">{media.username}</Typography>
                                     </Stack>
 
-                                    <Tooltip title={`Uploaded on: ${new Date(media.uploadedDate).toLocaleString()}`}>
-                                        <Button variant="text" size="small">
-                                            <InfoIcon />
-                                        </Button>
-                                    </Tooltip>
+                                    <Stack direction="row" spacing={2} alignItems="center" sx={{ ml: 'auto' }}>
+                                        <Tooltip title={`Uploaded on: ${new Date(media.uploadedDate).toLocaleString()}`}>
+                                            <Button variant="text" size="small">
+                                                <InfoIcon />
+                                            </Button>
+                                        </Tooltip>
+                                        {editable && (
+                                            <Button variant="text" size="small">
+                                                <EditIcon />
+                                            </Button>
+                                        )}
+                                    </Stack>
                                 </Stack>
 
                             </CardContent>

@@ -6,12 +6,20 @@ const setToken = (token: string) => {
     setCookie("buddy-token", token);
 
 }
+const setBuddyUser = (userId: string) => {
+    setCookie("buddy-user", userId);
+}
+
 const setIds = (id: string) => {
     setCookie("buddy-id", id);
 }
 
 const getToken = () => {
     return getCookie("buddy-token") || null;
+}
+
+const getBuddyUser = () => {
+    return getCookie("buddy-user") || null;
 }
 
 const getIdFromCookie = () => {
@@ -25,6 +33,7 @@ const login = async (email: string, password: string) => {
         }
     }).then((content) => {
         setToken(content.data.token);
+        setBuddyUser(content.data.userId);
     });
 };
 
@@ -39,6 +48,7 @@ const register = async (email: string, password: string) => {
 const logout = async (): Promise<void> => {
     removeCookie("buddy-token");
     removeCookie("buddy-id");
+    removeCookie("buddy-user");
     window.location.reload();
 };
 
@@ -48,7 +58,8 @@ const authService = {
     logout,
     getToken,
     getIdFromCookie,
-    setIds
+    setIds,
+    getBuddyUser
 };
 
 export default authService;
