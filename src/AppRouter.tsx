@@ -13,6 +13,8 @@ import Create from "./componenets/create/Create";
 import {getCookie} from "typescript-cookie";
 import Profile from "./componenets/profile/Profile";
 import Media from "./componenets/media/Media";
+
+import EditMedia from "./componenets/media/EditMedia";
 import Tag from "./componenets/tag/Tag";
 
 const AppRouter: React.FC = () => {
@@ -33,7 +35,7 @@ const AppRouter: React.FC = () => {
                 <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/sign-in" />} />
                 <Route path="/create" element={isAuthenticated ? <Create /> : <Navigate to="/sign-in" />} />
                 <Route path="/image/:imageId" element={<Media />} />
-
+                <Route path="/edit/:imageId" element={isAuthenticated ? <EditMedia /> : <Navigate to="/login" />} />
                 <Route path="/tag/:tag" element={<Tag />} />
 
 

@@ -1,31 +1,24 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppTheme from "../theme/AppTheme";
-import { styled } from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import {List, ListItem, ListItemText, TextareaAutosize, TextField, Typography} from "@mui/material";
-import MuiCard from "@mui/material/Card";
+import {List, ListItem, TextField, Typography} from "@mui/material";
 import axios from "axios";
 import authService from "../../services/authService";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Tooltip from "@mui/material/Tooltip";
 import {MainContainer} from "../../customStyles/MainContainer";
 import {
-    StyledCard, StyledListItemText,
+    StyledCard,
+    StyledListItemText,
     StyledTextareaAutosize,
-    SuggestionsContainer,
-    VisuallyHiddenInput
+    SuggestionsContainer
 } from "../../customStyles/Element";
 
 
-
-
-const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+const EditMedia: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [description, setDescription] = useState<string | null>(null);
     const [tags, setTags] = useState<string | null>(null);
@@ -33,83 +26,79 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isSending, setIsSending] = useState(false);
-
+    const {imageId} = useParams<{ imageId: string }>();
     const navigate = useNavigate();
     const tagsInputRef = useRef<HTMLInputElement>(null);
+    const [media, setMedia] = useState<any>(null);
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
-            const files = Array.from(event.target.files);
-
-            const images = files.filter(file => file.type.startsWith('image/'));
-            const videos = files.filter(file => file.type.startsWith('video/'));
-            const invalidFiles = files.filter(file => !file.type.startsWith('image/') && !file.type.startsWith('video/'));
-
-            if (invalidFiles.length > 0) {
-                setErrorMessage("Only images and videos are allowed.");
-            } else {
-                setErrorMessage(null);
-            }
-
-            if (images.length > 0) {
-                setUploadedImage(images[0]);
-            }
-            if (videos.length > 0){
-                setUploadedImage(videos[0]);
-            }
+    const fetchMedia = async (imageId: string) => {
+        try {
+            const response = await axios.get(
+                `${process.env.REACT_APP_API_ADDRESS}/image/` + imageId,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + authService.getToken(),
+                    },
+                }
+            );
+            return response.data;
+        } catch (err) {
+            throw new Error("Error fetching media");
         }
     };
 
-    const validateInput = () => {
-        if (!uploadedImage) {
-            setErrorMessage("Please upload an image!");
-            return false;
+    useEffect(() => {
+        if (imageId) {
+            fetchMedia(imageId)
+                .then((data) => {
+                    setMedia(data);
+                    if (data.userId !== authService.getBuddyUser()) {
+                        navigate("/")
+                    }
+                    setDescription(data.description);
+                    setTags(data.tags)
+                    setIsOpen(data.open)
+                })
+                .catch(() => {
+                    setErrorMessage("Failed to load media");
+                });
         }
-        if (uploadedImage.size >= 100000000){
-            setErrorMessage("Your file is to big, max size is 100Mb");
-            return false;
-        }
-        if (!description) {
-            setErrorMessage("Please fill in all fields!");
-            return false;
-        }
-        return true;
-    };
+    }, [imageId]);
 
     const send = async () => {
-        if (validateInput()) {
-            const formData = new FormData();
-            formData.append("file", uploadedImage as Blob);
-            formData.append("description", description as string);
-            formData.append("open", isOpen ? "true" : "false");
-            const tagsArray = tags
-                ? tags.split(",")
-                    .map(tag => tag.trim())
-                    .filter(tag => tag.length > 0)
-                : [];
-            tagsArray.forEach(tag => formData.append("tagSet", tag));
 
-            try {
-                const response = await axios.post(
-                    `${process.env.REACT_APP_API_ADDRESS}/image/upload`,
-                    formData,
-                    {
-                        headers: {
-                            "Content-Type": "multipart/form-data",
-                            Authorization: `Bearer ${authService.getToken()}`,
-                        },
-                    }
-                );
+        const formData = new FormData();
+        formData.append("description", description as string);
+        formData.append("open", isOpen ? "true" : "false");
+        const tagsArray = tags
+            ? tags.split(",")
+                .map(tag => tag.trim())
+                .filter(tag => tag.length > 0)
+            : [];
+        tagsArray.forEach(tag => formData.append("tagSet", tag));
 
-                if (response.status === 201) {
-                    navigate("/profile");
-                } else {
-                    setErrorMessage("An error occurred: " + response.data.message);
+        try {
+            const response = await axios.put(
+                `${process.env.REACT_APP_API_ADDRESS}/image/update/` + media.imageId,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${authService.getToken()}`,
+                    },
                 }
-            } catch (error: any) {
-                setErrorMessage(error.response?.data?.message || "An error occurred");
+            );
+
+            if (response.status === 201) {
+                navigate("/profile");
+            } else {
+                setErrorMessage("An error occurred: " + response.data.message);
             }
+        } catch (error: any) {
+            setErrorMessage(error.response?.data?.message || "An error occurred");
         }
+
     };
 
     const findTags = async (input: string) => {
@@ -124,9 +113,9 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
             );
             const fetchedTags = response.data.content.map(
                 (tag: { name: string }) => tag.name
-            ).slice(0,5);
+            ).slice(0, 5);
             setSuggestedTags(fetchedTags);
-            if (fetchedTags.length > 0){
+            if (fetchedTags.length > 0) {
                 setShowSuggestions(true);
             }
 
@@ -161,40 +150,42 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
     };
 
 
+     const deleteMedia = async () => {
+        try {
+            await axios.post(
+                `${process.env.REACT_APP_API_ADDRESS}/image/delete/` + media.imageId,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${authService.getToken()}`,
+                    },
+                }
+            ).then(res => {
+                if (res.status === 200){
+                    navigate("/profile");
+                }else{
+                    setErrorMessage("Error occurred while deleting media");
+                }
+            });
+
+
+        } catch (error) {
+            setErrorMessage("Error occurred while deleting media");
+        }
+    }
+
     return (
         <AppTheme {...props}>
-            <CssBaseline enableColorScheme />
+            <CssBaseline enableColorScheme/>
             <MainContainer>
                 <StyledCard variant="outlined">
                     <Typography variant="h4" component="h1" gutterBottom>
-                        Create post
+                        Update post
                     </Typography>
 
                     {errorMessage && (
                         <Typography color="error" variant="body2">
                             {errorMessage}
-                        </Typography>
-                    )}
-
-                    <Button
-                        component="label"
-                        role={undefined}
-                        variant="contained"
-                        tabIndex={-1}
-                        startIcon={<CloudUploadIcon />}
-                    >
-                        Upload file
-                        <VisuallyHiddenInput
-                            type="file"
-                            accept="image/*,video/*"
-                            onChange={handleFileChange}
-                            multiple
-                        />
-                    </Button>
-
-                    {uploadedImage && (
-                        <Typography variant="body1">
-                            Selected File: {uploadedImage.name}
                         </Typography>
                     )}
 
@@ -205,6 +196,7 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         minRows={4}
                         placeholder="Description..."
                         onChange={(event) => setDescription(event.target.value)}
+                        defaultValue={description ? description : ""}
                     />
 
                     <Typography variant="h4" component="h1" gutterBottom>
@@ -239,6 +231,7 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             }}
                             fullWidth
                             inputRef={tagsInputRef}
+                            defaultValue={tags ? tags : []}
                         />
 
                         {showSuggestions && (
@@ -285,7 +278,10 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         onClick={send}
                         disabled={isSending}
                     >
-                        Create
+                        Update
+                    </Button>
+                    <Button type="submit" fullWidth variant="contained" color="error" onClick={deleteMedia} disabled={isSending}>
+                        Delete
                     </Button>
                 </StyledCard>
             </MainContainer>
@@ -293,4 +289,4 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
     );
 };
 
-export default Create;
+export default EditMedia;

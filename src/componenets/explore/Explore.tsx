@@ -1,42 +1,60 @@
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import AppTheme from "../theme/AppTheme";
-import {styled} from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
-import axios from "axios";
 import exploreService from "./exploreService";
 import authService from "../../services/authService";
+import {MainContainer} from "../../customStyles/MainContainer";
+import {useInView} from "react-intersection-observer";
+import {MediaObject} from "../media/MediaObject";
+import axios from "axios";
 
-
-const DashboardContainer = styled(Stack)(({theme}) => ({
-    height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
-    minHeight: '100%',
-    padding: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(4),
-    },
-    '&::before': {
-        content: '""',
-        display: 'block',
-        position: 'absolute',
-        zIndex: -1,
-        inset: 0,
-        backgroundImage:
-            'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-        backgroundRepeat: 'no-repeat',
-        ...theme.applyStyles('dark', {
-            backgroundImage:
-                'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-        }),
-    },
-}));
 
 const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
+    const [images, setImages] = useState<MediaObject[]>([]);
+    const [page, setPage] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    let isContent = false;
+    const { ref, inView } = useInView({ threshold: 0.5 });
+
+    const fetch = useCallback (async () => {
+        if (!hasMore) return;
+
+        try {
+            await axios.get(`${process.env.REACT_APP_API_ADDRESS}/image/open/random`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: authService.getToken() ? `Bearer ${authService.getToken()}` : '',
+                },
+                params: { page, size: 20 },
+            }).then(response => {
+                const newImages = response.data.content;
+                setImages((prevImages) => [...prevImages, ...newImages]);
+                setHasMore(page + 1 < response.data.page.totalPages);
+            })
+
+
+        }catch (error){
+            setError("Error fetching profile images");
+        }
+
+    }, [page, hasMore]);
+
     useEffect(() => {
-        exploreService.fetch(authService.getToken());
-    }, []);
+        fetch().then(res => {
+            if (res != undefined){
+                isContent = true;
+            }
+        });
+    }, [page]);
+
+    useEffect(() => {
+        if (inView && hasMore) {
+            setPage((prevPage) => prevPage + 1);
+        }
+    }, [inView, hasMore]);
 
     return(
         <Container
@@ -46,10 +64,10 @@ const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
         >
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme/>
-                <DashboardContainer>
+                <MainContainer>
 
                     Explore
-                </DashboardContainer>
+                </MainContainer>
             </AppTheme>
         </Container>
 

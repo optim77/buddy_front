@@ -5,8 +5,7 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { IconButton, Stack } from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import {  Stack } from "@mui/material";
 import { useInView } from "react-intersection-observer";
 import authService from "../../services/authService";
 import AppTheme from "../theme/AppTheme";
@@ -14,39 +13,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import { Link } from "react-router-dom";
 import TextField from "@mui/material/TextField";
-import {TextFields} from "@mui/icons-material";
+
 import LikeButton from "../like/LikeButton";
 import {formatLikes} from "../../utils/FormatLike";
+import {truncateText} from "../../utils/FormatText";
+import {MainContainer} from "../../customStyles/MainContainer";
+import {formatMediaLink} from "../../utils/FormatMediaLink";
 
-const ProfileContainer = styled(Stack)(({ theme }) => ({
-    height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
-    minHeight: '100%',
-    padding: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(4),
-    },
-    '&::before': {
-        content: '""',
-        display: 'block',
-        position: 'absolute',
-        zIndex: -1,
-        inset: 0,
-        backgroundImage:
-            'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-        backgroundRepeat: 'no-repeat',
-        ...theme.applyStyles('dark', {
-            backgroundImage:
-                'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-        }),
-    },
-}));
-
-const truncateText = (text: string, maxLength: number): string => {
-    if (text.length > maxLength) {
-        return text.slice(0, maxLength) + "...";
-    }
-    return text;
-};
 
 const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [images, setImages] = useState<any[]>([]);
@@ -93,8 +66,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
         }
     }, [inView, hasMore]);
 
-    const buildMediaUrl = (url: string) =>
-        `${process.env.REACT_APP_API_ADDRESS}${url.replace(/\\/g, "/")}`;
+
     return (
         <Container
             maxWidth="lg"
@@ -103,7 +75,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
         >
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
-                <ProfileContainer>
+                <MainContainer>
                     {error && (<TextField value={error} />)}
                     {!isContent ? null : <Typography variant="h1" gutterBottom>There is no posts yet ;)</Typography> }
                     <Grid container spacing={4}>
@@ -113,7 +85,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     <Link to={"/image/" + image.imageId}>
                                         {image.mediaType === "VIDEO" ? (
                                             <video
-                                                src={buildMediaUrl(image.imageUrl)}
+                                                src={formatMediaLink(image.imageUrl)}
                                                 //controls
                                                 autoPlay
                                                 loop
@@ -126,7 +98,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                             />
                                         ) : (
                                             <img
-                                                src={buildMediaUrl(image.imageUrl)}
+                                                src={formatMediaLink(image.imageUrl)}
                                                 alt={image.description || "Profile image"}
                                                 style={{
                                                     width: "100%",
@@ -163,7 +135,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         ))}
                     </Grid>
                     <div ref={ref} style={{ height: "1px" }} />
-                </ProfileContainer>
+                </MainContainer>
             </AppTheme>
         </Container>
     );

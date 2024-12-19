@@ -10,17 +10,14 @@ import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import {styled} from '@mui/material/styles';
 import AppTheme from "../theme/AppTheme";
 import {GoogleIcon, FacebookIcon, SitemarkIcon} from '../CustomIcons';
 import ColorModeSelect from "../theme/ColorModeSelect";
 import authService from "../../services/authService";
-import {Place} from "@mui/icons-material";
-import axios from "axios";
-import {Navigate} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import {MainContainer} from "../../customStyles/MainContainer";
 
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
@@ -41,28 +38,6 @@ const Card = styled(MuiCard)(({theme}) => ({
     }),
 }));
 
-const SignUpContainer = styled(Stack)(({theme}) => ({
-    height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
-    minHeight: '100%',
-    padding: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(4),
-    },
-    '&::before': {
-        content: '""',
-        display: 'block',
-        position: 'absolute',
-        zIndex: -1,
-        inset: 0,
-        backgroundImage:
-            'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-        backgroundRepeat: 'no-repeat',
-        ...theme.applyStyles('dark', {
-            backgroundImage:
-                'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-        }),
-    },
-}));
 
 export default function SignUp(props: { disableCustomTheme?: boolean }) {
     const [emailError, setEmailError] = React.useState(false);
@@ -159,7 +134,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
         <AppTheme {...props}>
             <CssBaseline enableColorScheme/>
             <ColorModeSelect sx={{position: 'fixed', top: '1rem', right: '1rem'}}/>
-            <SignUpContainer direction="column" justifyContent="space-between">
+            <MainContainer direction="column" justifyContent="space-between">
                 <Card variant="outlined">
                     <SitemarkIcon/>
                     <Typography
@@ -281,7 +256,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                         </Typography>
                     </Box>
                 </Card>
-            </SignUpContainer>
+            </MainContainer>
         </AppTheme>
     );
 }

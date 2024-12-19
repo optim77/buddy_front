@@ -14,15 +14,14 @@ import Avatar from "@mui/material/Avatar";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import Tooltip from "@mui/material/Tooltip";
-import {LikeButtonProps, likePhoto} from "../like/LikeService";
 import LikeButton from "../like/LikeButton";
 import {formatLikes} from "../../utils/FormatLike";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import {EditIcon, InfoIcon} from "../CustomIcons";
-import {isEditable} from "@testing-library/user-event/dist/utils";
+import {MediaObject} from "./MediaObject";
+import {TagInterface} from "../tag/TagInterface";
 
 const DashboardContainer = styled(Stack)(({theme}) => ({
     height: "calc((1 - var(--template-frame-height, 0)) * 100dvh)",
@@ -47,9 +46,12 @@ const DashboardContainer = styled(Stack)(({theme}) => ({
     },
 }));
 
+interface Media{
+
+}
 const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const {imageId} = useParams<{ imageId: string }>();
-    const [media, setMedia] = useState<any>(null);
+    const [media, setMedia] = useState<MediaObject>();
     const [error, setError] = useState<string | null>(null);
     const [editable, setEditable] = useState(false);
 
@@ -132,16 +134,14 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     }}
                                 >
                                     {media.tags ? (
-                                        media.tags.map((tag: string) => (
-                                            <Link to={"/tag/" + tag}>
+                                        media.tags.map((tag: TagInterface) => (
+                                            <Link to={`/tag/${tag}`} key={tag.toString()}>
                                                 <Chip
-                                                    key={tag}
-                                                    label={tag}
+                                                    label={tag.toString()}
                                                     variant="filled"
-                                                    sx={{fontSize: '1rem', padding: '10px'}}
+                                                    sx={{ fontSize: '1rem', padding: '10px' }}
                                                 />
                                             </Link>
-
                                         ))
                                     ) : null}
                                 </Box>
@@ -173,7 +173,9 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                         </Tooltip>
                                         {editable && (
                                             <Button variant="text" size="small">
-                                                <EditIcon />
+                                                <Link to={"/edit/" + media.imageId}>
+                                                    <EditIcon />
+                                                </Link>
                                             </Button>
                                         )}
                                     </Stack>
@@ -183,7 +185,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             <CardActions>
                                 <LikeButton mediaId={media.imageId} isLiked={media.likedByCurrentUser}></LikeButton>
                                 <Typography variant="body2" color="text.secondary">
-                                    {formatLikes(media.likeCount)}
+                                    {media.likeCount ? formatLikes(media.likeCount) : '0'}
                                 </Typography>
                             </CardActions>
                         </Card>

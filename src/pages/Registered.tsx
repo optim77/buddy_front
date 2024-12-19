@@ -9,6 +9,7 @@ import AppTheme from "../componenets/theme/AppTheme";
 import ColorModeSelect from "../componenets/theme/ColorModeSelect";
 import {SitemarkIcon} from "../componenets/CustomIcons";
 import { Link } from "react-router-dom";
+import {MainContainer} from "../customStyles/MainContainer";
 
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -31,35 +32,12 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 
-const RegisteredContainer = styled(Stack)(({ theme }) => ({
-    height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
-    minHeight: '100%',
-    padding: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(4),
-    },
-    '&::before': {
-        content: '""',
-        display: 'block',
-        position: 'absolute',
-        zIndex: -1,
-        inset: 0,
-        backgroundImage:
-            'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-        backgroundRepeat: 'no-repeat',
-        ...theme.applyStyles('dark', {
-            backgroundImage:
-                'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-        }),
-    },
-}));
-
 export default function Registered(props: { disableCustomTheme?: boolean }) {
     return (
         <AppTheme {...props}>
             <CssBaseline enableColorScheme />
             <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
-            <RegisteredContainer direction="column" justifyContent="center">
+            <MainContainer direction="column" justifyContent="center">
                 <Card variant="outlined">
                     <SitemarkIcon />
                     <Typography
@@ -78,7 +56,7 @@ export default function Registered(props: { disableCustomTheme?: boolean }) {
                         <Link to="/sign-in">Sign in</Link>
                     </Typography>
                 </Card>
-            </RegisteredContainer>
+            </MainContainer>
         </AppTheme>
     );
 }
