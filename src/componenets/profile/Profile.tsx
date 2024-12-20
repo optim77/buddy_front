@@ -19,6 +19,7 @@ import {formatLikes} from "../../utils/FormatLike";
 import {truncateText} from "../../utils/FormatText";
 import {MainContainer} from "../../customStyles/MainContainer";
 import {formatMediaLink} from "../../utils/FormatMediaLink";
+import MediaGrip from "../media/grid/MediaGrip";
 
 
 const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
@@ -80,58 +81,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     {!isContent ? null : <Typography variant="h1" gutterBottom>There is no posts yet ;)</Typography> }
                     <Grid container spacing={4}>
                         {images.map((image) => (
-                            <Grid item xs={12} sm={6} md={4} key={image.imageId}>
-                                <Card>
-                                    <Link to={"/image/" + image.imageId}>
-                                        {image.mediaType === "VIDEO" ? (
-                                            <video
-                                                src={formatMediaLink(image.imageUrl)}
-                                                //controls
-                                                autoPlay
-                                                loop
-                                                muted
-                                                style={{
-                                                    width: "100%",
-                                                    maxHeight: 200,
-                                                    objectFit: "cover",
-                                                }}
-                                            />
-                                        ) : (
-                                            <img
-                                                src={formatMediaLink(image.imageUrl)}
-                                                alt={image.description || "Profile image"}
-                                                style={{
-                                                    width: "100%",
-                                                    height: 200,
-                                                    objectFit: "cover",
-                                                }}
-                                            />
-                                        )}
-                                    </Link>
-                                    <CardContent>
-                                        <Typography variant="subtitle1" noWrap>
-                                            {image.username}
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            {truncateText(
-                                                image.description || "No description",
-                                                50
-                                            )}
-                                        </Typography>
-                                        <Stack
-                                            direction="row"
-                                            alignItems="center"
-                                            spacing={1}
-                                            sx={{ mt: 1 }}
-                                        >
-                                            <LikeButton mediaId={image.imageId} isLiked={image.likedByCurrentUser}></LikeButton>
-                                            <Typography variant="body2" color="text.secondary">
-                                                {formatLikes(image.likeCount)}
-                                            </Typography>
-                                        </Stack>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
+                            <MediaGrip image={image} />
                         ))}
                     </Grid>
                     <div ref={ref} style={{ height: "1px" }} />

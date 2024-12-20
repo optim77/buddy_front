@@ -16,6 +16,7 @@ import Media from "./componenets/media/Media";
 
 import EditMedia from "./componenets/media/EditMedia";
 import Tag from "./componenets/tag/Tag";
+import User from "./componenets/user/User";
 
 const AppRouter: React.FC = () => {
     const isAuthenticated = !!getCookie("buddy-token");
@@ -37,7 +38,7 @@ const AppRouter: React.FC = () => {
                 <Route path="/image/:imageId" element={<Media />} />
                 <Route path="/edit/:imageId" element={isAuthenticated ? <EditMedia /> : <Navigate to="/login" />} />
                 <Route path="/tag/:tag" element={<Tag />} />
-
+                <Route path="/user/:userId" element={<User />} />
 
                 {/*pages*/}
                 <Route path="/registered" element={<Registered />} />

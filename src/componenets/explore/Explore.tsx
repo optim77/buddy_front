@@ -8,6 +8,18 @@ import {MainContainer} from "../../customStyles/MainContainer";
 import {useInView} from "react-intersection-observer";
 import {MediaObject} from "../media/MediaObject";
 import axios from "axios";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
+import {Link} from "react-router-dom";
+import {formatMediaLink} from "../../utils/FormatMediaLink";
+import CardContent from "@mui/material/CardContent";
+import {truncateText} from "../../utils/FormatText";
+import {Stack} from "@mui/material";
+import LikeButton from "../like/LikeButton";
+import {formatLikes} from "../../utils/FormatLike";
+import MediaGrip from "../media/grid/MediaGrip";
 
 
 const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
@@ -60,13 +72,19 @@ const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
         <Container
             maxWidth="lg"
             component="main"
-            sx={{display: 'flex', flexDirection: 'column', my: 16, gap: 4}}
+            sx={{ display: "flex", flexDirection: "column", my: 16, gap: 4 }}
         >
             <AppTheme {...props}>
-                <CssBaseline enableColorScheme/>
+                <CssBaseline enableColorScheme />
                 <MainContainer>
-
-                    Explore
+                    {error && (<TextField value={error} />)}
+                    {!isContent ? null : <Typography variant="h1" gutterBottom>There is no posts yet ;)</Typography> }
+                    <Grid container spacing={3}>
+                        {images.map((image) => (
+                            <MediaGrip image={image} />
+                        ))}
+                    </Grid>
+                    <div ref={ref} style={{ height: "1px" }} />
                 </MainContainer>
             </AppTheme>
         </Container>

@@ -22,6 +22,7 @@ import Chip from "@mui/material/Chip";
 import {EditIcon, InfoIcon} from "../CustomIcons";
 import {MediaObject} from "./MediaObject";
 import {TagInterface} from "../tag/TagInterface";
+import {NoAccessWall} from "./NoAccessWall";
 
 const DashboardContainer = styled(Stack)(({theme}) => ({
     height: "calc((1 - var(--template-frame-height, 0)) * 100dvh)",
@@ -46,9 +47,10 @@ const DashboardContainer = styled(Stack)(({theme}) => ({
     },
 }));
 
-interface Media{
+interface Media {
 
 }
+
 const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const {imageId} = useParams<{ imageId: string }>();
     const [media, setMedia] = useState<MediaObject>();
@@ -105,24 +107,31 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         <Typography color="error">{error}</Typography>
                     ) : media ? (
                         <Card>
-                            {media.mediaType === "VIDEO" ? (
-                                <video
-                                    src={buildImageUrl(media.imageUrl)}
-                                    //controls
-                                    autoPlay
-                                    loop
-                                    muted
-                                    style={{maxHeight: 500, width: "100%"}}
-                                />
-                            ) : (
-                                <CardMedia
-                                    component="img"
-                                    image={buildImageUrl(media.imageUrl)}
-                                    alt={media.description || "Image"}
-                                    sx={{maxHeight: 1000}}
+                            { media.imageUrl ?
+                                (
+                                    media.mediaType === "VIDEO" ? (
+                                        <video
+                                            src={buildImageUrl(media.imageUrl)}
+                                            //controls
+                                            autoPlay
+                                            loop
+                                            muted
+                                            style={{maxHeight: 500, width: "100%"}}
+                                        />
+                                    ) : (
+                                        <CardMedia
+                                            component="img"
+                                            image={buildImageUrl(media.imageUrl)}
+                                            alt={media.description || "Image"}
+                                            sx={{maxHeight: 1000}}
 
-                                />
-                            )}
+                                        />
+                                    )
+                                )
+                                :
+                                <NoAccessWall username={media.username} mediaType={media.mediaType} type={"max"}/>
+                            }
+
                             <CardContent>
                                 <Box
                                     sx={{
@@ -139,7 +148,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                                 <Chip
                                                     label={tag.toString()}
                                                     variant="filled"
-                                                    sx={{ fontSize: '1rem', padding: '10px' }}
+                                                    sx={{fontSize: '1rem', padding: '10px'}}
                                                 />
                                             </Link>
                                         ))
@@ -155,26 +164,32 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     spacing={2}
                                     alignItems="center"
                                     justifyContent="space-between"
-                                    sx={{ marginBottom: 2 }}
+                                    sx={{marginBottom: 2}}
                                 >
                                     <Stack direction="row" spacing={2} alignItems="center">
                                         <Avatar
                                             src={media.avatar ? buildImageUrl(media.avatar) : undefined}
                                             alt={media.username}
                                         />
-                                        <Typography variant="subtitle1">{media.username}</Typography>
+                                        <Typography variant="subtitle1">
+                                            <Link to={`/user/${media.userId}`}
+                                                  style={{textDecoration: 'none', color: 'inherit'}}>
+                                                {media.username}
+                                            </Link>
+                                        </Typography>
                                     </Stack>
 
-                                    <Stack direction="row" spacing={2} alignItems="center" sx={{ ml: 'auto' }}>
-                                        <Tooltip title={`Uploaded on: ${new Date(media.uploadedDate).toLocaleString()}`}>
+                                    <Stack direction="row" spacing={2} alignItems="center" sx={{ml: 'auto'}}>
+                                        <Tooltip
+                                            title={`Uploaded on: ${new Date(media.uploadedDate).toLocaleString()}`}>
                                             <Button variant="text" size="small">
-                                                <InfoIcon />
+                                                <InfoIcon/>
                                             </Button>
                                         </Tooltip>
                                         {editable && (
                                             <Button variant="text" size="small">
                                                 <Link to={"/edit/" + media.imageId}>
-                                                    <EditIcon />
+                                                    <EditIcon/>
                                                 </Link>
                                             </Button>
                                         )}
@@ -185,7 +200,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             <CardActions>
                                 <LikeButton mediaId={media.imageId} isLiked={media.likedByCurrentUser}></LikeButton>
                                 <Typography variant="body2" color="text.secondary">
-                                    {media.likeCount ? formatLikes(media.likeCount) : '0'}
+                                    {formatLikes(media.likeCount)}
                                 </Typography>
                             </CardActions>
                         </Card>

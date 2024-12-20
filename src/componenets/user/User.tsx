@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Stack } from "@mui/material";
+import {  Stack } from "@mui/material";
 import { useInView } from "react-intersection-observer";
 import authService from "../../services/authService";
 import AppTheme from "../theme/AppTheme";
@@ -12,6 +13,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import {Link, useParams} from "react-router-dom";
 import TextField from "@mui/material/TextField";
+
 import LikeButton from "../like/LikeButton";
 import {formatLikes} from "../../utils/FormatLike";
 import {truncateText} from "../../utils/FormatText";
@@ -19,24 +21,26 @@ import {MainContainer} from "../../customStyles/MainContainer";
 import {formatMediaLink} from "../../utils/FormatMediaLink";
 import MediaGrip from "../media/grid/MediaGrip";
 
-const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
+
+const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [images, setImages] = useState<any[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [error, setError] = useState<string | null>(null);
     let isContent = false;
     const { ref, inView } = useInView({ threshold: 0.5 });
-    const { tag } = useParams<{ tag: string }>();
+    const { userId } = useParams<{ userId: string }>();
+
     const fetchProfileImages = useCallback(async () => {
         if (!hasMore) return;
 
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/image/open/tag/` + tag,
+                `${process.env.REACT_APP_API_ADDRESS}/image/user/` + userId,
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer " + authService.getToken(),
+                        Authorization: "Bearer " + authService.getToken() ? authService.getToken() : '',
                     },
                     params: { page, size: 20 },
                 }
@@ -56,13 +60,14 @@ const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 isContent = true;
             }
         });
-    }, [page]);
+    }, [page, userId]);
 
     useEffect(() => {
         if (inView && hasMore) {
             setPage((prevPage) => prevPage + 1);
         }
     }, [inView, hasMore]);
+
 
     return (
         <Container
@@ -87,4 +92,4 @@ const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
     );
 };
 
-export default Tag;
+export default User;

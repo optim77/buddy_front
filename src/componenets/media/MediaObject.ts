@@ -5,7 +5,7 @@ export interface MediaObject {
     description: string | null;
     imageId: string;
     imageUrl: string;
-    likeCount: number | null;
+    likeCount: number;
     likedByCurrentUser: boolean;
     mediaType: string;
     open: boolean;
