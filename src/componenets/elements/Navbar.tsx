@@ -96,6 +96,9 @@ export default function AppAppBar() {
                         <Box sx={{display: {xs: 'none', md: 'flex'}}}>
 
                             <Button variant="text" color="info" size="small" sx={{minWidth: 0}}>
+                                <StyledLink className="link-styles" to="/loops">Loops</StyledLink>
+                            </Button>
+                            <Button variant="text" color="info" size="small" sx={{minWidth: 0}}>
                                 <StyledLink className="link-styles" to="/explore">Explore</StyledLink>
                             </Button>
                             {isAuthenticated ? (

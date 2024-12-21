@@ -1,24 +1,15 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import {  Stack } from "@mui/material";
 import { useInView } from "react-intersection-observer";
 import authService from "../../services/authService";
 import AppTheme from "../theme/AppTheme";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
-import {Link, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import TextField from "@mui/material/TextField";
-
-import LikeButton from "../like/LikeButton";
-import {formatLikes} from "../../utils/FormatLike";
-import {truncateText} from "../../utils/FormatText";
 import {MainContainer} from "../../customStyles/MainContainer";
-import {formatMediaLink} from "../../utils/FormatMediaLink";
 import MediaGrip from "../media/grid/MediaGrip";
 
 
@@ -30,6 +21,7 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
     let isContent = false;
     const { ref, inView } = useInView({ threshold: 0.5 });
     const { userId } = useParams<{ userId: string }>();
+    const navigate = useNavigate();
 
     const fetchProfileImages = useCallback(async () => {
         if (!hasMore) return;
@@ -55,6 +47,9 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
     }, [page, hasMore]);
 
     useEffect(() => {
+        if (userId === authService.getBuddyUser()){
+            navigate("/profile")
+        }
         fetchProfileImages().then(res => {
             if (res != undefined){
                 isContent = true;

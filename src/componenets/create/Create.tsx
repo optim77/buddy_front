@@ -1,12 +1,9 @@
-import React, {useRef, useState} from "react";
+import React, { useRef, useState} from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppTheme from "../theme/AppTheme";
-import { styled } from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import {List, ListItem, ListItemText, TextareaAutosize, TextField, Typography} from "@mui/material";
-import MuiCard from "@mui/material/Card";
+import {List, ListItem, TextField, Typography} from "@mui/material";
 import axios from "axios";
 import authService from "../../services/authService";
 import {useNavigate} from "react-router-dom";
@@ -36,6 +33,7 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
     const navigate = useNavigate();
     const tagsInputRef = useRef<HTMLInputElement>(null);
+
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
