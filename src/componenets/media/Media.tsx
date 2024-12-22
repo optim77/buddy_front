@@ -19,10 +19,11 @@ import LikeButton from "../like/LikeButton";
 import {formatLikes} from "../../utils/FormatLike";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-import {EditIcon, InfoIcon} from "../CustomIcons";
+import {EditIcon, InfoIcon, MuteIcon, UnmuteIcon} from "../CustomIcons";
 import {MediaObject} from "./MediaObject";
 import {TagInterface} from "../tag/TagInterface";
 import {NoAccessWall} from "./NoAccessWall";
+import {VolumeOff, VolumeUp} from "@mui/icons-material";
 
 const DashboardContainer = styled(Stack)(({theme}) => ({
     height: "calc((1 - var(--template-frame-height, 0)) * 100dvh)",
@@ -56,6 +57,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [media, setMedia] = useState<MediaObject>();
     const [error, setError] = useState<string | null>(null);
     const [editable, setEditable] = useState(false);
+    const [muted, setMuted] = useState<boolean>(true);
 
     const fetchMedia = async (imageId: string) => {
         try {
@@ -115,7 +117,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                             //controls
                                             autoPlay
                                             loop
-                                            muted
+                                            muted={muted}
                                             style={{maxHeight: 500, width: "100%"}}
                                         />
                                     ) : (
@@ -193,6 +195,14 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                                 </Link>
                                             </Button>
                                         )}
+                                        { media.mediaType === 'VIDEO' ? (
+                                            <Button onClick={() => {
+                                                setMuted(!muted)
+                                            }}>
+                                                { muted ? <VolumeOff/> : <VolumeUp/> }
+
+                                            </Button>
+                                        ) : null }
                                     </Stack>
                                 </Stack>
 

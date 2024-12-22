@@ -1,12 +1,19 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
-import { useInView } from "react-intersection-observer";
-import { useParams } from "react-router-dom";
+import React, {useCallback, useEffect, useState, useRef} from "react";
+import {useInView} from "react-intersection-observer";
+import {Link, useParams} from "react-router-dom";
 import axios from "axios";
 import authService from "../../services/authService";
-import { Container, Typography, Grid, CssBaseline, CircularProgress, Box, Avatar } from "@mui/material";
+import {Container, Typography, Grid, CssBaseline, CircularProgress, Box, Avatar} from "@mui/material";
 import AppTheme from "../theme/AppTheme";
-import { MainContainer } from "../../customStyles/MainContainer";
-import { formatMediaLink } from "../../utils/FormatMediaLink";
+import {MainContainer} from "../../customStyles/MainContainer";
+import {formatMediaLink} from "../../utils/FormatMediaLink";
+import LikeButton from "../like/LikeButton";
+import {formatLikes} from "../../utils/FormatLike";
+import {truncateText} from "../../utils/FormatText";
+import {motion} from "framer-motion";
+import {Favorite, Favorited, MuteIcon, UnmuteIcon} from "../CustomIcons";
+import Button from "@mui/material/Button";
+import {MoreVert, VolumeOff, VolumeUp} from "@mui/icons-material";
 
 const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [videos, setVideos] = useState<any[]>([]);
@@ -14,11 +21,11 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const { ref, inView } = useInView({ threshold: 0.5 });
-    const { userId } = useParams<{ userId: string }>();
+    const {ref, inView} = useInView({threshold: 0.5});
+    const {userId} = useParams<{ userId: string }>();
     const [loading, setLoading] = useState<boolean>(true);
+    const [muted, setMuted] = useState<boolean>(true);
 
-    // Referencje do elementów wideo
     const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
     const fetchVideo = useCallback(async () => {
@@ -32,7 +39,7 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         "Content-Type": "application/json",
                         Authorization: "Bearer " + (authService.getToken() || ""),
                     },
-                    params: { page, size: 20 },
+                    params: {page, size: 20},
                 }
             );
 
@@ -56,34 +63,33 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
         }
     }, [inView, hasMore]);
 
+    const handleScroll = (e: WheelEvent) => {
+        console.log(e.deltaY)
+        if (e.deltaY > 0 && currentIndex < videos.length - 1) {
+            setCurrentIndex((prevIndex) => prevIndex + 1); // Scroll down
+        } else if (e.deltaY < 0 && currentIndex > 0) {
+            setCurrentIndex((prevIndex) => prevIndex - 1); // Scroll up
+        }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if ((e.key === "ArrowDown" || e.key.toLowerCase() === "s") && currentIndex < videos.length - 1) {
+            setCurrentIndex((prevIndex) => prevIndex + 1);
+        } else if ((e.key === "ArrowUp" || e.key.toLowerCase() === "w") && currentIndex > 0) {
+            setCurrentIndex((prevIndex) => prevIndex - 1);
+        }
+    };
+
     useEffect(() => {
-        const handleGlobalScroll = (e: WheelEvent) => {
-            if (e.deltaY > 0) {
-                setCurrentIndex((prevIndex) => Math.min(videos.length - 1, prevIndex + 1));
-            } else {
-                setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 1));
-            }
-        };
-
-        window.addEventListener("wheel", handleGlobalScroll);
-        return () => window.removeEventListener("wheel", handleGlobalScroll);
-    }, [videos]);
-
-    // Obsługa klawiatury
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === "ArrowUp" || e.key === "w") {
-                setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 1));
-            } else if (e.key === "ArrowDown" || e.key === "s") {
-                setCurrentIndex((prevIndex) => Math.min(videos.length - 1, prevIndex + 1));
-            }
-        };
-
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [videos]);
+    }, [videos, currentIndex]);
 
-    // Odtwarzanie aktualnego wideo
+    useEffect(() => {
+        window.addEventListener("wheel", handleScroll);
+        return () => window.removeEventListener("wheel", handleScroll);
+    }, [videos, currentIndex]);
+
     useEffect(() => {
         videoRefs.current.forEach((video, index) => {
             if (video) {
@@ -95,6 +101,12 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
             }
         });
     }, [currentIndex]);
+
+    useEffect(() => {
+        if (videos.length > 0 && videoRefs.current[0]) {
+            videoRefs.current[0]?.play().catch((err) => console.error("Error playing video:", err));
+        }
+    }, [videos]);
 
     return (
         <Container
@@ -109,7 +121,7 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
             }}
         >
             <AppTheme {...props}>
-                <CssBaseline enableColorScheme />
+                <CssBaseline enableColorScheme/>
                 <MainContainer>
                     {error && <Typography color="error">{error}</Typography>}
 
@@ -122,79 +134,149 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                 height: "80vh",
                             }}
                         >
-                            <CircularProgress />
+                            <CircularProgress/>
                         </Box>
                     ) : null}
 
                     {!loading && (
-                        <Grid container>
-                            {videos.map((video, index) => (
-                                <Grid
-                                    item
-                                    xs={12}
-                                    key={video.imageId}
-                                    sx={{
-                                        display: index === currentIndex ? "flex" : "none",
-                                        flexDirection: "column",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        height: "90vh",
-                                        position: "relative",
-                                        overflow: "hidden",
-                                    }}
-                                >
-                                    {/* Wideo */}
-                                    <video
-                                        ref={(el) => (videoRefs.current[index] = el)}
-                                        src={formatMediaLink(video.imageUrl)}
-                                        loop
-                                        muted
-                                        style={{
-                                            objectFit: "cover",
-                                            width: "100%",
-                                            height: "100%",
-                                            position: "absolute",
-                                            top: 100,
-                                            left: 0,
-                                            zIndex: 1,
-                                        }}
-                                    />
+                        <Grid container sx={{position: "relative", height: "90vh", top: '5vh', overflow: "hidden"}}>
+                            {videos.map((video, index) => {
+                                const isCurrent = index === currentIndex;
+                                const isPrevious = index === currentIndex + 1;
+                                const isNext = index === currentIndex - 1;
 
-                                    {/* Informacje o autorze i lajki */}
-                                    <Box
+                                if (!isCurrent && !isPrevious && !isNext) return null;
+
+                                return (
+                                    <Grid
+                                        item
+                                        xs={12}
+                                        key={video.imageId}
                                         sx={{
                                             position: "absolute",
-                                            bottom: "20px",
-                                            left: "20px",
-                                            color: "white",
-                                            background: "rgba(0, 0, 0, 0.5)",
-                                            padding: "10px",
-                                            borderRadius: "8px",
-                                            zIndex: 2,
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            gap: 1,
+
+                                            width: "100%",
+                                            height: "100%",
                                         }}
+                                        component={motion.div}
+                                        initial={{
+                                            // Odwrócenie animacji dla odpowiedniego kierunku
+                                            y: isNext ? "-100%" : isPrevious ? "100%" : "0%",
+                                        }}
+                                        animate={{
+                                            y: isCurrent ? "0%" : isNext ? "-100%" : "100%",
+                                        }}
+                                        transition={{duration: 0.8}}
                                     >
-                                        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                                            <Avatar
-                                                src={video.avatar ? formatMediaLink(video.avatar) : undefined}
-                                                alt={video.username}
-                                                sx={{ width: 40, height: 40 }}
-                                            />
-                                            <Typography variant="h6">{video.username}</Typography>
+                                        <video
+                                            ref={(el) => (videoRefs.current[index] = el)}
+                                            src={formatMediaLink(video.imageUrl)}
+                                            loop
+                                            muted={muted}
+                                            style={{
+                                                objectFit: "cover",
+                                                width: "100%",
+                                                height: "100%",
+                                            }}
+                                        />
+
+                                        <Box
+                                            sx={{
+                                                position: "absolute",
+                                                bottom: "20px",
+                                                left: "20px",
+                                                right: "20px",
+                                                zIndex: 2,
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                gap: 2,
+                                            }}
+                                        >
+                                            <Box
+                                                sx={{
+                                                    background: "rgba(0, 0, 0, 0.5)",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                    padding: "10px",
+                                                    borderRadius: "8px",
+                                                    width: "65px",
+                                                    textAlign: "center",
+                                                }}
+                                            >
+
+                                                <Typography variant="h6">
+                                                    <Typography variant="body2" color="inherit" component="div"
+                                                                sx={{fontSize: "13px"}}>
+                                                        {formatLikes(video.likeCount)}
+                                                    </Typography>
+                                                    <LikeButton mediaId={video.imageId}
+                                                                isLiked={video.likedByCurrentUser}></LikeButton>
+                                                </Typography>
+
+                                                <Typography variant="h6">
+                                                    <Button onClick={() => {
+                                                        setMuted(!muted)
+                                                    }}>
+                                                        { muted ? <VolumeOff/> : <VolumeUp/> }
+
+                                                    </Button>
+                                                </Typography>
+
+                                                <Typography>
+                                                    <Button>
+                                                        <Favorite />
+                                                    </Button>
+                                                </Typography>
+
+                                                <Typography>
+                                                    <Button>
+                                                        <MoreVert />
+                                                    </Button>
+                                                </Typography>
+                                            </Box>
+
+                                            <Box
+                                                sx={{
+                                                    background: "rgba(0, 0, 0, 0.5)",
+                                                    padding: "20px",
+                                                    borderRadius: "8px",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    gap: 1,
+                                                    height: "150px",
+                                                }}
+                                            >
+                                                <Box
+                                                    sx={{display: "flex", alignItems: "center", gap: 2, right: "20px"}}>
+                                                    <Avatar
+                                                        src={video.avatar ? formatMediaLink(video.avatar) : undefined}
+                                                        alt={video.username}
+                                                        sx={{width: 40, height: 40}}
+                                                    />
+                                                    <Typography variant="h6">
+                                                        <Link
+                                                            to={`/user/${video.userId}`}
+                                                            style={{textDecoration: "none", color: "inherit"}}
+                                                        >
+                                                            {video.username}
+                                                        </Link>
+                                                    </Typography>
+                                                </Box>
+
+                                                {/* Opis */}
+                                                <Typography variant="body2">
+                                                    {truncateText(video.description || "No description", 300)}
+                                                </Typography>
+                                            </Box>
                                         </Box>
-                                        <Typography variant="body1">Likes: {video.likeCount}</Typography>
-                                        <Typography variant="body2">
-                                            {video.description || "No description"}
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-                            ))}
+                                    </Grid>
+                                );
+                            })}
                         </Grid>
                     )}
 
-                    <div ref={ref} style={{ height: "1px" }} />
+                    <div ref={ref} style={{height: "1px"}}/>
                 </MainContainer>
             </AppTheme>
         </Container>

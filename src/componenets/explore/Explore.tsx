@@ -78,7 +78,6 @@ const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 <CssBaseline enableColorScheme />
                 <MainContainer>
                     {error && (<TextField value={error} />)}
-                    {!isContent ? null : <Typography variant="h1" gutterBottom>There is no posts yet ;)</Typography> }
                     <Grid container spacing={3}>
                         {images.map((image) => (
                             <MediaGrip image={image} />

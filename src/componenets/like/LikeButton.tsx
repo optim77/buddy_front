@@ -33,11 +33,9 @@ const LikeButton: React.FC<LikeButtonProps> = ({ mediaId, isLiked }) => {
 
     return (
         <>
-            <IconButton
-                onClick={handleLikeClick}
-            >
-                <FavoriteIcon color={liked ? "primary" : "disabled"} />
-            </IconButton>
+
+            <FavoriteIcon onClick={handleLikeClick} color={liked ? "primary" : "disabled"} sx={{ cursor: "pointer" }} />
+
 
             <Dialog open={errorOpen} onClose={handleCloseError}>
                 <DialogTitle>Error</DialogTitle>
