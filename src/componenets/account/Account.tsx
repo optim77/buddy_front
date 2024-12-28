@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import AppTheme from "../theme/AppTheme";
@@ -10,6 +10,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid2";
 import {MainContainer} from "../../customStyles/MainContainer";
+import axios from "axios";
+import authService from "../../services/authService";
 
 
 const StyledBox = styled(Toolbar)(({theme}) => ({
@@ -29,6 +31,36 @@ const StyledBox = styled(Toolbar)(({theme}) => ({
 }));
 
 const Account: React.FC = (props: { disableCustomTheme?: boolean }) => {
+
+    const [profile, setProfile] = React.useState({});
+    const [loading, setLoading] = React.useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    const fetchProfile = useCallback(async () => {
+
+        try {
+            const response = await axios.get(
+                `${process.env.REACT_APP_API_ADDRESS}/profile`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + (authService.getToken() || ""),
+                    },
+                }
+            );
+
+        } catch (error) {
+            setError("Error fetching videos");
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchProfile();
+    }, []);
+
+
     return(
         <Container
             maxWidth="lg"
