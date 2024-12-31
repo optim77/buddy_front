@@ -1,33 +1,26 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { styled } from "@mui/material/styles";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import {  Stack } from "@mui/material";
 import { useInView } from "react-intersection-observer";
 import authService from "../../services/authService";
 import AppTheme from "../theme/AppTheme";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
-import { Link } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-
-import LikeButton from "../like/LikeButton";
-import {formatLikes} from "../../utils/FormatLike";
-import {truncateText} from "../../utils/FormatText";
-import {MainContainer} from "../../customStyles/MainContainer";
-import {formatMediaLink} from "../../utils/FormatMediaLink";
+import Button from "@mui/material/Button";
+import { MainContainer } from "../../customStyles/MainContainer";
 import MediaGrip from "../media/grid/MediaGrip";
-
+import MediaWall from "../media/wall/MediaWall";
+import {GridView, WallView} from "../CustomIcons";
+import ViewModeToggle from "../media/ViewModeToggle";
 
 const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [images, setImages] = useState<any[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    let isContent = false;
+    const [viewMode, setViewMode] = useState<string>(
+        localStorage.getItem("buddy-grip") || "grid"
+    );
     const { ref, inView } = useInView({ threshold: 0.5 });
 
     const fetchProfileImages = useCallback(async () => {
@@ -54,11 +47,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
     }, [page, hasMore]);
 
     useEffect(() => {
-        fetchProfileImages().then(res => {
-            if (res != undefined){
-                isContent = true;
-            }
-        });
+        fetchProfileImages();
     }, [page]);
 
     useEffect(() => {
@@ -67,6 +56,10 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
         }
     }, [inView, hasMore]);
 
+    const handleViewChange = (mode: string) => {
+        setViewMode(mode);
+        localStorage.setItem("buddy-grip", mode);
+    };
 
     return (
         <Container
@@ -77,13 +70,27 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
-                    {error && (<TextField value={error} />)}
-                    {!isContent ? null : <Typography variant="h1" gutterBottom>There is no posts yet ;)</Typography> }
-                    <Grid container spacing={4}>
-                        {images.map((image) => (
-                            <MediaGrip image={image} />
-                        ))}
-                    </Grid>
+                    {error && <Typography color="error">{error}</Typography>}
+                    <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} />
+                    {viewMode === "grid" ? (
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                                gap: "16px",
+                            }}
+                        >
+                            {images.map((image) => (
+                                <MediaGrip key={image.imageId} image={image} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div>
+                            {images.map((image) => (
+                                <MediaWall key={image.imageId} image={image} />
+                            ))}
+                        </div>
+                    )}
                     <div ref={ref} style={{ height: "1px" }} />
                 </MainContainer>
             </AppTheme>

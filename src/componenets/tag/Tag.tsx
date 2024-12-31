@@ -27,7 +27,8 @@ const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
     let isContent = false;
     const { ref, inView } = useInView({ threshold: 0.5 });
     const { tag } = useParams<{ tag: string }>();
-    const fetchProfileImages = useCallback(async () => {
+
+    const fetchTagsImages = useCallback(async () => {
         if (!hasMore) return;
 
         try {
@@ -51,7 +52,7 @@ const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
     }, [page, hasMore]);
 
     useEffect(() => {
-        fetchProfileImages().then(res => {
+        fetchTagsImages().then(res => {
             if (res != undefined){
                 isContent = true;
             }
