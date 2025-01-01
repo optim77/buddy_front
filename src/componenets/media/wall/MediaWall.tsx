@@ -27,9 +27,9 @@ const MediaWall = ({
                 flexDirection: "column",
                 alignItems: "center",
                 mb: 4,
-                maxWidth: "800px",
-                mx: "auto", // Center horizontally
-                overflow: "hidden",
+                maxWidth: "700px",
+                mx: "auto",
+                overflow: "visible", // Zmieniono na visible, aby uniknąć przycinania
             }}
         >
             <Link to={`/image/${image.imageId}`} style={{ textDecoration: "none", color: "inherit" }}>
@@ -42,7 +42,7 @@ const MediaWall = ({
                             muted
                             style={{
                                 width: "100%",
-                                maxHeight: "600px",
+                                height: "auto", // Zmieniono z maxHeight na auto
                                 objectFit: "cover",
                             }}
                         />
@@ -52,7 +52,7 @@ const MediaWall = ({
                             alt={image.description || "Profile image"}
                             style={{
                                 width: "100%",
-                                maxHeight: "600px",
+                                height: "auto", // Zmieniono z maxHeight na auto
                                 objectFit: "cover",
                             }}
                         />

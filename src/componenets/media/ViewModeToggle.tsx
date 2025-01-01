@@ -12,7 +12,7 @@ const ViewModeToggle: React.FC<ViewModeToggleProps> = ({ viewMode, onChange }) =
         <div
             style={{
                 display: "flex",
-                justifyContent: "flex-end",
+
                 gap: "8px",
                 marginBottom: "16px",
             }}

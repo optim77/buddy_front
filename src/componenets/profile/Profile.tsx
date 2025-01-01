@@ -6,21 +6,35 @@ import authService from "../../services/authService";
 import AppTheme from "../theme/AppTheme";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
 import { MainContainer } from "../../customStyles/MainContainer";
 import MediaGrip from "../media/grid/MediaGrip";
 import MediaWall from "../media/wall/MediaWall";
-import {GridView, WallView} from "../CustomIcons";
 import ViewModeToggle from "../media/ViewModeToggle";
+import {MediaObject} from "../media/MediaObject";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import ProfileWidget from "./ProfileWidget";
+
+interface Profile {
+    uuid: string;
+    email: string;
+    username: string;
+    description: string | null;
+    age: number;
+    avatar: string;
+    active: boolean
+    locked: boolean;
+}
 
 const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const [images, setImages] = useState<any[]>([]);
+    const [images, setImages] = useState<MediaObject[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [viewMode, setViewMode] = useState<string>(
         localStorage.getItem("buddy-grip") || "grid"
     );
+    const [profile, setProfile] = useState<Profile>()
     const { ref, inView } = useInView({ threshold: 0.5 });
 
     const fetchProfileImages = useCallback(async () => {
@@ -46,9 +60,28 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
         }
     }, [page, hasMore]);
 
+    const fetchProfile = useCallback(async  () => {
+        try {
+            await axios.get(`${process.env.REACT_APP_API_ADDRESS}/profile`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + authService.getToken(),
+                }
+            }).then((res) => {
+                setProfile(res.data);
+            })
+        }catch (error){
+            setError("Error fetching profile information");
+        }
+    }, []);
+
     useEffect(() => {
         fetchProfileImages();
     }, [page]);
+
+    useEffect(() => {
+        fetchProfile();
+    }, [fetchProfile]);
 
     useEffect(() => {
         if (inView && hasMore) {
@@ -60,7 +93,6 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
         setViewMode(mode);
         localStorage.setItem("buddy-grip", mode);
     };
-
     return (
         <Container
             maxWidth="lg"
@@ -71,13 +103,36 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 <CssBaseline enableColorScheme />
                 <MainContainer>
                     {error && <Typography color="error">{error}</Typography>}
-                    <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} />
+
+                    {profile && <ProfileWidget profile={profile} />}
+
+                    {images.length === 0 ? null : <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} /> }
+                    {images.length === 0 ? (
+                        <Typography
+                            sx={{
+                                textAlign: "center",
+                                padding: "15px",
+                                borderRadius: "8px",
+                                fontSize: "20px",
+                                fontWeight: "medium",
+                                border: "1px solid",
+                                maxWidth: "400px",
+                                margin: "0 auto",
+                                lineHeight: "1.5",
+                            }}
+                        >
+                            No posts yet? ;)
+                        </Typography>
+                    ) : null}
+
                     {viewMode === "grid" ? (
                         <div
                             style={{
                                 display: "grid",
                                 gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
                                 gap: "16px",
+                                width: "100%", // Zapełnia całą dostępną szerokość
+                                padding: "20px", // Dodaje przestrzeń wewnętrzną
                             }}
                         >
                             {images.map((image) => (
@@ -85,7 +140,15 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             ))}
                         </div>
                     ) : (
-                        <div>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "column", // Umożliwia elastyczne ustawienie w pionie
+                                alignItems: "center",    // Wyśrodkowanie elementów
+                                padding: "20px",         // Padding
+                                width: "100%",           // Pełna szerokość
+                            }}
+                        >
                             {images.map((image) => (
                                 <MediaWall key={image.imageId} image={image} />
                             ))}

@@ -2,24 +2,16 @@ import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import React, {useCallback, useEffect, useState} from "react";
 import AppTheme from "../theme/AppTheme";
-import exploreService from "./exploreService";
 import authService from "../../services/authService";
 import {MainContainer} from "../../customStyles/MainContainer";
 import {useInView} from "react-intersection-observer";
 import {MediaObject} from "../media/MediaObject";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import {Link} from "react-router-dom";
-import {formatMediaLink} from "../../utils/FormatMediaLink";
-import CardContent from "@mui/material/CardContent";
-import {truncateText} from "../../utils/FormatText";
-import {Stack} from "@mui/material";
-import LikeButton from "../like/LikeButton";
-import {formatLikes} from "../../utils/FormatLike";
 import MediaGrip from "../media/grid/MediaGrip";
+import ViewModeToggle from "../media/ViewModeToggle";
+import MediaWall from "../media/wall/MediaWall";
 
 
 const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
@@ -30,6 +22,9 @@ const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [error, setError] = useState<string | null>(null);
     let isContent = false;
     const { ref, inView } = useInView({ threshold: 0.5 });
+    const [viewMode, setViewMode] = useState<string>(
+        localStorage.getItem("buddy-grip") || "grid"
+    );
 
     const fetch = useCallback (async () => {
         if (!hasMore) return;
@@ -68,6 +63,11 @@ const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
         }
     }, [inView, hasMore]);
 
+    const handleViewChange = (mode: string) => {
+        setViewMode(mode);
+        localStorage.setItem("buddy-grip", mode);
+    };
+
     return(
         <Container
             maxWidth="lg"
@@ -78,11 +78,26 @@ const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 <CssBaseline enableColorScheme />
                 <MainContainer>
                     {error && (<TextField value={error} />)}
-                    <Grid container spacing={3}>
-                        {images.map((image) => (
-                            <MediaGrip image={image} />
-                        ))}
-                    </Grid>
+                    <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} />
+                    {viewMode === "grid" ? (
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                                gap: "16px",
+                            }}
+                        >
+                            {images.map((image) => (
+                                <MediaGrip key={image.imageId} image={image} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div>
+                            {images.map((image) => (
+                                <MediaWall key={image.imageId} image={image} />
+                            ))}
+                        </div>
+                    )}
                     <div ref={ref} style={{ height: "1px" }} />
                 </MainContainer>
             </AppTheme>

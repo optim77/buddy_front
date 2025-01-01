@@ -77,7 +77,7 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
     useEffect(() => {
         if (isScrolling) {
-            const timer = setTimeout(() => setIsScrolling(false), 800); // Blokada na czas animacji
+            const timer = setTimeout(() => setIsScrolling(false), 800);
             return () => clearTimeout(timer);
         }
     }, [isScrolling]);
@@ -98,6 +98,22 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
             }
         });
     }, [currentIndex]);
+
+    const addToFavorite = async (mediaId: string) => {
+        try {
+             await axios.post(
+                `${process.env.REACT_APP_API_ADDRESS}/favorite/add/${mediaId}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + (authService.getToken() || ""),
+                    }
+                }
+            );
+        } catch (error) {
+            setError("Error adding media to favorite");
+        }
+    }
 
     return (
         <Container
@@ -201,7 +217,7 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                             </Typography>
 
                                             <Typography>
-                                                <Button>
+                                                <Button onClick={() => addToFavorite(video.imageId)}>
                                                     <Favorite />
                                                 </Button>
                                             </Typography>
