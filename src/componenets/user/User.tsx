@@ -11,6 +11,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import {MainContainer} from "../../customStyles/MainContainer";
 import MediaGrip from "../media/grid/MediaGrip";
+import ViewModeToggle from "../media/ViewModeToggle";
+import MediaWall from "../media/wall/MediaWall";
+import ProfileWidget from "../profile/ProfileWidget";
+import {ProfileInformation} from "../profile/ProfileInformation";
 
 
 const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
@@ -22,6 +26,10 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const { ref, inView } = useInView({ threshold: 0.5 });
     const { userId } = useParams<{ userId: string }>();
     const navigate = useNavigate();
+    const [user, setUser] = useState<ProfileInformation>()
+    const [viewMode, setViewMode] = useState<string>(
+        localStorage.getItem("buddy-grip") || "grid"
+    );
 
     const fetchProfileImages = useCallback(async () => {
         if (!hasMore) return;
@@ -46,10 +54,25 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
         }
     }, [page, hasMore]);
 
-    useEffect(() => {
-        if (userId === authService.getBuddyUser()){
-            navigate("/profile")
+    const fetchUserInformation = useCallback(async  (user: string) => {
+        try {
+            await axios.get(`${process.env.REACT_APP_API_ADDRESS}/user/${user}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + authService.getToken(),
+                }
+            }).then((res) => {
+                setUser(res.data);
+            })
+        }catch (error){
+            setError("Error fetching profile information");
         }
+    }, []);
+
+    useEffect(() => {
+        // if (userId === authService.getBuddyUser()){
+        //     navigate("/profile")
+        // }
         fetchProfileImages().then(res => {
             if (res != undefined){
                 isContent = true;
@@ -63,6 +86,16 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
         }
     }, [inView, hasMore]);
 
+    useEffect(() => {
+        if (userId){
+            fetchUserInformation(userId);
+        }
+    }, [fetchUserInformation]);
+
+    const handleViewChange = (mode: string) => {
+        setViewMode(mode);
+        localStorage.setItem("buddy-grip", mode);
+    };
 
     return (
         <Container
@@ -74,12 +107,40 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 <CssBaseline enableColorScheme />
                 <MainContainer>
                     {error && (<TextField value={error} />)}
+
+                    {user && <ProfileWidget profile={user} />}
                     {!isContent ? null : <Typography variant="h1" gutterBottom>There is no posts yet ;)</Typography> }
-                    <Grid container spacing={4}>
-                        {images.map((image) => (
-                            <MediaGrip image={image} />
-                        ))}
-                    </Grid>
+
+                    {images.length === 0 ? null : <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} /> }
+                    {viewMode === "grid" ? (
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                                gap: "16px",
+                                width: "100%",
+                                padding: "20px",
+                            }}
+                        >
+                            {images.map((image) => (
+                                <MediaGrip key={image.imageId} image={image} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                padding: "20px",
+                                width: "100%",
+                            }}
+                        >
+                            {images.map((image) => (
+                                <MediaWall key={image.imageId} image={image} />
+                            ))}
+                        </div>
+                    )}
                     <div ref={ref} style={{ height: "1px" }} />
                 </MainContainer>
             </AppTheme>

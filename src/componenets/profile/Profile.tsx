@@ -11,30 +11,18 @@ import MediaGrip from "../media/grid/MediaGrip";
 import MediaWall from "../media/wall/MediaWall";
 import ViewModeToggle from "../media/ViewModeToggle";
 import {MediaObject} from "../media/MediaObject";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
 import ProfileWidget from "./ProfileWidget";
+import {useViewMode} from "../media/useViewMode";
+import {ProfileInformation} from "./ProfileInformation";
 
-interface Profile {
-    uuid: string;
-    email: string;
-    username: string;
-    description: string | null;
-    age: number;
-    avatar: string;
-    active: boolean
-    locked: boolean;
-}
 
 const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [images, setImages] = useState<MediaObject[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [viewMode, setViewMode] = useState<string>(
-        localStorage.getItem("buddy-grip") || "grid"
-    );
-    const [profile, setProfile] = useState<Profile>()
+    const { viewMode, handleViewChange } = useViewMode();
+    const [profile, setProfile] = useState<ProfileInformation>();
     const { ref, inView } = useInView({ threshold: 0.5 });
 
     const fetchProfileImages = useCallback(async () => {
@@ -89,10 +77,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
         }
     }, [inView, hasMore]);
 
-    const handleViewChange = (mode: string) => {
-        setViewMode(mode);
-        localStorage.setItem("buddy-grip", mode);
-    };
+
     return (
         <Container
             maxWidth="lg"
