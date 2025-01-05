@@ -49,7 +49,7 @@ const logout = async (): Promise<void> => {
     removeCookie("buddy-token");
     removeCookie("buddy-id");
     removeCookie("buddy-user");
-    window.location.reload();
+    document.location.href="/"
 };
 
 const authService = {

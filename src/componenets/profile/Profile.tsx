@@ -93,6 +93,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
                     {images.length === 0 ? null : <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} /> }
                     {images.length === 0 ? (
+
                         <Typography
                             sx={{
                                 textAlign: "center",
@@ -107,7 +108,9 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             }}
                         >
                             No posts yet? ;)
+
                         </Typography>
+
                     ) : null}
 
                     {viewMode === "grid" ? (

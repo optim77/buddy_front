@@ -116,7 +116,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
 
                     {/* Follow and Subscribe Buttons */}
                     <Stack direction="row" spacing={2} justifyContent="center">
-                        { authService.getBuddyUser() !== profile.uuid ? null : (
+                        { authService.getBuddyUser() === profile.uuid ? null : (
                             <>
                                 <Button
                                     variant="contained"
