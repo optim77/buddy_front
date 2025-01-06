@@ -24,6 +24,8 @@ import AppTheme from "../theme/AppTheme";
 import authService from "../../services/authService";
 import {styled} from "@mui/material/styles";
 import {isValidPassword} from "../../utils/ValidPassword";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import {VisuallyHiddenInput} from "../../customStyles/Element";
 
 interface UserData {
     active: boolean;
@@ -52,10 +54,13 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
     const [userData, setUserData] = useState<UserData | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [avatarError, setAvatarError] = useState<string | null>(null);
+    const [editError, setEditError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [lockError, setLockError] = useState<string | null>(null);
     const [deleteError, setDeleteError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
+    const [editAvatar, setEditAvatar] = useState<boolean>(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [editField, setEditField] = useState<string | null>(null);
     const [editValue, setEditValue] = useState<string>("");
@@ -65,6 +70,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [newPassword, setNewPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
+    const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 
     const fetchUserData = useCallback(async () => {
         try {
@@ -93,6 +99,10 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
 
 
     const handleSave = async () => {
+        if (editField === 'description' && editValue.length > 1000) {
+            setEditError("Description cannot be more than 1000 characters");
+            return;
+        }
         if (userData && editField) {
             try {
                 const updatedUserData = {
@@ -108,12 +118,16 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                             Authorization: `Bearer ${authService.getToken()}`,
                         },
                     }
-                );
+                ).then((res) => {
+                    if (res.status === 200 && editField === 'username') {
+                        authService.logout()
+                    }
+                })
 
                 setUserData(updatedUserData);
                 setOpenDialog(false);
             } catch (err) {
-                setError("Failed to update user data.");
+                setEditError("Failed to update user data.");
             }
         }
     };
@@ -200,9 +214,40 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
         }
     }
 
+    const changeAvatar = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const files = Array.from(event.target.files);
+
+            const images = files.filter(file => file.type.startsWith('image/'));
+            const invalidFiles = files.filter(file => !file.type.startsWith('image/') && !file.type.startsWith('video/'));
+
+            if (invalidFiles.length > 0) {
+                setAvatarError("Only images and videos are allowed.");
+            } else {
+                setAvatarError(null);
+            }
+
+            if (images.length > 0) {
+                setUploadedImage(images[0]);
+            }
+        }
+    }
+    const handleChangeAvatar = async () => {
+        try {
+            await axios.put(`${process.env.REACT_APP_API_ADDRESS}/user/change_avatar`, uploadedImage, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${authService.getToken()}`,
+                }
+            })
+        } catch (err) {
+            setAvatarError("Something went wrong");
+        }
+    }
+
     useEffect(() => {
         fetchUserData();
-        if (userData?.locked){
+        if (userData?.locked) {
             setDeactivateStatus(userData.locked)
         }
     }, [fetchUserData]);
@@ -212,8 +257,11 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
             maxWidth="lg"
             component="main"
             sx={{
-                gap: 4,
-                my: 8,
+                mt: 12,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
             }}
         >
             <AppTheme {...props}>
@@ -236,18 +284,38 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                         <Card
                             sx={{
                                 width: "100%",
-                                padding: 4,
+                                p: 4,
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
                                 gap: 2,
                             }}
                         >
                             {message ? <Typography color="success">{message}</Typography> : null}
+
                             <Avatar
                                 src={userData.avatar || undefined}
                                 alt={userData.username}
-                                sx={{width: 100, height: 100}}
+                                sx={{
+                                    width: 100,
+                                    height: 100,
+                                    cursor: "pointer",
+                                    transition: "0.3s",
+                                    "&:hover": {
+                                        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+                                        transform: "scale(1.05)",
+                                    },
+                                }}
+                                onClick={() => setEditAvatar(true)}
                             />
-                            <CardContent>
-                                <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
+                            <CardContent sx={{textAlign: "center", width: "100%"}}>
+                                <Box sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    gap: 1,
+                                    mb: 2
+                                }}>
                                     <Typography variant="h4" gutterBottom>
                                         {userData.username}
                                     </Typography>
@@ -255,32 +323,63 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                         <EditIcon fontSize={"small"}/>
                                     </IconButton>
                                 </Box>
-                                <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
+                                <Box sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    gap: 1,
+                                    mb: 2
+                                }}>
                                     <Typography variant="body1" color="text.secondary" gutterBottom>
                                         {userData.email}
                                     </Typography>
                                 </Box>
                                 {userData.locked ? (
-                                        <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
+                                        <Box sx={{textAlign: "center", width: "100%"}}>
                                             <Typography variant="body2" color="text.secondary">
-                                                 {userData.locked ? <Typography color={"error"}>Your account is locked</Typography> : "Unlocked"}
+                                                {userData.locked ? <Typography color={"error"}>Your account is
+                                                    locked</Typography> : "Unlocked"}
                                             </Typography>
                                         </Box>
                                     ) :
                                     null}
 
-                                <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
+                                <Box sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    gap: 1,
+                                    mb: 2
+                                }}>
                                     <Typography variant="body2" color="text.secondary">
-                                        {userData.description || "No description available"}
+                                        Description: {userData.description || "No description available"}
                                     </Typography>
                                     <IconButton onClick={() => handleEdit("description", userData.description)}>
                                         <EditIcon fontSize={"small"}/>
                                     </IconButton>
                                 </Box>
-                                <Button onClick={() => setPasswordDialogOpen(true)}>Change password</Button>
-                                <Button
-                                    onClick={() => setDeactivateDialogOpen(true)}>{userData?.locked && userData.locked ? 'Active account' : 'Deactivate account'}</Button>
-                                <Button onClick={() => setDeleteDialogOpen(true)}>Delete account</Button>
+
+                                <Button variant="contained"
+                                        color="primary"
+                                        fullWidth sx={{textAlign: "center", width: "100%", marginTop: '10px'}}
+                                        onClick={() => setPasswordDialogOpen(true)}>
+                                    Change password
+                                </Button>
+
+                                <Button variant="outlined"
+                                        color="secondary"
+                                        fullWidth sx={{textAlign: "center", width: "100%", marginTop: '10px'}}
+                                        onClick={() => setDeactivateDialogOpen(true)}>
+                                    {userData?.locked && userData.locked ? 'Active account' : 'Deactivate account'}
+                                </Button>
+
+                                <Button variant="text"
+                                        color="error"
+                                        fullWidth
+                                        sx={{textAlign: "center", width: "100%", marginTop: '10px'}}
+                                        onClick={() => setDeleteDialogOpen(true)}>
+                                    Delete account
+                                </Button>
                             </CardContent>
                         </Card>
                     ) : (
@@ -290,16 +389,25 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
 
                 <Dialog
                     open={openDialog}
-                    onClose={() => setOpenDialog(false)}
+                    onClose={() => {
+                        setOpenDialog(false);
+                        setEditError("");
+                    }
+                    }
                     maxWidth={editField === "description" ? "lg" : "sm"}
                     fullWidth={editField === "description"}
                 >
                     <DialogTitle sx={{fontSize: "1.2rem"}}>Edit {editField}</DialogTitle>
+                    {editError ? (<Typography color={"error"}>{editError}</Typography>) : null}
                     <DialogContent
                         sx={{
                             minHeight: editField === "description" ? "200px" : "auto",
                         }}
                     >
+                        {editField === 'username' ?
+                            <Typography sx={{padding: '10px'}}>After changing your username, you will be required to log
+                                in again!</Typography>
+                            : null}
                         {editField === "description" ? (
                             <StyledTextareaAutosize
                                 value={editValue}
@@ -380,7 +488,8 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                     {lockError ? <Typography color="error">{lockError}</Typography> : null}
                     <DialogContent>
                         <Typography>
-                            Are you sure you want to {userData?.locked && userData.locked ? 'active ' : 'deactivate '} the account?
+                            Are you sure you want
+                            to {userData?.locked && userData.locked ? 'active ' : 'deactivate '} the account?
                         </Typography>
                         <br/>
                         <Typography>
@@ -396,6 +505,45 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                     </DialogActions>
 
                 </Dialog>
+
+                <Dialog open={editAvatar} onClose={() => setEditAvatar(false)} fullWidth>
+                    <DialogTitle>Edit avatar</DialogTitle>
+                    {avatarError ? <Typography color="error">{avatarError}</Typography> : null}
+                    <DialogContent>
+                        <Typography sx={{mb: 2}}>
+                            Your current avatar will be replaced with an uploaded one.
+                        </Typography>
+                        <Box>
+                            <Typography variant="body2" sx={{mb: 1}}>
+                                Select a file to upload:
+                            </Typography>
+                            <Button
+                                component="label"
+                                role={undefined}
+                                variant="contained"
+                                tabIndex={-1}
+                                startIcon={<CloudUploadIcon/>}
+                            >
+                                Upload file
+                                <VisuallyHiddenInput
+                                    type="file"
+                                    accept="image/*,video/*"
+                                    onChange={changeAvatar}
+                                    multiple
+                                />
+                            </Button>
+                        </Box>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button color={"success"} onClick={() => setEditAvatar(false)}>
+                            Cancel
+                        </Button>
+                        <Button onClick={() => handleChangeAvatar()} color="primary">
+                            Change avatar
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
 
             </AppTheme>
         </Container>
