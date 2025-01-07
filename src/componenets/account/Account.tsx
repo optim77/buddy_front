@@ -22,10 +22,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import {MainContainer} from "../../customStyles/MainContainer";
 import AppTheme from "../theme/AppTheme";
 import authService from "../../services/authService";
-import {styled} from "@mui/material/styles";
 import {isValidPassword} from "../../utils/ValidPassword";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import {VisuallyHiddenInput} from "../../customStyles/Element";
+import {StyledTextareaAutosizeEditProfile, VisuallyHiddenInput} from "../../customStyles/Element";
+import {buildMediaLink, formatMediaLink} from "../../utils/FormatMediaLink";
+import {log} from "node:util";
 
 interface UserData {
     active: boolean;
@@ -38,19 +39,8 @@ interface UserData {
     uuid: string;
 }
 
-const StyledTextareaAutosize = styled("textarea")(({theme}) => ({
-    width: "100%",
-    minHeight: "100px",
-    padding: theme.spacing(1),
-    border: `1px solid ${theme.palette.divider}`,
-    borderRadius: theme.shape.borderRadius,
-    fontSize: "1rem",
-    fontFamily: theme.typography.fontFamily,
-    resize: "vertical",
-    outline: "none",
-}));
-
 const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
+
     const [userData, setUserData] = useState<UserData | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -192,7 +182,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
         try {
             await axios.post(`${process.env.REACT_APP_API_ADDRESS}/user/lock`, {}, {
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${authService.getToken()}`,
                 }
             }).then((res) => {
@@ -219,10 +209,10 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
             const files = Array.from(event.target.files);
 
             const images = files.filter(file => file.type.startsWith('image/'));
-            const invalidFiles = files.filter(file => !file.type.startsWith('image/') && !file.type.startsWith('video/'));
+            const invalidFiles = files.filter(file => !file.type.startsWith('image/'));
 
             if (invalidFiles.length > 0) {
-                setAvatarError("Only images and videos are allowed.");
+                setAvatarError("Only images are allowed.");
             } else {
                 setAvatarError(null);
             }
@@ -231,25 +221,41 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                 setUploadedImage(images[0]);
             }
         }
-    }
+    };
+
     const handleChangeAvatar = async () => {
+        if (!uploadedImage) {
+            setAvatarError("Please upload an image!");
+            return false;
+        }
+        if (uploadedImage.size >= 5000000) {
+            setAvatarError("Your file is too big, max size is 5Mb");
+            return false;
+        }
         try {
-            await axios.put(`${process.env.REACT_APP_API_ADDRESS}/user/change_avatar`, uploadedImage, {
+            const formData = new FormData();
+            formData.append("file", uploadedImage);
+            await axios.put(`${process.env.REACT_APP_API_ADDRESS}/user/change_avatar`, formData, {
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${authService.getToken()}`,
+                },
+            }).then((res) => {
+                if (res.status === 200) {
+                    setEditAvatar(false);
                 }
-            })
+            });
         } catch (err) {
             setAvatarError("Something went wrong");
         }
-    }
+    };
 
     useEffect(() => {
         fetchUserData();
         if (userData?.locked) {
             setDeactivateStatus(userData.locked)
         }
+        console.log(buildMediaLink("123.jpg"))
     }, [fetchUserData]);
 
     return (
@@ -294,7 +300,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                             {message ? <Typography color="success">{message}</Typography> : null}
 
                             <Avatar
-                                src={userData.avatar || undefined}
+                                src={userData.avatar ? buildMediaLink(userData.avatar) : undefined }
                                 alt={userData.username}
                                 sx={{
                                     width: 100,
@@ -409,7 +415,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                 in again!</Typography>
                             : null}
                         {editField === "description" ? (
-                            <StyledTextareaAutosize
+                            <StyledTextareaAutosizeEditProfile
                                 value={editValue}
                                 onChange={(e) => setEditValue(e.target.value)}
                                 style={{
@@ -506,7 +512,11 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
 
                 </Dialog>
 
-                <Dialog open={editAvatar} onClose={() => setEditAvatar(false)} fullWidth>
+                <Dialog open={editAvatar} onClose={() => {
+                    setEditAvatar(false);
+                    setAvatarError(null);
+                    }
+                } fullWidth>
                     <DialogTitle>Edit avatar</DialogTitle>
                     {avatarError ? <Typography color="error">{avatarError}</Typography> : null}
                     <DialogContent>

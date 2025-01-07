@@ -6,7 +6,7 @@ import authService from "../../services/authService";
 import {Container, Typography, Grid, CssBaseline, CircularProgress, Box, Avatar} from "@mui/material";
 import AppTheme from "../theme/AppTheme";
 import {MainContainer} from "../../customStyles/MainContainer";
-import {formatMediaLink} from "../../utils/FormatMediaLink";
+import {buildMediaLink, formatMediaLink} from "../../utils/FormatMediaLink";
 import LikeButton from "../like/LikeButton";
 import {formatLikes} from "../../utils/FormatLike";
 import {truncateText} from "../../utils/FormatText";
@@ -244,7 +244,7 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                                 sx={{ display: "flex", alignItems: "center", gap: 2, right: "20px" }}
                                             >
                                                 <Avatar
-                                                    src={video.avatar ? formatMediaLink(video.avatar) : undefined}
+                                                    src={video.avatar ? buildMediaLink(video.avatar) : undefined}
                                                     alt={video.username}
                                                     sx={{ width: 40, height: 40 }}
                                                 />

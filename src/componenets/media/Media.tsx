@@ -24,6 +24,7 @@ import {MediaObject} from "./MediaObject";
 import {TagInterface} from "../tag/TagInterface";
 import {NoAccessWall} from "./NoAccessWall";
 import {VolumeOff, VolumeUp} from "@mui/icons-material";
+import {buildMediaLink} from "../../utils/FormatMediaLink";
 
 const DashboardContainer = styled(Stack)(({theme}) => ({
     height: "calc((1 - var(--template-frame-height, 0)) * 100dvh)",
@@ -170,7 +171,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                 >
                                     <Stack direction="row" spacing={2} alignItems="center">
                                         <Avatar
-                                            src={media.avatar ? buildImageUrl(media.avatar) : undefined}
+                                            src={media.avatar ? buildMediaLink(media.avatar) : undefined}
                                             alt={media.username}
                                         />
                                         <Typography variant="subtitle1">

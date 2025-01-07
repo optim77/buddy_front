@@ -12,6 +12,7 @@ import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import {ProfileInformation} from "./ProfileInformation";
 import {formatLikes} from "../../utils/FormatLike";
+import {buildMediaLink} from "../../utils/FormatMediaLink";
 
 
 interface ProfileCardProps {
@@ -78,7 +79,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
 
                     <Avatar
                         alt={profile.username}
-                        src={profile.avatar || undefined}
+                        src={buildMediaLink(profile.avatar) || undefined}
                         sx={{
                             width: 70,
                             height: 70,

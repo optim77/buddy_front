@@ -93,3 +93,15 @@ export const StyledAuthCard = styled(MuiCard)(({theme}) => ({
             'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
     }),
 }));
+
+export const StyledTextareaAutosizeEditProfile = styled("textarea")(({theme}) => ({
+    width: "100%",
+    minHeight: "100px",
+    padding: theme.spacing(1),
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: theme.shape.borderRadius,
+    fontSize: "1rem",
+    fontFamily: theme.typography.fontFamily,
+    resize: "vertical",
+    outline: "none",
+}));
