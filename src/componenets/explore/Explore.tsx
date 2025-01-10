@@ -42,7 +42,6 @@ const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 setHasMore(page + 1 < response.data.page.totalPages);
             })
 
-
         }catch (error){
             setError("Error fetching profile images");
         }

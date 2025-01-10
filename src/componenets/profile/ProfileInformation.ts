@@ -1,16 +1,6 @@
-export interface ProfileInformation {
-    uuid: string;
+import {UserInformation} from "../user/UserInformation";
+
+export interface ProfileInformation extends UserInformation{
     email: string;
-    username: string;
-    description: string | null;
-    age: number;
-    avatar: string;
-    active: boolean;
-    locked: boolean;
-    posts: number;
-    followers: number
-    following: number;
-    subscribers: number;
-    followed: boolean | null;
-    subscribed: boolean | null;
+
 }

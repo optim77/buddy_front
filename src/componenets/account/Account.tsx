@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useCallback} from "react";
 import axios from "axios";
-import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -26,7 +25,6 @@ import {isValidPassword} from "../../utils/ValidPassword";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {StyledTextareaAutosizeEditProfile, VisuallyHiddenInput} from "../../customStyles/Element";
 import {buildMediaLink, formatMediaLink} from "../../utils/FormatMediaLink";
-import {log} from "node:util";
 
 interface UserData {
     active: boolean;
@@ -243,6 +241,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
             }).then((res) => {
                 if (res.status === 200) {
                     setEditAvatar(false);
+                    document.location.reload();
                 }
             });
         } catch (err) {

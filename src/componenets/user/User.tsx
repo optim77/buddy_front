@@ -15,6 +15,7 @@ import ViewModeToggle from "../media/ViewModeToggle";
 import MediaWall from "../media/wall/MediaWall";
 import ProfileWidget from "../profile/ProfileWidget";
 import {ProfileInformation} from "../profile/ProfileInformation";
+import {UserInformation} from "./UserInformation";
 
 
 const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
@@ -26,7 +27,7 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const { ref, inView } = useInView({ threshold: 0.5 });
     const { userId } = useParams<{ userId: string }>();
     const navigate = useNavigate();
-    const [user, setUser] = useState<ProfileInformation>()
+    const [user, setUser] = useState<UserInformation>()
     const [viewMode, setViewMode] = useState<string>(
         localStorage.getItem("buddy-grip") || "grid"
     );
