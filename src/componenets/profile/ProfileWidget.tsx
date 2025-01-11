@@ -186,13 +186,29 @@ const ProfileCard: React.FC<ProfileCardProps> = ({profile}) => {
                             )
                         }
 
+                        {authService.getBuddyUser() === profile.uuid ? (
+                            (<Link
+                                to={"/following"}
+                                style={{textDecoration: "none", color: "inherit"}}
+                            >
+                                <Stack alignItems="center">
+                                    <Typography variant="body2" color="text.secondary">
+                                        Following
+                                    </Typography>
+                                    <Typography variant="h6">{formatLikes(profile.following)}</Typography>
+                                </Stack>
+                            </Link>)
+                        ) :
+                            (
+                                <Stack alignItems="center">
+                                    <Typography variant="body2" color="text.secondary">
+                                        Following
+                                    </Typography>
+                                    <Typography variant="h6">{formatLikes(profile.following)}</Typography>
+                                </Stack>
+                            )
+                        }
 
-                        <Stack alignItems="center">
-                            <Typography variant="body2" color="text.secondary">
-                                Following
-                            </Typography>
-                            <Typography variant="h6">{profile.following ? profile.following : '0'}</Typography>
-                        </Stack>
                         <Stack alignItems="center">
                             <Typography variant="body2" color="text.secondary">
                                 Subscribers

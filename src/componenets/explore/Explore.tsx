@@ -1,73 +1,107 @@
-import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
-import React, {useCallback, useEffect, useState} from "react";
-import AppTheme from "../theme/AppTheme";
-import authService from "../../services/authService";
-import {MainContainer} from "../../customStyles/MainContainer";
-import {useInView} from "react-intersection-observer";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import {useCallback, useEffect, useState} from "react";
 import {MediaObject} from "../media/MediaObject";
+import {useInView} from "react-intersection-observer";
+import authService from "../../services/authService";
 import axios from "axios";
+import Container from "@mui/material/Container";
+import AppTheme from "../theme/AppTheme";
+import CssBaseline from "@mui/material/CssBaseline";
+import {MainContainer} from "../../customStyles/MainContainer";
 import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import MediaGrip from "../media/grid/MediaGrip";
 import ViewModeToggle from "../media/ViewModeToggle";
+import MediaGrip from "../media/grid/MediaGrip";
+import Grid from "@mui/material/Grid";
 import MediaWall from "../media/wall/MediaWall";
+import Typography from "@mui/material/Typography";
+import {TagInterface} from "../tag/TagInterface";
+import Card from "@mui/material/Card";
+import {Box, CardActionArea, CardContent} from "@mui/material";
+import {Link} from "react-router-dom";
+
 
 
 const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
-
     const [images, setImages] = useState<MediaObject[]>([]);
+    const [tags, setTags] = useState<TagInterface[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    let isContent = false;
-    const { ref, inView } = useInView({ threshold: 0.5 });
     const [viewMode, setViewMode] = useState<string>(
         localStorage.getItem("buddy-grip") || "grid"
     );
+    const [contentType, setContentType] = useState<"posts" | "tags">("posts");
 
-    const fetch = useCallback (async () => {
+    const { ref, inView } = useInView({ threshold: 0.5 });
+
+    const fetch = useCallback(async () => {
         if (!hasMore) return;
 
         try {
-            await axios.get(`${process.env.REACT_APP_API_ADDRESS}/image/open/random`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: authService.getToken() ? `Bearer ${authService.getToken()}` : '',
-                },
-                params: { page, size: 20 },
-            }).then(response => {
+            if (contentType === "posts") {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_ADDRESS}/image/open/random`, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: authService.getToken()
+                                ? `Bearer ${authService.getToken()}`
+                                : '',
+                        },
+                        params: { page, size: 20 },
+                    }
+                );
                 const newImages = response.data.content;
                 setImages((prevImages) => [...prevImages, ...newImages]);
                 setHasMore(page + 1 < response.data.page.totalPages);
-            })
-
-        }catch (error){
-            setError("Error fetching profile images");
-        }
-
-    }, [page, hasMore]);
-
-    useEffect(() => {
-        fetch().then(res => {
-            if (res != undefined){
-                isContent = true;
+            } else if (contentType === "tags") {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_ADDRESS}/tags/all`, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: authService.getToken()
+                                ? `Bearer ${authService.getToken()}`
+                                : '',
+                        },
+                    }
+                );
+                setTags(response.data.content);
             }
-        });
-    }, [page]);
+        } catch (error) {
+            setError("Error fetching data");
+        }
+    }, [page, hasMore, contentType]);
 
     useEffect(() => {
-        if (inView && hasMore) {
+        fetch();
+    }, [page, contentType]);
+
+    useEffect(() => {
+        if (inView && hasMore && contentType === "posts") {
             setPage((prevPage) => prevPage + 1);
         }
-    }, [inView, hasMore]);
+    }, [inView, hasMore, contentType]);
 
     const handleViewChange = (mode: string) => {
         setViewMode(mode);
         localStorage.setItem("buddy-grip", mode);
     };
 
-    return(
+    const handleContentTypeChange = (
+        event: React.MouseEvent<HTMLElement>,
+        newContentType: "posts" | "tags"
+    ) => {
+        if (newContentType !== null) {
+            setContentType(newContentType);
+            setPage(0);
+            setImages([]);
+            setTags([]);
+            setHasMore(true);
+            setError("");
+        }
+    };
+
+    return (
         <Container
             maxWidth="lg"
             component="main"
@@ -76,35 +110,111 @@ const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
-                    {error && (<TextField value={error} />)}
-                    <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} />
-                    {viewMode === "grid" ? (
-                        <div
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-                                gap: "16px",
-                            }}
-                        >
-                            {images.map((image) => (
-                                <MediaGrip key={image.imageId} image={image} />
-                            ))}
-                        </div>
+
+
+                    <ToggleButtonGroup
+                        value={contentType}
+                        exclusive
+                        onChange={handleContentTypeChange}
+                        aria-label="content type"
+                        sx={{
+                            mb: 4,
+                            border: "none",
+                            boxShadow: "none",
+                            width: "fit-content",
+                        }}
+                    >
+                        <ToggleButton value="posts" aria-label="posts">
+                            Posts
+                        </ToggleButton>
+                        <ToggleButton value="tags" aria-label="tags">
+                            Tags
+                        </ToggleButton>
+                    </ToggleButtonGroup>
+                    {contentType === "posts" ? <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} /> : null}
+                    {error && <Typography>{error}</Typography> }
+                    {contentType === "posts" ? (
+                        viewMode === "grid" ? (
+                            <div
+                                style={{
+                                    display: "grid",
+                                    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                                    gap: "16px",
+                                }}
+                            >
+                                {images.map((image) => (
+                                    <MediaGrip key={image.imageId} image={image} />
+                                ))}
+                            </div>
+                        ) : (
+                            <div>
+                                {images.map((image) => (
+                                    <MediaWall key={image.imageId} image={image} />
+                                ))}
+                            </div>
+                        )
                     ) : (
-                        <div>
-                            {images.map((image) => (
-                                <MediaWall key={image.imageId} image={image} />
+                        <Grid container spacing={2}>
+                            {tags.map((tag, index) => (
+                                <Grid item xs={12} key={index}>
+                                    <Card
+                                        sx={{
+                                            backgroundColor: "transparent",
+                                            "&:hover": {
+                                                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                                            },
+                                        }}
+                                    >
+                                        <Link
+                                            to={`/tags/${tag.name}`} // Przekierowanie do odpowiedniej strony
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                textDecoration: "none", // Usunięcie podkreślenia
+                                                color: "inherit", // Zachowanie koloru tekstu
+                                                padding: "16px",
+                                            }}
+                                        >
+                                            {/* Nazwa taga */}
+                                            <Typography
+                                                variant="h6"
+                                                sx={{ flexGrow: 1 }}
+                                            >
+                                                {tag.name}
+                                            </Typography>
+
+                                            {/* Count */}
+                                            <Typography
+                                                variant="body2"
+                                                color="text.secondary"
+                                                sx={{ marginRight: 2 }}
+                                            >
+                                                {tag.count}
+                                            </Typography>
+
+                                            {/* Obrazy */}
+                                            <Box sx={{ display: "flex", gap: 1 }}>
+                                                {/*{tag.images.slice(0, 3).map((image: string, imgIndex: number) => (*/}
+                                                {/*    <Avatar*/}
+                                                {/*        key={imgIndex}*/}
+                                                {/*        src={image}*/}
+                                                {/*        alt={`Image ${imgIndex}`}*/}
+                                                {/*        sx={{ width: 40, height: 40 }}*/}
+                                                {/*    />*/}
+                                                {/*))}*/}
+                                            </Box>
+                                        </Link>
+                                    </Card>
+                                </Grid>
                             ))}
-                        </div>
+                        </Grid>
                     )}
+
                     <div ref={ref} style={{ height: "1px" }} />
                 </MainContainer>
             </AppTheme>
         </Container>
+    );
+};
 
-
-
-
-    )
-}
-export default Explore
+export default Explore;

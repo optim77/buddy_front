@@ -119,6 +119,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                             autoPlay
                                             loop
                                             muted={muted}
+                                            preload="auto"
                                             style={{maxHeight: 500, width: "100%"}}
                                         />
                                     ) : (
