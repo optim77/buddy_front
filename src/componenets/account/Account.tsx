@@ -25,6 +25,7 @@ import {isValidPassword} from "../../utils/ValidPassword";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {StyledTextareaAutosizeEditProfile, VisuallyHiddenInput} from "../../customStyles/Element";
 import {buildMediaLink, formatMediaLink} from "../../utils/FormatMediaLink";
+import {TikTok} from "../CustomIcons";
 
 interface UserData {
     active: boolean;
@@ -35,6 +36,13 @@ interface UserData {
     locked: boolean;
     username: string;
     uuid: string;
+    socialInstagram: string;
+    socialFacebook: string;
+    socialYoutube: string;
+    socialTwitter: string
+    socialTikTok: string;
+    socialOF: string;
+
 }
 
 const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
@@ -358,6 +366,21 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                 }}>
                                     <Typography variant="body2" color="text.secondary">
                                         Description: {userData.description || "No description available"}
+                                    </Typography>
+                                    <IconButton onClick={() => handleEdit("description", userData.description)}>
+                                        <EditIcon fontSize={"small"}/>
+                                    </IconButton>
+                                </Box>
+
+                                <Box sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    gap: 1,
+                                    mb: 2
+                                }}>
+                                    <Typography variant="body2" color="text.secondary">
+                                        <TikTok />{userData.socialTikTok || ""}
                                     </Typography>
                                     <IconButton onClick={() => handleEdit("description", userData.description)}>
                                         <EditIcon fontSize={"small"}/>

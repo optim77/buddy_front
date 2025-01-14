@@ -1,10 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Stack } from "@mui/material";
 import { useInView } from "react-intersection-observer";
 import authService from "../../services/authService";
 import AppTheme from "../theme/AppTheme";
@@ -12,11 +9,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import {Link, useParams} from "react-router-dom";
 import TextField from "@mui/material/TextField";
-import LikeButton from "../like/LikeButton";
-import {formatLikes} from "../../utils/FormatLike";
-import {truncateText} from "../../utils/FormatText";
 import {MainContainer} from "../../customStyles/MainContainer";
-import {formatMediaLink} from "../../utils/FormatMediaLink";
 import MediaGrip from "../media/grid/MediaGrip";
 
 const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
@@ -33,7 +26,7 @@ const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/image/open/tag/` + tag,
+                `${process.env.REACT_APP_API_ADDRESS}/tag/${tag}`,
                 {
                     headers: {
                         "Content-Type": "application/json",

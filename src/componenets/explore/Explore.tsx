@@ -1,6 +1,6 @@
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {MediaObject} from "../media/MediaObject";
 import {useInView} from "react-intersection-observer";
 import authService from "../../services/authService";
@@ -9,16 +9,12 @@ import Container from "@mui/material/Container";
 import AppTheme from "../theme/AppTheme";
 import CssBaseline from "@mui/material/CssBaseline";
 import {MainContainer} from "../../customStyles/MainContainer";
-import TextField from "@mui/material/TextField";
 import ViewModeToggle from "../media/ViewModeToggle";
 import MediaGrip from "../media/grid/MediaGrip";
-import Grid from "@mui/material/Grid";
 import MediaWall from "../media/wall/MediaWall";
 import Typography from "@mui/material/Typography";
 import {TagInterface} from "../tag/TagInterface";
-import Card from "@mui/material/Card";
-import {Box, CardActionArea, CardContent} from "@mui/material";
-import {Link} from "react-router-dom";
+import TagList from "./TagList";
 
 
 
@@ -154,60 +150,7 @@ const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             </div>
                         )
                     ) : (
-                        <Grid container spacing={2}>
-                            {tags.map((tag, index) => (
-                                <Grid item xs={12} key={index}>
-                                    <Card
-                                        sx={{
-                                            backgroundColor: "transparent",
-                                            "&:hover": {
-                                                backgroundColor: "rgba(255, 255, 255, 0.1)",
-                                            },
-                                        }}
-                                    >
-                                        <Link
-                                            to={`/tags/${tag.name}`} // Przekierowanie do odpowiedniej strony
-                                            style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                textDecoration: "none", // Usunięcie podkreślenia
-                                                color: "inherit", // Zachowanie koloru tekstu
-                                                padding: "16px",
-                                            }}
-                                        >
-                                            {/* Nazwa taga */}
-                                            <Typography
-                                                variant="h6"
-                                                sx={{ flexGrow: 1 }}
-                                            >
-                                                {tag.name}
-                                            </Typography>
-
-                                            {/* Count */}
-                                            <Typography
-                                                variant="body2"
-                                                color="text.secondary"
-                                                sx={{ marginRight: 2 }}
-                                            >
-                                                {tag.count}
-                                            </Typography>
-
-                                            {/* Obrazy */}
-                                            <Box sx={{ display: "flex", gap: 1 }}>
-                                                {/*{tag.images.slice(0, 3).map((image: string, imgIndex: number) => (*/}
-                                                {/*    <Avatar*/}
-                                                {/*        key={imgIndex}*/}
-                                                {/*        src={image}*/}
-                                                {/*        alt={`Image ${imgIndex}`}*/}
-                                                {/*        sx={{ width: 40, height: 40 }}*/}
-                                                {/*    />*/}
-                                                {/*))}*/}
-                                            </Box>
-                                        </Link>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
+                        <TagList tags={tags} />
                     )}
 
                     <div ref={ref} style={{ height: "1px" }} />

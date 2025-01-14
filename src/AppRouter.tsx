@@ -42,7 +42,7 @@ const AppRouter: React.FC = () => {
                 <Route path="/edit/:imageId" element={isAuthenticated ? <EditMedia /> : <Navigate to="/login" />} />
                 <Route path="/followers" element={isAuthenticated ? <Followers /> : <Navigate to="/login" />} />
                 <Route path="/following" element={isAuthenticated ? <Following /> : <Navigate to="/login" />} />
-                <Route path="/tag/:tag" element={<Tag />} />
+                <Route path="/tags/:tag" element={<Tag />} />
                 <Route path="/user/:userId" element={<User />} />
                 <Route path="/loops" element={<Loops />} />
 

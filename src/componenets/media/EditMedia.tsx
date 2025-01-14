@@ -67,7 +67,7 @@ const EditMedia: React.FC = (props: { disableCustomTheme?: boolean }) => {
     }, [imageId]);
 
     const send = async () => {
-
+        setIsSending(true);
         const formData = new FormData();
         formData.append("description", description as string);
         formData.append("open", isOpen ? "true" : "false");
