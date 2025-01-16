@@ -119,8 +119,8 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                 display: "grid",
                                 gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
                                 gap: "16px",
-                                width: "100%", // Zapełnia całą dostępną szerokość
-                                padding: "20px", // Dodaje przestrzeń wewnętrzną
+                                width: "100%",
+                                padding: "20px",
                             }}
                         >
                             {images.map((image) => (
@@ -131,10 +131,10 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         <div
                             style={{
                                 display: "flex",
-                                flexDirection: "column", // Umożliwia elastyczne ustawienie w pionie
-                                alignItems: "center",    // Wyśrodkowanie elementów
-                                padding: "20px",         // Padding
-                                width: "100%",           // Pełna szerokość
+                                flexDirection: "column",
+                                alignItems: "center",
+                                padding: "20px",
+                                width: "100%",
                             }}
                         >
                             {images.map((image) => (

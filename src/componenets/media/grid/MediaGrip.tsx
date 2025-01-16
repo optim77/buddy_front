@@ -19,6 +19,7 @@ const MediaGrip = ({
         userId: string;
         likeCount: number;
         likedByCurrentUser: boolean;
+        blurredUrl: string;
     };
 }) => {
     return (
@@ -47,7 +48,7 @@ const MediaGrip = ({
                                 objectFit: 'cover',
                             }}
                         />
-                    )) : <NoAccessWall username={image.username} mediaType={image.mediaType} type={"min"}/>}
+                    )) : <NoAccessWall username={image.username} mediaType={image.mediaType} backgroundImage={image.blurredUrl}/>}
                 </Link>
                 <CardContent>
                     <Typography variant="subtitle1" noWrap>

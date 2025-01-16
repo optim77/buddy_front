@@ -13,6 +13,7 @@ export interface MediaObject {
     userCreatedAt: string;
     userId: string;
     username: string;
+    blurredUrl: string;
     tags: TagInterface[];
 }
 

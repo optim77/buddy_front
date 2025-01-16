@@ -133,7 +133,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     )
                                 )
                                 :
-                                <NoAccessWall username={media.username} mediaType={media.mediaType} type={"max"}/>
+                                <NoAccessWall username={media.username} mediaType={media.mediaType} backgroundImage={media.blurredUrl}/>
                             }
 
                             <CardContent>

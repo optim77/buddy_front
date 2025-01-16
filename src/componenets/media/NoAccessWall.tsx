@@ -1,12 +1,23 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import {formatMediaLink} from "../../utils/FormatMediaLink";
 
-export const NoAccessWall = ({ username, mediaType, type }: { username: string, mediaType: string, type: string }) => {
+export const NoAccessWall = ({
+                                 username,
+                                 mediaType,
+                                 backgroundImage,
+                             }: {
+    username: string;
+    mediaType: string;
+    backgroundImage: string;
+}) => {
+    const blurredLink = formatMediaLink(backgroundImage);
+    console.log(blurredLink)
     return (
         <Box
             sx={{
-                height: type === 'max' ? 500 : 300,
+                height: 500,
                 width: "100%",
                 position: "relative",
                 overflow: "hidden",
@@ -14,29 +25,25 @@ export const NoAccessWall = ({ username, mediaType, type }: { username: string, 
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                background: `linear-gradient(
-                to bottom right, 
-                rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5), 
-                rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.7)
-            )`,
+                backgroundImage: `url(${blurredLink})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
                 backdropFilter: "blur(10px)",
                 borderRadius: "8px",
-                textAlign: "center"
+                textAlign: "center",
+                color: "#fff",
             }}
         >
             <Typography
-                variant={ type === 'max' ? "h3" : 'h5' }
+                variant="h3"
                 component="div"
-                sx={{ color: "#fff", marginBottom: 2 }}
+                sx={{ marginBottom: 2 }}
             >
-                Get a subscription to view the {mediaType === 'VIDEO' ? 'video' : 'photo'}
+                Get a subscription to view the {mediaType === "VIDEO" ? "video" : "photo"}
             </Typography>
-            <Typography
-                variant="caption"
-                component="div"
-                sx={{ color: "#fff" }}
-            >
-                {username} does not make this {mediaType === 'VIDEO' ? 'video' : 'photo'} available to the public
+            <Typography variant="caption" component="div">
+                {username} does not make this {mediaType === "VIDEO" ? "video" : "photo"} available to the public
             </Typography>
             <Button
                 variant="contained"
@@ -47,7 +54,7 @@ export const NoAccessWall = ({ username, mediaType, type }: { username: string, 
                     bottom: 20,
                 }}
             >
-                Buy Subscription
+                Get Access
             </Button>
         </Box>
     );
