@@ -3,7 +3,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppTheme from "../theme/AppTheme";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import {List, ListItem, TextField, Typography} from "@mui/material";
+import {Backdrop, CircularProgress, List, ListItem, TextField, Typography} from "@mui/material";
 import axios from "axios";
 import authService from "../../services/authService";
 import {useNavigate} from "react-router-dom";
@@ -75,6 +75,7 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
     };
 
     const send = async () => {
+        setIsSending(true);
         if (validateInput()) {
             const formData = new FormData();
             formData.append("file", uploadedImage as Blob);
@@ -286,6 +287,15 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         Create
                     </Button>
                 </StyledCard>
+                <Backdrop
+                    open={isSending}
+                    sx={{
+                        color: "#fff",
+                        zIndex: (theme) => theme.zIndex.drawer + 1,
+                    }}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
             </MainContainer>
         </AppTheme>
     );
