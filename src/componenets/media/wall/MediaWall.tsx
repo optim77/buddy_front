@@ -40,6 +40,7 @@ const MediaWall = ({
                             autoPlay
                             loop
                             muted
+                            preload="auto"
                             style={{
                                 width: "100%",
                                 height: "auto",
