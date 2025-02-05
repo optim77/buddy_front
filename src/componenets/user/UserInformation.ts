@@ -1,3 +1,5 @@
+import Plan from "../plan/Plan";
+
 export interface UserInformation {
     active: boolean,
     age: number
@@ -12,4 +14,5 @@ export interface UserInformation {
     subscribers: number
     username: string
     uuid: string
+    plans: Plan[]
 }

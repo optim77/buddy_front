@@ -92,6 +92,10 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     {profile && <ProfileWidget profile={profile} />}
 
                     {images.length === 0 ? null : <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} /> }
+
+                    {/* TODO: Implement rendering plans in dependent widget */}
+                    {profile?.plans.length === 0 ? null : ("")}
+
                     {images.length === 0 ? (
 
                         <Typography
