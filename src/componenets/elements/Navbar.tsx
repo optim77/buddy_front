@@ -67,6 +67,7 @@ export default function AppAppBar() {
         navigate("/");
     }
 
+
     const isAuthenticated = !!getCookie("buddy-token");
     return (
         <AppBar

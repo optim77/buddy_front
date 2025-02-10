@@ -20,6 +20,7 @@ import User from "./componenets/user/User";
 import Loops from "./componenets/loops/Loops";
 import Followers from "./componenets/follows/followers/Followers";
 import Following from "./componenets/follows/following/Following";
+import CreatePlan from "./componenets/plan/CreatePlan";
 
 const AppRouter: React.FC = () => {
     const isAuthenticated = !!getCookie("buddy-token");
@@ -42,6 +43,8 @@ const AppRouter: React.FC = () => {
                 <Route path="/edit/:imageId" element={isAuthenticated ? <EditMedia /> : <Navigate to="/login" />} />
                 <Route path="/followers" element={isAuthenticated ? <Followers /> : <Navigate to="/login" />} />
                 <Route path="/following" element={isAuthenticated ? <Following /> : <Navigate to="/login" />} />
+                <Route path="/plan/create" element={isAuthenticated ? <CreatePlan /> : <Navigate to="/login" />} />
+
                 <Route path="/tags/:tag" element={<Tag />} />
                 <Route path="/user/:userId" element={<User />} />
                 <Route path="/loops" element={<Loops />} />

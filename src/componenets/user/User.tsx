@@ -7,14 +7,13 @@ import authService from "../../services/authService";
 import AppTheme from "../theme/AppTheme";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import {MainContainer} from "../../customStyles/MainContainer";
 import MediaGrip from "../media/grid/MediaGrip";
 import ViewModeToggle from "../media/ViewModeToggle";
 import MediaWall from "../media/wall/MediaWall";
 import ProfileWidget from "../profile/ProfileWidget";
-import {ProfileInformation} from "../profile/ProfileInformation";
 import {UserInformation} from "./UserInformation";
 
 
@@ -26,7 +25,6 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
     let isContent = false;
     const { ref, inView } = useInView({ threshold: 0.5 });
     const { userId } = useParams<{ userId: string }>();
-    const navigate = useNavigate();
     const [user, setUser] = useState<UserInformation>()
     const [viewMode, setViewMode] = useState<string>(
         localStorage.getItem("buddy-grip") || "grid"
@@ -75,7 +73,7 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
         //     navigate("/profile")
         // }
         fetchProfileImages().then(res => {
-            if (res != undefined){
+            if (res !== undefined){
                 isContent = true;
             }
         });

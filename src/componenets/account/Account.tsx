@@ -24,8 +24,9 @@ import authService from "../../services/authService";
 import {isValidPassword} from "../../utils/ValidPassword";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {StyledTextareaAutosizeEditProfile, VisuallyHiddenInput} from "../../customStyles/Element";
-import {buildMediaLink, formatMediaLink} from "../../utils/FormatMediaLink";
+import {buildMediaLink} from "../../utils/FormatMediaLink";
 import {TikTok} from "../CustomIcons";
+import {Link} from "react-router-dom";
 
 interface UserData {
     active: boolean;
@@ -386,7 +387,24 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                         <EditIcon fontSize={"small"}/>
                                     </IconButton>
                                 </Box>
+                                <hr/>
+                                <Box sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    gap: 1,
+                                    mb: 2
+                                }}>
+                                    <Link to="/plan/create">
+                                        <Button variant="outlined"
+                                                color="secondary"
+                                                fullWidth sx={{textAlign: "center", width: "100%", marginTop: '10px'}}>
+                                            Create plan
+                                        </Button>
+                                    </Link>
 
+                                </Box>
+                                <hr/>
                                 <Button variant="contained"
                                         color="primary"
                                         fullWidth sx={{textAlign: "center", width: "100%", marginTop: '10px'}}

@@ -213,9 +213,6 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     <div style={{position: "relative"}}>
                         <TextField
                             placeholder="Tags (comma-separated)"
-                            multiline
-                            rows={1}
-                            maxRows={4}
                             value={tags}
                             onChange={(event) => {
                                 const input = event.target.value;
