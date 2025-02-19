@@ -263,7 +263,6 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
         if (userData?.locked) {
             setDeactivateStatus(userData.locked)
         }
-        console.log(buildMediaLink("123.jpg"))
     }, [fetchUserData]);
 
     return (

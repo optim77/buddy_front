@@ -1,0 +1,9 @@
+export enum CODE{
+    OK = 200,
+    CREATED = 201,
+    FORBIDDEN = 403,
+    NOT_FOUND = 404,
+    METHOD_NOT_FOUND = 405,
+    INTERNAL_SERVER_ERROR = 500,
+
+}

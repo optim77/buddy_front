@@ -28,7 +28,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({profile}) => {
     const [subscribeState, setSubscribeState] = useState<boolean>(profile.subscribed ? profile.subscribed : false);
     const [followersCount, setFollowersCount] = useState<number>(profile.followers || 0);
     const navigate = useNavigate();
-    console.log(profile.followed)
     const follow = async (user: string) => {
 
         if (authService.getBuddyUser() === null) {
