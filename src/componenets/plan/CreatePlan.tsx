@@ -10,6 +10,7 @@ import authService from "../../services/authService";
 import {useNavigate} from "react-router-dom";
 import {CODE} from "../../utils/CODE";
 
+
 const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [isSending, setIsSending] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
@@ -22,6 +23,7 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
         setIsSending(true);
         try {
             if (validate()) {
+
                 const formData = new FormData();
                 formData.append("name", name as string);
                 formData.append("description", description as string);

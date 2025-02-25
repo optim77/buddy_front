@@ -14,7 +14,6 @@ import {ProfileInformation} from "./ProfileInformation";
 import {formatLikes} from "../../utils/FormatLike";
 import {buildMediaLink} from "../../utils/FormatMediaLink";
 import {UserInformation} from "../user/UserInformation";
-import Followers from "../follows/followers/Followers";
 
 
 interface ProfileCardProps {

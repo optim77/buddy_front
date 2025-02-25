@@ -1,6 +1,7 @@
 import {styled} from "@mui/material/styles";
 import MuiCard from "@mui/material/Card";
 import {ListItemText, TextareaAutosize} from "@mui/material";
+import {Link} from "react-router-dom";
 
 export const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -105,3 +106,8 @@ export const StyledTextareaAutosizeEditProfile = styled("textarea")(({theme}) =>
     resize: "vertical",
     outline: "none",
 }));
+
+export const LinkWhite = styled(Link)({
+    textDecoration: "none",
+    color: "inherit",
+});

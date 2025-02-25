@@ -14,7 +14,7 @@ import {MediaObject} from "../media/MediaObject";
 import ProfileWidget from "./ProfileWidget";
 import {useViewMode} from "../media/useViewMode";
 import {ProfileInformation} from "./ProfileInformation";
-
+import PlanWidget from "../plan/PlanWidget";
 
 const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [images, setImages] = useState<MediaObject[]>([]);
@@ -94,7 +94,10 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     {images.length === 0 ? null : <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} /> }
 
                     {/* TODO: Implement rendering plans in dependent widget */}
-                    {profile?.plans.length === 0 ? null : ("")}
+                    {profile?.plans?.map((plan) => (
+                        <PlanWidget key={plan.id} plan={plan} />
+                    ))}
+
 
                     {images.length === 0 ? (
 

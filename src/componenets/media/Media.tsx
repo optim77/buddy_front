@@ -49,10 +49,6 @@ const DashboardContainer = styled(Stack)(({theme}) => ({
     },
 }));
 
-interface Media {
-
-}
-
 const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const {imageId} = useParams<{ imageId: string }>();
     const [media, setMedia] = useState<MediaObject>();
