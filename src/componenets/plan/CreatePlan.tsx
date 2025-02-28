@@ -21,39 +21,32 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
     const send = async () => {
         setIsSending(true);
-        try {
-            if (validate()) {
 
-                const formData = new FormData();
-                formData.append("name", name as string);
-                formData.append("description", description as string);
-                formData.append("price", String(price));
-                await axios.post(`${process.env.REACT_APP_API_ADDRESS}/plan/create`, formData, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${authService.getToken()}`,
-                    }
-                }).then((res) => {
-                    if (res.status === CODE.CREATED) {
-                        setTimeout(() => {
-                            setMessage("Created! You will be redirect to profile page");
-                            navigate("/profile");
-                        }, 2000)
-
-
-                    } else {
-                        setMessage("Something went wrong");
-                        setIsSending(false);
-                    }
-                })
-
-            }
-        } catch {
-            setMessage("Something went wrong! Try again");
-            setIsSending(false)
+        if (validate()) {
+            const formData = new FormData();
+            formData.append("name", name as string);
+            formData.append("description", description as string);
+            formData.append("price", String(price));
+            await axios.post(`${process.env.REACT_APP_API_ADDRESS}/plan/create`, formData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${authService.getToken()}`,
+                }
+            }).then(() => {
+                setTimeout(() => {
+                    setMessage("Created! You will be redirect to profile page");
+                    navigate("/profile");
+                }, 2000)
+            }).catch(reason => {
+                if (reason.response?.status === CODE.CONFLICT) {
+                    setMessage("You have too many plans");
+                } else {
+                    setMessage("Something went wrong, try again later");
+                }
+                setIsSending(false);
+            })
         }
-
-    }
+    };
 
     const validate = (): boolean => {
         if (!name) {

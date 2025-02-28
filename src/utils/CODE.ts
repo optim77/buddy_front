@@ -4,6 +4,7 @@ export enum CODE{
     FORBIDDEN = 403,
     NOT_FOUND = 404,
     METHOD_NOT_FOUND = 405,
+    CONFLICT = 409,
     INTERNAL_SERVER_ERROR = 500,
 
 }
