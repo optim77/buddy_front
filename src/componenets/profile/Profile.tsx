@@ -10,10 +10,10 @@ import { MainContainer } from "../../customStyles/MainContainer";
 import MediaGrip from "../media/grid/MediaGrip";
 import MediaWall from "../media/wall/MediaWall";
 import ViewModeToggle from "../media/ViewModeToggle";
-import {MediaObject} from "../media/MediaObject";
+import { MediaObject } from "../media/MediaObject";
 import ProfileWidget from "./ProfileWidget";
 import {useViewMode} from "../media/useViewMode";
-import {ProfileInformation} from "./ProfileInformation";
+import { ProfileInformation } from "./ProfileInformation";
 import PlanWidget from "../plan/PlanWidget";
 
 const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
@@ -89,71 +89,84 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 <MainContainer>
                     {error && <Typography color="error">{error}</Typography>}
 
-                    {profile && <ProfileWidget profile={profile} />}
+                    {profile && <ProfileWidget profile={profile}/>}
 
-                    {images.length === 0 ? null : <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} /> }
+                    {images.length === 0 ? null : <ViewModeToggle viewMode={viewMode} onChange={handleViewChange}/>}
 
-                    {/* TODO: Implement rendering plans in dependent widget */}
-                    {profile?.plans?.map((plan) => (
-                        <PlanWidget key={plan.id} plan={plan} />
-                    ))}
+                    <div
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(5, 1fr)",
+                            gap: "16px",
+                            width: "100%",
+                            padding: "10px",
+                        }}
+                    >
+                        {profile?.plans && profile?.plans?.length > 0 ? (
+
+                            profile?.plans?.map((plan) => (
+                                <PlanWidget key={plan.id} plan={plan}/>
+                            ))
+
+                        ) : null}
+                    </div>
 
 
-                    {images.length === 0 ? (
+                        {images.length === 0 ? (
 
-                        <Typography
-                            sx={{
-                                textAlign: "center",
-                                padding: "15px",
-                                borderRadius: "8px",
-                                fontSize: "20px",
-                                fontWeight: "medium",
-                                border: "1px solid",
-                                maxWidth: "400px",
-                                margin: "0 auto",
-                                lineHeight: "1.5",
-                            }}
-                        >
-                            No posts yet? ;)
+                            <Typography
+                                sx={{
+                                    textAlign: "center",
+                                    padding: "15px",
+                                    borderRadius: "8px",
+                                    fontSize: "20px",
+                                    fontWeight: "medium",
+                                    border: "1px solid",
+                                    maxWidth: "400px",
+                                    margin: "0 auto",
+                                    lineHeight: "1.5",
+                                }}
+                            >
+                                No posts yet? ;)
 
-                        </Typography>
+                            </Typography>
 
-                    ) : null}
+                        ) : null}
 
-                    {viewMode === "grid" ? (
-                        <div
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-                                gap: "16px",
-                                width: "100%",
-                                padding: "20px",
-                            }}
-                        >
-                            {images.map((image) => (
-                                <MediaGrip key={image.imageId} image={image} />
-                            ))}
-                        </div>
-                    ) : (
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                padding: "20px",
-                                width: "100%",
-                            }}
-                        >
-                            {images.map((image) => (
-                                <MediaWall key={image.imageId} image={image} />
-                            ))}
-                        </div>
-                    )}
-                    <div ref={ref} style={{ height: "1px" }} />
+                        {viewMode === "grid" ? (
+                            <div
+                                style={{
+                                    display: "grid",
+                                    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                                    gap: "16px",
+                                    width: "100%",
+                                    padding: "20px",
+                                }}
+                            >
+                                {images.map((image) => (
+                                    <MediaGrip key={image.imageId} image={image}/>
+                                ))}
+                            </div>
+                        ) : (
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    padding: "20px",
+                                    width: "100%",
+                                }}
+                            >
+                                {images.map((image) => (
+                                    <MediaWall key={image.imageId} image={image}/>
+                                ))}
+                            </div>
+                        )}
+                        <div ref={ref} style={{height: "1px"}}/>
                 </MainContainer>
             </AppTheme>
         </Container>
-    );
+);
 };
 
 export default Profile;
