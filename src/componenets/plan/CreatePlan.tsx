@@ -14,6 +14,7 @@ import {CODE} from "../../utils/CODE";
 const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [isSending, setIsSending] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
+    const [messageType, setMessageType] = useState<string>("error");
     const [name, setName] = useState<string>();
     const [description, setDescription] = useState<string>();
     const [price, setPrice] = useState<number>();
@@ -33,8 +34,9 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     Authorization: `Bearer ${authService.getToken()}`,
                 }
             }).then(() => {
+                setMessage("Created! You will be redirect to profile page");
+                setMessageType("success");
                 setTimeout(() => {
-                    setMessage("Created! You will be redirect to profile page");
                     navigate("/profile");
                 }, 2000)
             }).catch(reason => {
@@ -78,7 +80,7 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     </Typography>
 
                     {message && (
-                        <Typography color="error" variant="body2">
+                        <Typography color={messageType} variant="body2">
                             {message}
                         </Typography>
                     )}
