@@ -1,25 +1,31 @@
-import React, { useRef, useState} from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import AppTheme from "../theme/AppTheme";
-import Button from "@mui/material/Button";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import {Backdrop, CircularProgress, List, ListItem, TextField, Typography} from "@mui/material";
-import axios from "axios";
-import authService from "../../services/authService";
-import {useNavigate} from "react-router-dom";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Tooltip from "@mui/material/Tooltip";
-import {MainContainer} from "../../customStyles/MainContainer";
 import {
-    StyledCard, StyledListItemText,
+    Backdrop,
+    CircularProgress,
+    List,
+    ListItem,
+    TextField,
+    Typography,
+} from '@mui/material';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import CssBaseline from '@mui/material/CssBaseline';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Tooltip from '@mui/material/Tooltip';
+import axios from 'axios';
+import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import {
+    StyledCard,
+    StyledListItemText,
     StyledTextareaAutosize,
     SuggestionsContainer,
-    VisuallyHiddenInput
-} from "../../customStyles/Element";
-
-
-
+    VisuallyHiddenInput,
+} from '../../customStyles/Element';
+import { MainContainer } from '../../customStyles/MainContainer';
+import authService from '../../services/authService';
+import AppTheme from '../theme/AppTheme';
 
 const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [uploadedImage, setUploadedImage] = useState<File | null>(null);
@@ -34,17 +40,24 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const navigate = useNavigate();
     const tagsInputRef = useRef<HTMLInputElement>(null);
 
-
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const files = Array.from(event.target.files);
 
-            const images = files.filter(file => file.type.startsWith('image/'));
-            const videos = files.filter(file => file.type.startsWith('video/'));
-            const invalidFiles = files.filter(file => !file.type.startsWith('image/') && !file.type.startsWith('video/'));
+            const images = files.filter((file) =>
+                file.type.startsWith('image/'),
+            );
+            const videos = files.filter((file) =>
+                file.type.startsWith('video/'),
+            );
+            const invalidFiles = files.filter(
+                (file) =>
+                    !file.type.startsWith('image/') &&
+                    !file.type.startsWith('video/'),
+            );
 
             if (invalidFiles.length > 0) {
-                setErrorMessage("Only images and videos are allowed.");
+                setErrorMessage('Only images and videos are allowed.');
             } else {
                 setErrorMessage(null);
             }
@@ -52,7 +65,7 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
             if (images.length > 0) {
                 setUploadedImage(images[0]);
             }
-            if (videos.length > 0){
+            if (videos.length > 0) {
                 setUploadedImage(videos[0]);
             }
         }
@@ -60,15 +73,15 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
     const validateInput = () => {
         if (!uploadedImage) {
-            setErrorMessage("Please upload an image!");
+            setErrorMessage('Please upload an image!');
             return false;
         }
-        if (uploadedImage.size >= 100000000){
-            setErrorMessage("Your file is to big, max size is 100Mb");
+        if (uploadedImage.size >= 100000000) {
+            setErrorMessage('Your file is to big, max size is 100Mb');
             return false;
         }
         if (!description) {
-            setErrorMessage("Please fill in all fields!");
+            setErrorMessage('Please fill in all fields!');
             return false;
         }
         return true;
@@ -78,15 +91,16 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
         setIsSending(true);
         if (validateInput()) {
             const formData = new FormData();
-            formData.append("file", uploadedImage as Blob);
-            formData.append("description", description as string);
-            formData.append("open", isOpen ? "true" : "false");
+            formData.append('file', uploadedImage as Blob);
+            formData.append('description', description as string);
+            formData.append('open', isOpen ? 'true' : 'false');
             const tagsArray = tags
-                ? tags.split(",")
-                    .map(tag => tag.trim())
-                    .filter(tag => tag.length > 0)
+                ? tags
+                      .split(',')
+                      .map((tag) => tag.trim())
+                      .filter((tag) => tag.length > 0)
                 : [];
-            tagsArray.forEach(tag => formData.append("tagSet", tag));
+            tagsArray.forEach((tag) => formData.append('tagSet', tag));
 
             try {
                 const response = await axios.post(
@@ -94,19 +108,23 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     formData,
                     {
                         headers: {
-                            "Content-Type": "multipart/form-data",
+                            'Content-Type': 'multipart/form-data',
                             Authorization: `Bearer ${authService.getToken()}`,
                         },
-                    }
+                    },
                 );
 
                 if (response.status === 201) {
-                    navigate("/profile");
+                    navigate('/profile');
                 } else {
-                    setErrorMessage("An error occurred: " + response.data.message);
+                    setErrorMessage(
+                        'An error occurred: ' + response.data.message,
+                    );
                 }
             } catch (error: any) {
-                setErrorMessage(error.response?.data?.message || "An error occurred");
+                setErrorMessage(
+                    error.response?.data?.message || 'An error occurred',
+                );
             }
         }
     };
@@ -117,20 +135,19 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 `${process.env.REACT_APP_API_ADDRESS}/tags/${input}`,
                 {
                     headers: {
-                        "Content-Type": "application/json",
+                        'Content-Type': 'application/json',
                     },
-                }
+                },
             );
-            const fetchedTags = response.data.content.map(
-                (tag: { name: string }) => tag.name
-            ).slice(0,5);
+            const fetchedTags = response.data.content
+                .map((tag: { name: string }) => tag.name)
+                .slice(0, 5);
             setSuggestedTags(fetchedTags);
-            if (fetchedTags.length > 0){
+            if (fetchedTags.length > 0) {
                 setShowSuggestions(true);
             }
-
         } catch (error) {
-            console.error("Error fetching tags:", error);
+            console.error('Error fetching tags:', error);
             setSuggestedTags([]);
             setShowSuggestions(false);
         }
@@ -138,27 +155,28 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
     const addTag = (newTag: string) => {
         setTags((prevTags) => {
-            let tagsArray = prevTags ? prevTags.split(',').map(t => t.trim()) : [];
+            const tagsArray = prevTags
+                ? prevTags.split(',').map((t) => t.trim())
+                : [];
 
             if (tagsArray.length > 0) {
                 tagsArray.pop();
             }
 
             if (tagsArray.includes(newTag)) {
-                setErrorMessage("This tag is already added.");
+                setErrorMessage('This tag is already added.');
                 return prevTags;
             }
 
             if (tagsArray.length >= 20) {
-                setErrorMessage("You can only add up to 20 tags.");
+                setErrorMessage('You can only add up to 20 tags.');
                 return prevTags;
             }
 
-            return [...tagsArray, newTag].join(", ") + ", ";
+            return [...tagsArray, newTag].join(', ') + ', ';
         });
         tagsInputRef.current?.focus();
     };
-
 
     return (
         <AppTheme {...props}>
@@ -210,25 +228,28 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         Tags
                     </Typography>
 
-                    <div style={{position: "relative"}}>
+                    <div style={{ position: 'relative' }}>
                         <TextField
                             placeholder="Tags (comma-separated)"
                             value={tags}
                             onChange={(event) => {
                                 const input = event.target.value;
-                                const tagsArray = input.split(',').map(t => t.trim());
+                                const tagsArray = input
+                                    .split(',')
+                                    .map((t) => t.trim());
 
                                 if (tagsArray.length > 20) {
-                                    setErrorMessage("You can only add up to 20 tags.");
+                                    setErrorMessage(
+                                        'You can only add up to 20 tags.',
+                                    );
                                     return;
                                 }
 
                                 setTags(input);
 
-                                const lastTag = tagsArray.pop()?.trim() || "";
+                                const lastTag = tagsArray.pop()?.trim() || '';
                                 if (lastTag.length > 0) {
                                     findTags(lastTag);
-
                                 } else {
                                     setShowSuggestions(false);
                                 }
@@ -248,9 +269,11 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                                 addTag(tag);
                                                 setShowSuggestions(false);
                                             }}
-                                            sx={{cursor: "pointer"}}
+                                            sx={{ cursor: 'pointer' }}
                                         >
-                                            <StyledListItemText>{tag}</StyledListItemText>
+                                            <StyledListItemText>
+                                                {tag}
+                                            </StyledListItemText>
                                         </ListItem>
                                     ))}
                                 </List>
@@ -266,7 +289,9 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                 control={
                                     <Checkbox
                                         checked={isOpen}
-                                        onChange={(event) => setIsOpen(event.target.checked)}
+                                        onChange={(event) =>
+                                            setIsOpen(event.target.checked)
+                                        }
                                         color="primary"
                                     />
                                 }
@@ -287,7 +312,7 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 <Backdrop
                     open={isSending}
                     sx={{
-                        color: "#fff",
+                        color: '#fff',
                         zIndex: (theme) => theme.zIndex.drawer + 1,
                     }}
                 >

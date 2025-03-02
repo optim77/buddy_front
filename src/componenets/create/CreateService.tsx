@@ -1,4 +1,2 @@
-const CreateService = () => {
-
-}
-export default CreateService
+const CreateService = () => {};
+export default CreateService;

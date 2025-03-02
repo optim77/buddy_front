@@ -1,4 +1,5 @@
-import * as React from 'react';
+import RssFeedRoundedIcon from '@mui/icons-material/RssFeedRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Box from '@mui/material/Box';
@@ -6,15 +7,14 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Chip from '@mui/material/Chip';
+import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid2';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { styled } from '@mui/material/styles';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import RssFeedRoundedIcon from '@mui/icons-material/RssFeedRounded';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
 
 const cardData = [
     {
@@ -34,7 +34,9 @@ const cardData = [
         title: 'Innovative product features that drive success',
         description:
             'Explore the key features of our latest product release that are helping businesses achieve their goals. From user-friendly interfaces to robust functionality, learn why our product stands out.',
-        authors: [{ name: 'Erica Johns', avatar: '/static/images/avatar/6.jpg' }],
+        authors: [
+            { name: 'Erica Johns', avatar: '/static/images/avatar/6.jpg' },
+        ],
     },
     {
         img: 'https://picsum.photos/800/450?random=3',
@@ -42,7 +44,9 @@ const cardData = [
         title: 'Designing for the future: trends and insights',
         description:
             'Stay ahead of the curve with the latest design trends and insights. Our design team shares their expertise on creating intuitive and visually stunning user experiences.',
-        authors: [{ name: 'Kate Morrison', avatar: '/static/images/avatar/7.jpg' }],
+        authors: [
+            { name: 'Kate Morrison', avatar: '/static/images/avatar/7.jpg' },
+        ],
     },
     {
         img: 'https://picsum.photos/800/450?random=4',
@@ -50,7 +54,9 @@ const cardData = [
         title: "Our company's journey: milestones and achievements",
         description:
             "Take a look at our company's journey and the milestones we've achieved along the way. From humble beginnings to industry leader, discover our story of growth and success.",
-        authors: [{ name: 'Cindy Baker', avatar: '/static/images/avatar/3.jpg' }],
+        authors: [
+            { name: 'Cindy Baker', avatar: '/static/images/avatar/3.jpg' },
+        ],
     },
     {
         img: 'https://picsum.photos/800/450?random=45',
@@ -69,7 +75,9 @@ const cardData = [
         title: 'Maximizing efficiency with our latest product updates',
         description:
             'Our recent product updates are designed to help you maximize efficiency and achieve more. Get a detailed overview of the new features and improvements that can elevate your workflow.',
-        authors: [{ name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg' }],
+        authors: [
+            { name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg' },
+        ],
     },
 ];
 
@@ -122,7 +130,12 @@ function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
             }}
         >
             <Box
-                sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: 1,
+                    alignItems: 'center',
+                }}
             >
                 <AvatarGroup max={3}>
                     {authors.map((author, index) => (
@@ -145,14 +158,20 @@ function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
 
 export function Search() {
     return (
-        <FormControl sx={{ width: { xs: '100%', md: '25ch' } }} variant="outlined">
+        <FormControl
+            sx={{ width: { xs: '100%', md: '25ch' } }}
+            variant="outlined"
+        >
             <OutlinedInput
                 size="small"
                 id="search"
                 placeholder="Search…"
                 sx={{ flexGrow: 1 }}
                 startAdornment={
-                    <InputAdornment position="start" sx={{ color: 'text.primary' }}>
+                    <InputAdornment
+                        position="start"
+                        sx={{ color: 'text.primary' }}
+                    >
                         <SearchRoundedIcon fontSize="small" />
                     </InputAdornment>
                 }
@@ -165,9 +184,9 @@ export function Search() {
 }
 
 export default function MainContent() {
-    const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(
-        null,
-    );
+    const [focusedCardIndex, setFocusedCardIndex] = React.useState<
+        number | null
+    >(null);
 
     const handleFocus = (index: number) => {
         setFocusedCardIndex(index);
@@ -187,7 +206,9 @@ export default function MainContent() {
                 <Typography variant="h1" gutterBottom>
                     Blog
                 </Typography>
-                <Typography>Stay in the loop with the latest about our products</Typography>
+                <Typography>
+                    Stay in the loop with the latest about our products
+                </Typography>
             </div>
             <Box
                 sx={{
@@ -222,7 +243,11 @@ export default function MainContent() {
                         overflow: 'auto',
                     }}
                 >
-                    <Chip onClick={handleClick} size="medium" label="All categories" />
+                    <Chip
+                        onClick={handleClick}
+                        size="medium"
+                        label="All categories"
+                    />
                     <Chip
                         onClick={handleClick}
                         size="medium"
@@ -295,13 +320,25 @@ export default function MainContent() {
                             }}
                         />
                         <SyledCardContent>
-                            <Typography gutterBottom variant="caption" component="div">
+                            <Typography
+                                gutterBottom
+                                variant="caption"
+                                component="div"
+                            >
                                 {cardData[0].tag}
                             </Typography>
-                            <Typography gutterBottom variant="h6" component="div">
+                            <Typography
+                                gutterBottom
+                                variant="h6"
+                                component="div"
+                            >
                                 {cardData[0].title}
                             </Typography>
-                            <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+                            <StyledTypography
+                                variant="body2"
+                                color="text.secondary"
+                                gutterBottom
+                            >
                                 {cardData[0].description}
                             </StyledTypography>
                         </SyledCardContent>
@@ -327,13 +364,25 @@ export default function MainContent() {
                             }}
                         />
                         <SyledCardContent>
-                            <Typography gutterBottom variant="caption" component="div">
+                            <Typography
+                                gutterBottom
+                                variant="caption"
+                                component="div"
+                            >
                                 {cardData[1].tag}
                             </Typography>
-                            <Typography gutterBottom variant="h6" component="div">
+                            <Typography
+                                gutterBottom
+                                variant="h6"
+                                component="div"
+                            >
                                 {cardData[1].title}
                             </Typography>
-                            <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+                            <StyledTypography
+                                variant="body2"
+                                color="text.secondary"
+                                gutterBottom
+                            >
                                 {cardData[1].description}
                             </StyledTypography>
                         </SyledCardContent>
@@ -359,13 +408,25 @@ export default function MainContent() {
                             }}
                         />
                         <SyledCardContent>
-                            <Typography gutterBottom variant="caption" component="div">
+                            <Typography
+                                gutterBottom
+                                variant="caption"
+                                component="div"
+                            >
                                 {cardData[2].tag}
                             </Typography>
-                            <Typography gutterBottom variant="h6" component="div">
+                            <Typography
+                                gutterBottom
+                                variant="h6"
+                                component="div"
+                            >
                                 {cardData[2].title}
                             </Typography>
-                            <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+                            <StyledTypography
+                                variant="body2"
+                                color="text.secondary"
+                                gutterBottom
+                            >
                                 {cardData[2].description}
                             </StyledTypography>
                         </SyledCardContent>
@@ -374,14 +435,21 @@ export default function MainContent() {
                 </Grid>
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Box
-                        sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%' }}
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 2,
+                            height: '100%',
+                        }}
                     >
                         <SyledCard
                             variant="outlined"
                             onFocus={() => handleFocus(3)}
                             onBlur={handleBlur}
                             tabIndex={0}
-                            className={focusedCardIndex === 3 ? 'Mui-focused' : ''}
+                            className={
+                                focusedCardIndex === 3 ? 'Mui-focused' : ''
+                            }
                             sx={{ height: '100%' }}
                         >
                             <SyledCardContent
@@ -393,10 +461,18 @@ export default function MainContent() {
                                 }}
                             >
                                 <div>
-                                    <Typography gutterBottom variant="caption" component="div">
+                                    <Typography
+                                        gutterBottom
+                                        variant="caption"
+                                        component="div"
+                                    >
                                         {cardData[3].tag}
                                     </Typography>
-                                    <Typography gutterBottom variant="h6" component="div">
+                                    <Typography
+                                        gutterBottom
+                                        variant="h6"
+                                        component="div"
+                                    >
                                         {cardData[3].title}
                                     </Typography>
                                     <StyledTypography
@@ -415,7 +491,9 @@ export default function MainContent() {
                             onFocus={() => handleFocus(4)}
                             onBlur={handleBlur}
                             tabIndex={0}
-                            className={focusedCardIndex === 4 ? 'Mui-focused' : ''}
+                            className={
+                                focusedCardIndex === 4 ? 'Mui-focused' : ''
+                            }
                             sx={{ height: '100%' }}
                         >
                             <SyledCardContent
@@ -427,10 +505,18 @@ export default function MainContent() {
                                 }}
                             >
                                 <div>
-                                    <Typography gutterBottom variant="caption" component="div">
+                                    <Typography
+                                        gutterBottom
+                                        variant="caption"
+                                        component="div"
+                                    >
                                         {cardData[4].tag}
                                     </Typography>
-                                    <Typography gutterBottom variant="h6" component="div">
+                                    <Typography
+                                        gutterBottom
+                                        variant="h6"
+                                        component="div"
+                                    >
                                         {cardData[4].title}
                                     </Typography>
                                     <StyledTypography
@@ -465,13 +551,25 @@ export default function MainContent() {
                             }}
                         />
                         <SyledCardContent>
-                            <Typography gutterBottom variant="caption" component="div">
+                            <Typography
+                                gutterBottom
+                                variant="caption"
+                                component="div"
+                            >
                                 {cardData[5].tag}
                             </Typography>
-                            <Typography gutterBottom variant="h6" component="div">
+                            <Typography
+                                gutterBottom
+                                variant="h6"
+                                component="div"
+                            >
                                 {cardData[5].title}
                             </Typography>
-                            <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+                            <StyledTypography
+                                variant="body2"
+                                color="text.secondary"
+                                gutterBottom
+                            >
                                 {cardData[5].description}
                             </StyledTypography>
                         </SyledCardContent>

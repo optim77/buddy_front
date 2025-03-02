@@ -1,9 +1,10 @@
-import { Theme, alpha, Components } from '@mui/material/styles';
-import { svgIconClasses } from '@mui/material/SvgIcon';
-import { typographyClasses } from '@mui/material/Typography';
 import { buttonBaseClasses } from '@mui/material/ButtonBase';
 import { chipClasses } from '@mui/material/Chip';
 import { iconButtonClasses } from '@mui/material/IconButton';
+import { Theme, alpha, Components } from '@mui/material/styles';
+import { svgIconClasses } from '@mui/material/SvgIcon';
+import { typographyClasses } from '@mui/material/Typography';
+
 import { gray, red, green } from '../themePrimitives';
 
 /* eslint-disable import/prefer-default-export */
@@ -37,15 +38,24 @@ export const dataDisplayCustomizations: Components<Theme> = {
                     opacity: 0.7,
                     '&.Mui-selected': {
                         opacity: 1,
-                        backgroundColor: alpha(theme.palette.action.selected, 0.3),
+                        backgroundColor: alpha(
+                            theme.palette.action.selected,
+                            0.3,
+                        ),
                         [`& .${svgIconClasses.root}`]: {
                             color: theme.palette.text.primary,
                         },
                         '&:focus-visible': {
-                            backgroundColor: alpha(theme.palette.action.selected, 0.3),
+                            backgroundColor: alpha(
+                                theme.palette.action.selected,
+                                0.3,
+                            ),
                         },
                         '&:hover': {
-                            backgroundColor: alpha(theme.palette.action.selected, 0.5),
+                            backgroundColor: alpha(
+                                theme.palette.action.selected,
+                                0.5,
+                            ),
                         },
                     },
                     '&:focus-visible': {

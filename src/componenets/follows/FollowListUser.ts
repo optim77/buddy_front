@@ -1,8 +1,8 @@
 export interface FollowListUser {
     id: string;
-    username: string
-    description: string
+    username: string;
+    description: string;
     age: number;
-    avatar: string
-    createdAt: number
+    avatar: string;
+    createdAt: number;
 }

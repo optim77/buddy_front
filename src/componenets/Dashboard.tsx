@@ -1,25 +1,27 @@
-import React from "react";
-import {styled} from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
-import CssBaseline from "@mui/material/CssBaseline";
-import AppTheme from "./theme/AppTheme";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import AvatarGroup from "@mui/material/AvatarGroup";
-import Avatar from "@mui/material/Avatar";
-import FormControl from "@mui/material/FormControl";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import Chip from "@mui/material/Chip";
-import IconButton from "@mui/material/IconButton";
-import RssFeedRoundedIcon from "@mui/icons-material/RssFeedRounded";
-import Grid from "@mui/material/Grid2";
-import CardMedia from "@mui/material/CardMedia";
-import Container from "@mui/material/Container";
-import {MainContainer} from "../customStyles/MainContainer";
+import RssFeedRoundedIcon from '@mui/icons-material/RssFeedRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Chip from '@mui/material/Chip';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid2';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import React from 'react';
+
+import { MainContainer } from '../customStyles/MainContainer';
+
+import AppTheme from './theme/AppTheme';
 
 const cardData = [
     {
@@ -29,8 +31,8 @@ const cardData = [
         description:
             'Our latest engineering tools are designed to streamline workflows and boost productivity. Discover how these innovations are transforming the software development landscape.',
         authors: [
-            {name: 'Remy Sharp', avatar: '/static/images/avatar/1.jpg'},
-            {name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg'},
+            { name: 'Remy Sharp', avatar: '/static/images/avatar/1.jpg' },
+            { name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg' },
         ],
     },
     {
@@ -39,7 +41,9 @@ const cardData = [
         title: 'Innovative product features that drive success',
         description:
             'Explore the key features of our latest product release that are helping businesses achieve their goals. From user-friendly interfaces to robust functionality, learn why our product stands out.',
-        authors: [{name: 'Erica Johns', avatar: '/static/images/avatar/6.jpg'}],
+        authors: [
+            { name: 'Erica Johns', avatar: '/static/images/avatar/6.jpg' },
+        ],
     },
     {
         img: 'https://picsum.photos/800/450?random=3',
@@ -47,7 +51,9 @@ const cardData = [
         title: 'Designing for the future: trends and insights',
         description:
             'Stay ahead of the curve with the latest design trends and insights. Our design team shares their expertise on creating intuitive and visually stunning user experiences.',
-        authors: [{name: 'Kate Morrison', avatar: '/static/images/avatar/7.jpg'}],
+        authors: [
+            { name: 'Kate Morrison', avatar: '/static/images/avatar/7.jpg' },
+        ],
     },
     {
         img: 'https://picsum.photos/800/450?random=4',
@@ -55,7 +61,9 @@ const cardData = [
         title: "Our company's journey: milestones and achievements",
         description:
             "Take a look at our company's journey and the milestones we've achieved along the way. From humble beginnings to industry leader, discover our story of growth and success.",
-        authors: [{name: 'Cindy Baker', avatar: '/static/images/avatar/3.jpg'}],
+        authors: [
+            { name: 'Cindy Baker', avatar: '/static/images/avatar/3.jpg' },
+        ],
     },
     {
         img: 'https://picsum.photos/800/450?random=45',
@@ -64,8 +72,8 @@ const cardData = [
         description:
             "Learn about our commitment to sustainability and the innovative engineering solutions we're implementing to create a greener future. Discover the impact of our eco-friendly initiatives.",
         authors: [
-            {name: 'Agnes Walker', avatar: '/static/images/avatar/4.jpg'},
-            {name: 'Trevor Henderson', avatar: '/static/images/avatar/5.jpg'},
+            { name: 'Agnes Walker', avatar: '/static/images/avatar/4.jpg' },
+            { name: 'Trevor Henderson', avatar: '/static/images/avatar/5.jpg' },
         ],
     },
     {
@@ -74,11 +82,13 @@ const cardData = [
         title: 'Maximizing efficiency with our latest product updates',
         description:
             'Our recent product updates are designed to help you maximize efficiency and achieve more. Get a detailed overview of the new features and improvements that can elevate your workflow.',
-        authors: [{name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg'}],
+        authors: [
+            { name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg' },
+        ],
     },
 ];
 
-const SyledCard = styled(Card)(({theme}) => ({
+const SyledCard = styled(Card)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     padding: 0,
@@ -114,7 +124,7 @@ const StyledTypography = styled(Typography)({
     textOverflow: 'ellipsis',
 });
 
-function Author({authors}: { authors: { name: string; avatar: string, }[] }) {
+function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
     return (
         <Box
             sx={{
@@ -127,7 +137,12 @@ function Author({authors}: { authors: { name: string; avatar: string, }[] }) {
             }}
         >
             <Box
-                sx={{display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center'}}
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: 1,
+                    alignItems: 'center',
+                }}
             >
                 <AvatarGroup max={3}>
                     {authors.map((author, index) => (
@@ -135,7 +150,7 @@ function Author({authors}: { authors: { name: string; avatar: string, }[] }) {
                             key={index}
                             alt={author.name}
                             src={author.avatar}
-                            sx={{width: 24, height: 24}}
+                            sx={{ width: 24, height: 24 }}
                         />
                     ))}
                 </AvatarGroup>
@@ -150,15 +165,21 @@ function Author({authors}: { authors: { name: string; avatar: string, }[] }) {
 
 export function Search() {
     return (
-        <FormControl sx={{width: {xs: '100%', md: '25ch'}}} variant="outlined">
+        <FormControl
+            sx={{ width: { xs: '100%', md: '25ch' } }}
+            variant="outlined"
+        >
             <OutlinedInput
                 size="small"
                 id="search"
                 placeholder="Search…"
-                sx={{flexGrow: 1}}
+                sx={{ flexGrow: 1 }}
                 startAdornment={
-                    <InputAdornment position="start" sx={{color: 'text.primary'}}>
-                        <SearchRoundedIcon fontSize="small"/>
+                    <InputAdornment
+                        position="start"
+                        sx={{ color: 'text.primary' }}
+                    >
+                        <SearchRoundedIcon fontSize="small" />
                     </InputAdornment>
                 }
                 inputProps={{
@@ -170,10 +191,9 @@ export function Search() {
 }
 
 const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
-
-    const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(
-        null,
-    );
+    const [focusedCardIndex, setFocusedCardIndex] = React.useState<
+        number | null
+    >(null);
 
     const handleFocus = (index: number) => {
         setFocusedCardIndex(index);
@@ -191,33 +211,42 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
         <Container
             maxWidth="lg"
             component="main"
-            sx={{display: 'flex', flexDirection: 'column', my: 16, gap: 4}}
+            sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
         >
             <AppTheme {...props}>
-                <CssBaseline enableColorScheme/>
+                <CssBaseline enableColorScheme />
                 <MainContainer>
-                    <Box sx={{display: 'flex', flexDirection: 'column', gap: 4}}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 4,
+                        }}
+                    >
                         <Box
                             sx={{
-                                display: {xs: 'flex', sm: 'none'},
+                                display: { xs: 'flex', sm: 'none' },
                                 flexDirection: 'row',
                                 gap: 1,
-                                width: {xs: '100%', md: 'fit-content'},
+                                width: { xs: '100%', md: 'fit-content' },
                                 overflow: 'auto',
                             }}
                         >
-                            <Search/>
+                            <Search />
                             <IconButton size="small" aria-label="RSS feed">
-                                <RssFeedRoundedIcon/>
+                                <RssFeedRoundedIcon />
                             </IconButton>
                         </Box>
                         <Box
                             sx={{
                                 display: 'flex',
-                                flexDirection: {xs: 'column-reverse', md: 'row'},
+                                flexDirection: {
+                                    xs: 'column-reverse',
+                                    md: 'row',
+                                },
                                 width: '100%',
                                 justifyContent: 'space-between',
-                                alignItems: {xs: 'start', md: 'center'},
+                                alignItems: { xs: 'start', md: 'center' },
                                 gap: 4,
                                 overflow: 'auto',
                             }}
@@ -284,13 +313,17 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             {/*</Box>*/}
                         </Box>
                         <Grid container spacing={2} columns={12}>
-                            <Grid size={{xs: 12, md: 6}}>
+                            <Grid size={{ xs: 12, md: 6 }}>
                                 <SyledCard
                                     variant="outlined"
                                     onFocus={() => handleFocus(0)}
                                     onBlur={handleBlur}
                                     tabIndex={0}
-                                    className={focusedCardIndex === 0 ? 'Mui-focused' : ''}
+                                    className={
+                                        focusedCardIndex === 0
+                                            ? 'Mui-focused'
+                                            : ''
+                                    }
                                 >
                                     <CardMedia
                                         component="img"
@@ -303,26 +336,42 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                         }}
                                     />
                                     <SyledCardContent>
-                                        <Typography gutterBottom variant="caption" component="div">
+                                        <Typography
+                                            gutterBottom
+                                            variant="caption"
+                                            component="div"
+                                        >
                                             {cardData[0].tag}
                                         </Typography>
-                                        <Typography gutterBottom variant="h6" component="div">
+                                        <Typography
+                                            gutterBottom
+                                            variant="h6"
+                                            component="div"
+                                        >
                                             {cardData[0].title}
                                         </Typography>
-                                        <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+                                        <StyledTypography
+                                            variant="body2"
+                                            color="text.secondary"
+                                            gutterBottom
+                                        >
                                             {cardData[0].description}
                                         </StyledTypography>
                                     </SyledCardContent>
-                                    <Author authors={cardData[0].authors}/>
+                                    <Author authors={cardData[0].authors} />
                                 </SyledCard>
                             </Grid>
-                            <Grid size={{xs: 12, md: 6}}>
+                            <Grid size={{ xs: 12, md: 6 }}>
                                 <SyledCard
                                     variant="outlined"
                                     onFocus={() => handleFocus(1)}
                                     onBlur={handleBlur}
                                     tabIndex={0}
-                                    className={focusedCardIndex === 1 ? 'Mui-focused' : ''}
+                                    className={
+                                        focusedCardIndex === 1
+                                            ? 'Mui-focused'
+                                            : ''
+                                    }
                                 >
                                     <CardMedia
                                         component="img"
@@ -335,62 +384,102 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                         }}
                                     />
                                     <SyledCardContent>
-                                        <Typography gutterBottom variant="caption" component="div">
+                                        <Typography
+                                            gutterBottom
+                                            variant="caption"
+                                            component="div"
+                                        >
                                             {cardData[1].tag}
                                         </Typography>
-                                        <Typography gutterBottom variant="h6" component="div">
+                                        <Typography
+                                            gutterBottom
+                                            variant="h6"
+                                            component="div"
+                                        >
                                             {cardData[1].title}
                                         </Typography>
-                                        <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+                                        <StyledTypography
+                                            variant="body2"
+                                            color="text.secondary"
+                                            gutterBottom
+                                        >
                                             {cardData[1].description}
                                         </StyledTypography>
                                     </SyledCardContent>
-                                    <Author authors={cardData[1].authors}/>
+                                    <Author authors={cardData[1].authors} />
                                 </SyledCard>
                             </Grid>
-                            <Grid size={{xs: 12, md: 4}}>
+                            <Grid size={{ xs: 12, md: 4 }}>
                                 <SyledCard
                                     variant="outlined"
                                     onFocus={() => handleFocus(2)}
                                     onBlur={handleBlur}
                                     tabIndex={0}
-                                    className={focusedCardIndex === 2 ? 'Mui-focused' : ''}
-                                    sx={{height: '100%'}}
+                                    className={
+                                        focusedCardIndex === 2
+                                            ? 'Mui-focused'
+                                            : ''
+                                    }
+                                    sx={{ height: '100%' }}
                                 >
                                     <CardMedia
                                         component="img"
                                         alt="green iguana"
                                         image={cardData[2].img}
                                         sx={{
-                                            height: {sm: 'auto', md: '50%'},
-                                            aspectRatio: {sm: '16 / 9', md: ''},
+                                            height: { sm: 'auto', md: '50%' },
+                                            aspectRatio: {
+                                                sm: '16 / 9',
+                                                md: '',
+                                            },
                                         }}
                                     />
                                     <SyledCardContent>
-                                        <Typography gutterBottom variant="caption" component="div">
+                                        <Typography
+                                            gutterBottom
+                                            variant="caption"
+                                            component="div"
+                                        >
                                             {cardData[2].tag}
                                         </Typography>
-                                        <Typography gutterBottom variant="h6" component="div">
+                                        <Typography
+                                            gutterBottom
+                                            variant="h6"
+                                            component="div"
+                                        >
                                             {cardData[2].title}
                                         </Typography>
-                                        <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+                                        <StyledTypography
+                                            variant="body2"
+                                            color="text.secondary"
+                                            gutterBottom
+                                        >
                                             {cardData[2].description}
                                         </StyledTypography>
                                     </SyledCardContent>
-                                    <Author authors={cardData[2].authors}/>
+                                    <Author authors={cardData[2].authors} />
                                 </SyledCard>
                             </Grid>
-                            <Grid size={{xs: 12, md: 4}}>
+                            <Grid size={{ xs: 12, md: 4 }}>
                                 <Box
-                                    sx={{display: 'flex', flexDirection: 'column', gap: 2, height: '100%'}}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: 2,
+                                        height: '100%',
+                                    }}
                                 >
                                     <SyledCard
                                         variant="outlined"
                                         onFocus={() => handleFocus(3)}
                                         onBlur={handleBlur}
                                         tabIndex={0}
-                                        className={focusedCardIndex === 3 ? 'Mui-focused' : ''}
-                                        sx={{height: '100%'}}
+                                        className={
+                                            focusedCardIndex === 3
+                                                ? 'Mui-focused'
+                                                : ''
+                                        }
+                                        sx={{ height: '100%' }}
                                     >
                                         <SyledCardContent
                                             sx={{
@@ -401,10 +490,18 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                             }}
                                         >
                                             <div>
-                                                <Typography gutterBottom variant="caption" component="div">
+                                                <Typography
+                                                    gutterBottom
+                                                    variant="caption"
+                                                    component="div"
+                                                >
                                                     {cardData[3].tag}
                                                 </Typography>
-                                                <Typography gutterBottom variant="h6" component="div">
+                                                <Typography
+                                                    gutterBottom
+                                                    variant="h6"
+                                                    component="div"
+                                                >
                                                     {cardData[3].title}
                                                 </Typography>
                                                 <StyledTypography
@@ -416,15 +513,19 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                                 </StyledTypography>
                                             </div>
                                         </SyledCardContent>
-                                        <Author authors={cardData[3].authors}/>
+                                        <Author authors={cardData[3].authors} />
                                     </SyledCard>
                                     <SyledCard
                                         variant="outlined"
                                         onFocus={() => handleFocus(4)}
                                         onBlur={handleBlur}
                                         tabIndex={0}
-                                        className={focusedCardIndex === 4 ? 'Mui-focused' : ''}
-                                        sx={{height: '100%'}}
+                                        className={
+                                            focusedCardIndex === 4
+                                                ? 'Mui-focused'
+                                                : ''
+                                        }
+                                        sx={{ height: '100%' }}
                                     >
                                         <SyledCardContent
                                             sx={{
@@ -435,10 +536,18 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                             }}
                                         >
                                             <div>
-                                                <Typography gutterBottom variant="caption" component="div">
+                                                <Typography
+                                                    gutterBottom
+                                                    variant="caption"
+                                                    component="div"
+                                                >
                                                     {cardData[4].tag}
                                                 </Typography>
-                                                <Typography gutterBottom variant="h6" component="div">
+                                                <Typography
+                                                    gutterBottom
+                                                    variant="h6"
+                                                    component="div"
+                                                >
                                                     {cardData[4].title}
                                                 </Typography>
                                                 <StyledTypography
@@ -450,40 +559,59 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                                 </StyledTypography>
                                             </div>
                                         </SyledCardContent>
-                                        <Author authors={cardData[4].authors}/>
+                                        <Author authors={cardData[4].authors} />
                                     </SyledCard>
                                 </Box>
                             </Grid>
-                            <Grid size={{xs: 12, md: 4}}>
+                            <Grid size={{ xs: 12, md: 4 }}>
                                 <SyledCard
                                     variant="outlined"
                                     onFocus={() => handleFocus(5)}
                                     onBlur={handleBlur}
                                     tabIndex={0}
-                                    className={focusedCardIndex === 5 ? 'Mui-focused' : ''}
-                                    sx={{height: '100%'}}
+                                    className={
+                                        focusedCardIndex === 5
+                                            ? 'Mui-focused'
+                                            : ''
+                                    }
+                                    sx={{ height: '100%' }}
                                 >
                                     <CardMedia
                                         component="img"
                                         alt="green iguana"
                                         image={cardData[5].img}
                                         sx={{
-                                            height: {sm: 'auto', md: '50%'},
-                                            aspectRatio: {sm: '16 / 9', md: ''},
+                                            height: { sm: 'auto', md: '50%' },
+                                            aspectRatio: {
+                                                sm: '16 / 9',
+                                                md: '',
+                                            },
                                         }}
                                     />
                                     <SyledCardContent>
-                                        <Typography gutterBottom variant="caption" component="div">
+                                        <Typography
+                                            gutterBottom
+                                            variant="caption"
+                                            component="div"
+                                        >
                                             {cardData[5].tag}
                                         </Typography>
-                                        <Typography gutterBottom variant="h6" component="div">
+                                        <Typography
+                                            gutterBottom
+                                            variant="h6"
+                                            component="div"
+                                        >
                                             {cardData[5].title}
                                         </Typography>
-                                        <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+                                        <StyledTypography
+                                            variant="body2"
+                                            color="text.secondary"
+                                            gutterBottom
+                                        >
                                             {cardData[5].description}
                                         </StyledTypography>
                                     </SyledCardContent>
-                                    <Author authors={cardData[5].authors}/>
+                                    <Author authors={cardData[5].authors} />
                                 </SyledCard>
                             </Grid>
                         </Grid>
@@ -492,5 +620,5 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
             </AppTheme>
         </Container>
     );
-}
+};
 export default Dashboard;

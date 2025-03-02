@@ -1,20 +1,20 @@
-import React, {useState} from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import AppTheme from "../theme/AppTheme";
-import {MainContainer} from "../../customStyles/MainContainer";
-import {StyledCard, StyledTextareaAutosize} from "../../customStyles/Element";
-import {TextField, Typography} from "@mui/material";
-import Button from "@mui/material/Button";
-import axios from "axios";
-import authService from "../../services/authService";
-import {useNavigate} from "react-router-dom";
-import {CODE} from "../../utils/CODE";
+import { TextField, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { StyledCard, StyledTextareaAutosize } from '../../customStyles/Element';
+import { MainContainer } from '../../customStyles/MainContainer';
+import authService from '../../services/authService';
+import { CODE } from '../../utils/CODE';
+import AppTheme from '../theme/AppTheme';
 
 const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [isSending, setIsSending] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>("");
-    const [messageType, setMessageType] = useState<string>("error");
+    const [message, setMessage] = useState<string>('');
+    const [messageType, setMessageType] = useState<string>('error');
     const [name, setName] = useState<string>();
     const [description, setDescription] = useState<string>();
     const [price, setPrice] = useState<number>();
@@ -25,54 +25,61 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
         if (validate()) {
             const formData = new FormData();
-            formData.append("name", name as string);
-            formData.append("description", description as string);
-            formData.append("price", String(price));
-            await axios.post(`${process.env.REACT_APP_API_ADDRESS}/plan/create`, formData, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${authService.getToken()}`,
-                }
-            }).then(() => {
-                setMessage("Created! You will be redirect to profile page");
-                setMessageType("success");
-                setTimeout(() => {
-                    navigate("/profile");
-                }, 2000)
-            }).catch(reason => {
-                if (reason.response?.status === CODE.CONFLICT) {
-                    setMessage("You have too many plans");
-                } else {
-                    setMessage("Something went wrong, try again later");
-                }
-                setIsSending(false);
-            })
+            formData.append('name', name as string);
+            formData.append('description', description as string);
+            formData.append('price', String(price));
+            await axios
+                .post(
+                    `${process.env.REACT_APP_API_ADDRESS}/plan/create`,
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${authService.getToken()}`,
+                        },
+                    },
+                )
+                .then(() => {
+                    setMessage('Created! You will be redirect to profile page');
+                    setMessageType('success');
+                    setTimeout(() => {
+                        navigate('/profile');
+                    }, 2000);
+                })
+                .catch((reason) => {
+                    if (reason.response?.status === CODE.CONFLICT) {
+                        setMessage('You have too many plans');
+                    } else {
+                        setMessage('Something went wrong, try again later');
+                    }
+                    setIsSending(false);
+                });
         }
     };
 
     const validate = (): boolean => {
         if (!name) {
-            setMessage("You need to fill name!");
+            setMessage('You need to fill name!');
             setIsSending(false);
             return false;
         }
         if (description && description.length < 50) {
-            setMessage("Description is too short!");
+            setMessage('Description is too short!');
             setIsSending(false);
             return false;
         }
         if (price === undefined || price < 0 || Number.isNaN(price)) {
-            setMessage("Insert correct price");
+            setMessage('Insert correct price');
             setIsSending(false);
             return false;
         }
-        setMessage("")
+        setMessage('');
         return true;
-    }
+    };
 
     return (
         <AppTheme {...props}>
-            <CssBaseline enableColorScheme/>
+            <CssBaseline enableColorScheme />
             <MainContainer>
                 <StyledCard variant="outlined">
                     <Typography variant="h4" component="h1" gutterBottom>
@@ -90,7 +97,7 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     <TextField
                         placeholder="Name"
                         onChange={(event) => {
-                            setName(event.target.value)
+                            setName(event.target.value);
                         }}
                     />
 
@@ -108,7 +115,7 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     <TextField
                         placeholder="Price"
                         onChange={(event) => {
-                            setPrice(Number(event.target.value))
+                            setPrice(Number(event.target.value));
                         }}
                     />
                     <Button
@@ -121,9 +128,8 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         Create
                     </Button>
                 </StyledCard>
-
             </MainContainer>
         </AppTheme>
-    )
-}
-export default CreatePlan
+    );
+};
+export default CreatePlan;

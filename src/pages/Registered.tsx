@@ -1,16 +1,16 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
+import CssBaseline from '@mui/material/CssBaseline';
+import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
-import AppTheme from "../componenets/theme/AppTheme";
-import ColorModeSelect from "../componenets/theme/ColorModeSelect";
-import {SitemarkIcon} from "../componenets/CustomIcons";
-import { Link } from "react-router-dom";
-import {MainContainer} from "../customStyles/MainContainer";
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
 
+import { SitemarkIcon } from '../componenets/CustomIcons';
+import AppTheme from '../componenets/theme/AppTheme';
+import ColorModeSelect from '../componenets/theme/ColorModeSelect';
+import { MainContainer } from '../customStyles/MainContainer';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -31,19 +31,24 @@ const Card = styled(MuiCard)(({ theme }) => ({
     }),
 }));
 
-
 export default function Registered(props: { disableCustomTheme?: boolean }) {
     return (
         <AppTheme {...props}>
             <CssBaseline enableColorScheme />
-            <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
+            <ColorModeSelect
+                sx={{ position: 'fixed', top: '1rem', right: '1rem' }}
+            />
             <MainContainer direction="column" justifyContent="center">
                 <Card variant="outlined">
                     <SitemarkIcon />
                     <Typography
                         component="h1"
                         variant="h4"
-                        sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)', textAlign: 'center' }}
+                        sx={{
+                            width: '100%',
+                            fontSize: 'clamp(2rem, 10vw, 2.15rem)',
+                            textAlign: 'center',
+                        }}
                     >
                         Registration Successful!
                     </Typography>
@@ -52,7 +57,8 @@ export default function Registered(props: { disableCustomTheme?: boolean }) {
                         variant="body1"
                         sx={{ textAlign: 'center', color: 'text.secondary' }}
                     >
-                        Thank you for registering. Verify your email and then you can now sign in to your account &nbsp;
+                        Thank you for registering. Verify your email and then
+                        you can now sign in to your account &nbsp;
                         <Link to="/sign-in">Sign in</Link>
                     </Typography>
                 </Card>

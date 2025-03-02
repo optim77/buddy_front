@@ -1,8 +1,8 @@
-import React from "react";
-import { Grid, Card, Typography, Avatar, Box } from "@mui/material";
-import { Link } from "react-router-dom";
-import {TagInterface} from "../tag/TagInterface";
+import { Grid, Card, Typography, Avatar, Box } from '@mui/material';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
+import { TagInterface } from '../tag/TagInterface';
 
 interface TagListProps {
     tags: TagInterface[];
@@ -15,20 +15,20 @@ const TagList: React.FC<TagListProps> = ({ tags }) => {
                 <Grid item xs={12} key={index}>
                     <Card
                         sx={{
-                            backgroundColor: "transparent",
-                            "&:hover": {
-                                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                            backgroundColor: 'transparent',
+                            '&:hover': {
+                                backgroundColor: 'rgba(255, 255, 255, 0.1)',
                             },
                         }}
                     >
                         <Link
                             to={`/tags/${tag.name}`}
                             style={{
-                                display: "flex",
-                                alignItems: "center",
-                                textDecoration: "none",
-                                color: "inherit",
-                                padding: "16px",
+                                display: 'flex',
+                                alignItems: 'center',
+                                textDecoration: 'none',
+                                color: 'inherit',
+                                padding: '16px',
                             }}
                         >
                             <Typography variant="h6" sx={{ flexGrow: 1 }}>
@@ -44,7 +44,7 @@ const TagList: React.FC<TagListProps> = ({ tags }) => {
                                 {tag.count}
                             </Typography>
 
-                            <Box sx={{ display: "flex", gap: 1 }}>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
                                 {tag.firstImage && (
                                     <Avatar
                                         key={tag.firstImage}

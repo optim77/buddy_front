@@ -1,24 +1,26 @@
-import React, {useState} from "react";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import MuiCard from '@mui/material/Card';
 import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Divider from '@mui/material/Divider';
-import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
 import Link from '@mui/material/Link';
+import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import MuiCard from '@mui/material/Card';
-import { styled } from '@mui/material/styles';
-import ForgotPassword from './ForgotPassword';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { MainContainer } from '../../customStyles/MainContainer';
+import authService from '../../services/authService';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../CustomIcons';
-import AppTheme from "../theme/AppTheme";
-import ColorModeSelect from "../theme/ColorModeSelect";
-import authService from "../../services/authService";
-import {useNavigate} from "react-router-dom";
-import {MainContainer} from "../../customStyles/MainContainer";
+import AppTheme from '../theme/AppTheme';
+import ColorModeSelect from '../theme/ColorModeSelect';
+
+import ForgotPassword from './ForgotPassword';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -39,9 +41,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
     }),
 }));
 
-
 export default function SignIn(props: { disableCustomTheme?: boolean }) {
-
     const [emailError, setEmailError] = React.useState(false);
     const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
     const [passwordError, setPasswordError] = React.useState(false);
@@ -63,21 +63,27 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
         const email = data.get('email') as string | null;
         const password = data.get('password') as string | null;
         if (email && password) {
-            authService.login(email, password)
+            authService
+                .login(email, password)
                 .then(function () {
                     navigate(0);
                 })
                 .catch((error) => {
-                    if (error.response.data.message === "Invalid email format") {
+                    if (
+                        error.response.data.message === 'Invalid email format'
+                    ) {
                         setEmailError(true);
                         setEmailErrorMessage(error.response.data.message);
                     }
-                    if (error.response.data.message === "Password does not meet the requirements (8-32 characters, upper and lower case, special character)") {
+                    if (
+                        error.response.data.message ===
+                        'Password does not meet the requirements (8-32 characters, upper and lower case, special character)'
+                    ) {
                         setPasswordError(true);
                         setPasswordErrorMessage(error.response.data.message);
-                    }else{
+                    } else {
                         setEmailError(true);
-                        setEmailErrorMessage("Wrong email or password");
+                        setEmailErrorMessage('Wrong email or password');
                     }
                 });
         }
@@ -85,7 +91,9 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
 
     const validateInputs = () => {
         const email = document.getElementById('email') as HTMLInputElement;
-        const password = document.getElementById('password') as HTMLInputElement;
+        const password = document.getElementById(
+            'password',
+        ) as HTMLInputElement;
 
         let isValid = true;
 
@@ -100,7 +108,9 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
 
         if (!password.value || password.value.length < 6) {
             setPasswordError(true);
-            setPasswordErrorMessage('Password must be at least 6 characters long.');
+            setPasswordErrorMessage(
+                'Password must be at least 6 characters long.',
+            );
             isValid = false;
         } else {
             setPasswordError(false);
@@ -114,13 +124,18 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
         <AppTheme {...props}>
             <CssBaseline enableColorScheme />
             <MainContainer direction="column" justifyContent="space-between">
-                <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }}/>
+                <ColorModeSelect
+                    sx={{ position: 'fixed', top: '1rem', right: '1rem' }}
+                />
                 <Card variant="outlined">
                     <SitemarkIcon />
                     <Typography
                         component="h1"
                         variant="h4"
-                        sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
+                        sx={{
+                            width: '100%',
+                            fontSize: 'clamp(2rem, 10vw, 2.15rem)',
+                        }}
                     >
                         Sign in
                     </Typography>
@@ -171,7 +186,9 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                             />
                         </FormControl>
                         <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
+                            control={
+                                <Checkbox value="remember" color="primary" />
+                            }
                             label="Remember me"
                         />
                         <ForgotPassword open={open} handleClose={handleClose} />
@@ -194,7 +211,13 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                         </Link>
                     </Box>
                     <Divider>or</Divider>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 2,
+                        }}
+                    >
                         <Button
                             fullWidth
                             variant="outlined"

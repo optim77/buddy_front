@@ -1,7 +1,7 @@
-import {UserInformation} from "../user/UserInformation";
-import Plan from "../plan/Plan";
+import Plan from '../plan/Plan';
+import { UserInformation } from '../user/UserInformation';
 
-export interface ProfileInformation extends UserInformation{
+export interface ProfileInformation extends UserInformation {
     email: string;
     plans: Plan[];
 }

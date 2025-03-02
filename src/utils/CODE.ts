@@ -1,4 +1,4 @@
-export enum CODE{
+export enum CODE {
     OK = 200,
     CREATED = 201,
     FORBIDDEN = 403,
@@ -6,5 +6,4 @@ export enum CODE{
     METHOD_NOT_FOUND = 405,
     CONFLICT = 409,
     INTERNAL_SERVER_ERROR = 500,
-
 }

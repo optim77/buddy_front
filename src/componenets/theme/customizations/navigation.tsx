@@ -1,12 +1,13 @@
-import * as React from 'react';
-import { Theme, alpha, Components } from '@mui/material/styles';
-import { SvgIconProps } from '@mui/material/SvgIcon';
+import UnfoldMoreRoundedIcon from '@mui/icons-material/UnfoldMoreRounded';
 import { buttonBaseClasses } from '@mui/material/ButtonBase';
 import { dividerClasses } from '@mui/material/Divider';
 import { menuItemClasses } from '@mui/material/MenuItem';
 import { selectClasses } from '@mui/material/Select';
+import { Theme, alpha, Components } from '@mui/material/styles';
+import { SvgIconProps } from '@mui/material/SvgIcon';
 import { tabClasses } from '@mui/material/Tab';
-import UnfoldMoreRoundedIcon from '@mui/icons-material/UnfoldMoreRounded';
+import * as React from 'react';
+
 import { gray, brand } from '../themePrimitives';
 
 /* eslint-disable import/prefer-default-export */
@@ -21,7 +22,10 @@ export const navigationCustomizations: Components<Theme> = {
                 },
                 [`&.${menuItemClasses.selected}`]: {
                     [`&.${menuItemClasses.focusVisible}`]: {
-                        backgroundColor: alpha(theme.palette.action.selected, 0.3),
+                        backgroundColor: alpha(
+                            theme.palette.action.selected,
+                            0.3,
+                        ),
                     },
                 },
             }),
@@ -45,7 +49,10 @@ export const navigationCustomizations: Components<Theme> = {
                     'hsla(220, 30%, 5%, 0.07) 0px 4px 16px 0px, hsla(220, 25%, 10%, 0.07) 0px 8px 16px -5px',
                 [`& .${buttonBaseClasses.root}`]: {
                     '&.Mui-selected': {
-                        backgroundColor: alpha(theme.palette.action.selected, 0.3),
+                        backgroundColor: alpha(
+                            theme.palette.action.selected,
+                            0.3,
+                        ),
                     },
                 },
                 ...theme.applyStyles('dark', {
@@ -58,9 +65,15 @@ export const navigationCustomizations: Components<Theme> = {
     },
     MuiSelect: {
         defaultProps: {
-            IconComponent: React.forwardRef<SVGSVGElement, SvgIconProps>((props, ref) => (
-                <UnfoldMoreRoundedIcon fontSize="small" {...props} ref={ref} />
-            )),
+            IconComponent: React.forwardRef<SVGSVGElement, SvgIconProps>(
+                (props, ref) => (
+                    <UnfoldMoreRoundedIcon
+                        fontSize="small"
+                        {...props}
+                        ref={ref}
+                    />
+                ),
+            ),
         },
         styleOverrides: {
             root: ({ theme }) => ({

@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import Button from "@mui/material/Button";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import { likePhoto } from "./LikeService";
-import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import React, { useState } from 'react';
+
+import { likePhoto } from './LikeService';
 
 interface LikeButtonProps {
     mediaId: string;
@@ -33,9 +34,11 @@ const LikeButton: React.FC<LikeButtonProps> = ({ mediaId, isLiked }) => {
 
     return (
         <>
-
-            <FavoriteIcon onClick={handleLikeClick} color={liked ? "primary" : "disabled"} sx={{ cursor: "pointer" }} />
-
+            <FavoriteIcon
+                onClick={handleLikeClick}
+                color={liked ? 'primary' : 'disabled'}
+                sx={{ cursor: 'pointer' }}
+            />
 
             <Dialog open={errorOpen} onClose={handleCloseError}>
                 <DialogTitle>Error</DialogTitle>

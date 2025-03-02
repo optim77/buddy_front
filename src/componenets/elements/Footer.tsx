@@ -1,4 +1,6 @@
-import * as React from 'react';
+import FacebookIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import TwitterIcon from '@mui/icons-material/X';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -9,10 +11,9 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import FacebookIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import TwitterIcon from '@mui/icons-material/X';
-import { SitemarkIcon } from "../CustomIcons";
+import * as React from 'react';
+
+import { SitemarkIcon } from '../CustomIcons';
 
 function Copyright() {
     return (
@@ -66,10 +67,15 @@ export default function Footer() {
                             >
                                 Join the newsletter
                             </Typography>
-                            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                            <Typography
+                                variant="body2"
+                                sx={{ color: 'text.secondary', mb: 2 }}
+                            >
                                 Subscribe for weekly updates. No spams ever!
                             </Typography>
-                            <InputLabel htmlFor="email-newsletter">Email</InputLabel>
+                            <InputLabel htmlFor="email-newsletter">
+                                Email
+                            </InputLabel>
                             <Stack direction="row" spacing={1} useFlexGap>
                                 <TextField
                                     id="email-newsletter"
@@ -82,7 +88,8 @@ export default function Footer() {
                                     slotProps={{
                                         htmlInput: {
                                             autoComplete: 'off',
-                                            'aria-label': 'Enter your email address',
+                                            'aria-label':
+                                                'Enter your email address',
                                         },
                                     }}
                                     sx={{ width: '250px' }}
@@ -105,7 +112,10 @@ export default function Footer() {
                             gap: 1,
                         }}
                     >
-                        <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ fontWeight: 'medium' }}
+                        >
                             Product
                         </Typography>
                         <Link color="text.secondary" variant="body2" href="#">
@@ -131,7 +141,10 @@ export default function Footer() {
                             gap: 1,
                         }}
                     >
-                        <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ fontWeight: 'medium' }}
+                        >
                             Company
                         </Typography>
                         <Link color="text.secondary" variant="body2" href="#">
@@ -151,7 +164,10 @@ export default function Footer() {
                             gap: 1,
                         }}
                     >
-                        <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ fontWeight: 'medium' }}
+                        >
                             Legal
                         </Typography>
                         <Link color="text.secondary" variant="body2" href="#">
@@ -179,7 +195,9 @@ export default function Footer() {
                         <Link color="text.secondary" variant="body2" href="#">
                             Privacy Policy
                         </Link>
-                        <Typography sx={{ display: 'inline', mx: 0.5, opacity: 0.5 }}>
+                        <Typography
+                            sx={{ display: 'inline', mx: 0.5, opacity: 0.5 }}
+                        >
                             &nbsp;•&nbsp;
                         </Typography>
                         <Link color="text.secondary" variant="body2" href="#">

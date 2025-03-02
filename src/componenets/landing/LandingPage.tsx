@@ -1,10 +1,10 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import Navbar from '../elements/Navbar';
+import CssBaseline from '@mui/material/CssBaseline';
+import * as React from 'react';
 
-import Footer from "../elements/Footer";
-import AppTheme from "../theme/AppTheme";
+import Footer from '../elements/Footer';
+import Navbar from '../elements/Navbar';
+import AppTheme from '../theme/AppTheme';
 
 export default function Blog(props: { disableCustomTheme?: boolean }) {
     return (
@@ -15,10 +15,13 @@ export default function Blog(props: { disableCustomTheme?: boolean }) {
             <Container
                 maxWidth="lg"
                 component="main"
-                sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
-            >
-
-            </Container>
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    my: 16,
+                    gap: 4,
+                }}
+            ></Container>
             <Footer />
         </AppTheme>
     );

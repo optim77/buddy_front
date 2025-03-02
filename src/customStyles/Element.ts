@@ -1,7 +1,7 @@
-import {styled} from "@mui/material/styles";
-import MuiCard from "@mui/material/Card";
-import {ListItemText, TextareaAutosize} from "@mui/material";
-import {Link} from "react-router-dom";
+import { ListItemText, TextareaAutosize } from '@mui/material';
+import MuiCard from '@mui/material/Card';
+import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 
 export const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -35,48 +35,54 @@ export const StyledCard = styled(MuiCard)(({ theme }) => ({
 }));
 
 export const StyledTextareaAutosize = styled(TextareaAutosize)(({ theme }) => ({
-    font: "inherit",
-    letterSpacing: "inherit",
-    color: "currentColor",
-    padding: "16.5px 14px",
-    border: "1px solid",
-    borderColor: theme.palette.mode === "light" ? theme.palette.grey[400] : theme.palette.grey[700],
+    font: 'inherit',
+    letterSpacing: 'inherit',
+    color: 'currentColor',
+    padding: '16.5px 14px',
+    border: '1px solid',
+    borderColor:
+        theme.palette.mode === 'light'
+            ? theme.palette.grey[400]
+            : theme.palette.grey[700],
     borderRadius: theme.shape.borderRadius,
-    boxSizing: "border-box",
-    background: "none",
-    width: "100%",
+    boxSizing: 'border-box',
+    background: 'none',
+    width: '100%',
     margin: 0,
-    resize: "none",
-    "-webkit-tap-highlight-color": "transparent",
-    "&:focus": {
-        outline: "none",
+    resize: 'none',
+    '-webkit-tap-highlight-color': 'transparent',
+    '&:focus': {
+        outline: 'none',
         borderColor: theme.palette.primary.main,
     },
-    "&:disabled": {
+    '&:disabled': {
         backgroundColor: theme.palette.action.disabledBackground,
     },
 }));
 
 export const StyledListItemText = styled(ListItemText)(({ theme }) => ({
-    border: "1px solid",
-    borderColor: theme.palette.mode === "light" ? theme.palette.grey[400] : theme.palette.grey[700],
+    border: '1px solid',
+    borderColor:
+        theme.palette.mode === 'light'
+            ? theme.palette.grey[400]
+            : theme.palette.grey[700],
     borderRadius: theme.shape.borderRadius,
-    padding: "16.5px 14px",
+    padding: '16.5px 14px',
 }));
 
-export const SuggestionsContainer = styled("div")(({ theme }) => ({
-    position: "absolute",
+export const SuggestionsContainer = styled('div')(({ theme }) => ({
+    position: 'absolute',
     zIndex: 10,
     backgroundColor: theme.palette.background.paper,
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: theme.shape.borderRadius,
     boxShadow: theme.shadows[3],
-    width: "100%",
-    maxHeight: "150px",
-    overflowY: "auto",
+    width: '100%',
+    maxHeight: '150px',
+    overflowY: 'auto',
 }));
 
-export const StyledAuthCard = styled(MuiCard)(({theme}) => ({
+export const StyledAuthCard = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     alignSelf: 'center',
@@ -95,19 +101,21 @@ export const StyledAuthCard = styled(MuiCard)(({theme}) => ({
     }),
 }));
 
-export const StyledTextareaAutosizeEditProfile = styled("textarea")(({theme}) => ({
-    width: "100%",
-    minHeight: "100px",
-    padding: theme.spacing(1),
-    border: `1px solid ${theme.palette.divider}`,
-    borderRadius: theme.shape.borderRadius,
-    fontSize: "1rem",
-    fontFamily: theme.typography.fontFamily,
-    resize: "vertical",
-    outline: "none",
-}));
+export const StyledTextareaAutosizeEditProfile = styled('textarea')(
+    ({ theme }) => ({
+        width: '100%',
+        minHeight: '100px',
+        padding: theme.spacing(1),
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: theme.shape.borderRadius,
+        fontSize: '1rem',
+        fontFamily: theme.typography.fontFamily,
+        resize: 'vertical',
+        outline: 'none',
+    }),
+);
 
 export const LinkWhite = styled(Link)({
-    textDecoration: "none",
-    color: "inherit",
+    textDecoration: 'none',
+    color: 'inherit',
 });

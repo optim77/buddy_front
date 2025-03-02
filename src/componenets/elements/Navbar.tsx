@@ -1,26 +1,27 @@
-import * as React from 'react';
-import {alpha, styled} from '@mui/material/styles';
-import Box from '@mui/material/Box';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Fade } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import {SettingIcon, SitemarkIcon} from "../CustomIcons";
-import ColorModeIconDropdown from '.././theme/ColorModeIconDropdown';
-import authService from "../../services/authService";
-import {useNavigate} from "react-router-dom";
-import {Link} from "react-router-dom";
-import {getCookie} from "typescript-cookie";
-import Menu from "@mui/material/Menu";
-import {Fade} from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { alpha, styled } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
+import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { getCookie } from 'typescript-cookie';
 
-const StyledToolbar = styled(Toolbar)(({theme}) => ({
+import ColorModeIconDropdown from '.././theme/ColorModeIconDropdown';
+import authService from '../../services/authService';
+import { SettingIcon, SitemarkIcon } from '../CustomIcons';
+
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -36,11 +37,11 @@ const StyledToolbar = styled(Toolbar)(({theme}) => ({
     padding: '8px 12px',
 }));
 
-const StyledButton = styled(Button)(({theme}) => ({
-    marginRight: theme.spacing(2)
+const StyledButton = styled(Button)(({ theme }) => ({
+    marginRight: theme.spacing(2),
 }));
 
-const StyledLink = styled(Link)(({theme}) => ({
+const StyledLink = styled(Link)(({ theme }) => ({
     textDecoration: 'none',
     color: 'inherit',
     fontWeight: 'bold',
@@ -64,11 +65,10 @@ export default function AppAppBar() {
 
     const handleLogout = async () => {
         await authService.logout();
-        navigate("/");
-    }
+        navigate('/');
+    };
 
-
-    const isAuthenticated = !!getCookie("buddy-token");
+    const isAuthenticated = !!getCookie('buddy-token');
     return (
         <AppBar
             position="fixed"
@@ -82,97 +82,151 @@ export default function AppAppBar() {
         >
             <Container maxWidth="lg">
                 <StyledToolbar variant="dense" disableGutters>
-                    <Box sx={{flexGrow: 1, display: 'flex', alignItems: 'center', px: 0}}>
+                    <Box
+                        sx={{
+                            flexGrow: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                            px: 0,
+                        }}
+                    >
                         {isAuthenticated ? (
                             <StyledLink to="/">
-                                <SitemarkIcon/>
+                                <SitemarkIcon />
                             </StyledLink>
                         ) : (
                             <StyledLink to="/dashboard">
-                                <SitemarkIcon/>
+                                <SitemarkIcon />
                             </StyledLink>
                         )}
 
-
-                        <Box sx={{display: {xs: 'none', md: 'flex'}}}>
-
-                            <Button variant="text" color="info" size="small" sx={{minWidth: 0}}>
-                                <StyledLink className="link-styles" to="/loops">Loops</StyledLink>
+                        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            <Button
+                                variant="text"
+                                color="info"
+                                size="small"
+                                sx={{ minWidth: 0 }}
+                            >
+                                <StyledLink className="link-styles" to="/loops">
+                                    Loops
+                                </StyledLink>
                             </Button>
-                            <Button variant="text" color="info" size="small" sx={{minWidth: 0}}>
-                                <StyledLink className="link-styles" to="/explore">Explore</StyledLink>
+                            <Button
+                                variant="text"
+                                color="info"
+                                size="small"
+                                sx={{ minWidth: 0 }}
+                            >
+                                <StyledLink
+                                    className="link-styles"
+                                    to="/explore"
+                                >
+                                    Explore
+                                </StyledLink>
                             </Button>
                             {isAuthenticated ? (
-                                <Button variant="text" color="info" size="small" sx={{minWidth: 0}}>
-                                    <StyledLink className="link-styles" to="/profile">Profile</StyledLink>
+                                <Button
+                                    variant="text"
+                                    color="info"
+                                    size="small"
+                                    sx={{ minWidth: 0 }}
+                                >
+                                    <StyledLink
+                                        className="link-styles"
+                                        to="/profile"
+                                    >
+                                        Profile
+                                    </StyledLink>
                                 </Button>
                             ) : null}
-
-
                         </Box>
                     </Box>
                     <Box
                         sx={{
-                            display: {xs: 'none', md: 'flex'},
+                            display: { xs: 'none', md: 'flex' },
                             gap: 1,
                             alignItems: 'center',
                         }}
                     >
-
                         {!isAuthenticated ? (
                             <StyledButton color="primary" variant="text">
-                                <StyledLink className="link-styles" to="/sign-in">Sign in</StyledLink>
+                                <StyledLink
+                                    className="link-styles"
+                                    to="/sign-in"
+                                >
+                                    Sign in
+                                </StyledLink>
                             </StyledButton>
                         ) : null}
 
                         {!isAuthenticated ? (
                             <Button color="primary" variant="text">
-                                <StyledLink className="link-styles" to="/sign-up">Sign up</StyledLink>
+                                <StyledLink
+                                    className="link-styles"
+                                    to="/sign-up"
+                                >
+                                    Sign up
+                                </StyledLink>
                             </Button>
                         ) : null}
 
                         {isAuthenticated ? (
                             <StyledButton color="primary" variant="text">
-                                <StyledLink className="link-styles" to="/create">Create</StyledLink>
+                                <StyledLink
+                                    className="link-styles"
+                                    to="/create"
+                                >
+                                    Create
+                                </StyledLink>
                             </StyledButton>
                         ) : null}
 
                         {isAuthenticated ? (
-
-                                <div>
-                                    <Button
-                                        id="fade-button"
-                                        aria-controls={isOpen ? 'fade-menu' : undefined}
-                                        aria-haspopup="true"
-                                        aria-expanded={isOpen ? 'true' : undefined}
-                                        onClick={handleClick}
-                                    >
-                                        <SettingIcon />
-                                    </Button>
-                                    <Menu
-                                        id="fade-menu"
-                                        MenuListProps={{
-                                            'aria-labelledby': 'fade-button',
-                                        }}
-                                        anchorEl={anchorEl}
-                                        open={isOpen}
-                                        onClose={handleClose}
-                                        TransitionComponent={Fade}
-                                    >
-                                        <MenuItem onClick={handleClose}>
-                                            <StyledLink className="link-styles" to="/account">Account</StyledLink>
-                                        </MenuItem>
-                                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                                    </Menu>
-                                </div>
-
-                            ) : null}
-                        <ColorModeIconDropdown/>
+                            <div>
+                                <Button
+                                    id="fade-button"
+                                    aria-controls={
+                                        isOpen ? 'fade-menu' : undefined
+                                    }
+                                    aria-haspopup="true"
+                                    aria-expanded={isOpen ? 'true' : undefined}
+                                    onClick={handleClick}
+                                >
+                                    <SettingIcon />
+                                </Button>
+                                <Menu
+                                    id="fade-menu"
+                                    MenuListProps={{
+                                        'aria-labelledby': 'fade-button',
+                                    }}
+                                    anchorEl={anchorEl}
+                                    open={isOpen}
+                                    onClose={handleClose}
+                                    TransitionComponent={Fade}
+                                >
+                                    <MenuItem onClick={handleClose}>
+                                        <StyledLink
+                                            className="link-styles"
+                                            to="/account"
+                                        >
+                                            Account
+                                        </StyledLink>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleLogout}>
+                                        Logout
+                                    </MenuItem>
+                                </Menu>
+                            </div>
+                        ) : null}
+                        <ColorModeIconDropdown />
                     </Box>
-                    <Box sx={{display: {xs: 'flex', md: 'none'}, gap: 1}}>
-                        <ColorModeIconDropdown size="medium"/>
-                        <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
-                            <MenuIcon/>
+                    <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
+                        <ColorModeIconDropdown size="medium" />
+                        <IconButton
+                            aria-label="Menu button"
+                            onClick={toggleDrawer(true)}
+                        >
+                            <MenuIcon />
                         </IconButton>
                         <Drawer
                             anchor="top"
@@ -184,7 +238,12 @@ export default function AppAppBar() {
                                 },
                             }}
                         >
-                            <Box sx={{p: 2, backgroundColor: 'background.default'}}>
+                            <Box
+                                sx={{
+                                    p: 2,
+                                    backgroundColor: 'background.default',
+                                }}
+                            >
                                 <Box
                                     sx={{
                                         display: 'flex',
@@ -192,20 +251,28 @@ export default function AppAppBar() {
                                     }}
                                 >
                                     <IconButton onClick={toggleDrawer(false)}>
-                                        <CloseRoundedIcon/>
+                                        <CloseRoundedIcon />
                                     </IconButton>
                                 </Box>
                                 <MenuItem>Features</MenuItem>
                                 <MenuItem>Testimonials</MenuItem>
 
-                                <Divider sx={{my: 4}}/>
+                                <Divider sx={{ my: 4 }} />
                                 <MenuItem>
-                                    <Button color="primary" variant="contained" fullWidth>
+                                    <Button
+                                        color="primary"
+                                        variant="contained"
+                                        fullWidth
+                                    >
                                         Sign up
                                     </Button>
                                 </MenuItem>
                                 <MenuItem>
-                                    <Button color="primary" variant="outlined" fullWidth>
+                                    <Button
+                                        color="primary"
+                                        variant="outlined"
+                                        fullWidth
+                                    >
                                         Sign in
                                     </Button>
                                 </MenuItem>
