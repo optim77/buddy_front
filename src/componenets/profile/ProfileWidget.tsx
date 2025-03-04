@@ -61,7 +61,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
         }
     };
 
-    const subscribe = async (subscribeTo: string) => {};
+    // const subscribe = async (subscribeTo: string) => {};
 
     return (
         <Card
@@ -147,7 +147,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                                     variant="outlined"
                                     color="secondary"
                                     sx={{ textTransform: 'capitalize' }}
-                                    onClick={() => subscribe(profile.uuid)}
+                                    // onClick={() => subscribe(profile.uuid)}
                                 >
                                     {subscribeState
                                         ? 'Unsubscribe'

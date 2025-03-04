@@ -15,6 +15,7 @@ module.exports = {
     },
     plugins: ['@typescript-eslint', 'prettier', 'import'],
     rules: {
+        '@typescript-eslint/ban-ts-comment': 'off',
         'prettier/prettier': [
             'error',
             {

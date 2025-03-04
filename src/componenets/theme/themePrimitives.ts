@@ -19,8 +19,6 @@ declare module '@mui/material/styles/createPalette' {
         900: string;
     }
 
-
-
     interface Palette {
         baseShadow: string;
     }

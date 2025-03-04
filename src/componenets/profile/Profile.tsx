@@ -18,7 +18,7 @@ import AppTheme from '../theme/AppTheme';
 import { ProfileInformation } from './ProfileInformation';
 import ProfileWidget from './ProfileWidget';
 
-export const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
+const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [images, setImages] = useState<MediaObject[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
@@ -171,4 +171,4 @@ export const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
     );
 };
 
-export default Profile;
+export { Profile };

@@ -1,12 +1,10 @@
+import { StyledEngineProvider } from '@mui/material/styles';
+import axios from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
 import './index.css';
-import { StyledEngineProvider } from '@mui/material/styles';
-
 import App from './App';
-
-import axios from 'axios';
-
 import authService from './services/authService';
 
 axios.interceptors.request.use(

@@ -132,4 +132,4 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
         </AppTheme>
     );
 };
-export default CreatePlan;
+export { CreatePlan };
