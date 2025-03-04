@@ -3,7 +3,7 @@ export default interface Plan {
     name: string;
     description: string;
     price: number;
-    planOwnerId: number;
+    planOwnerId: string;
     planOwnerName: string;
     subscriptionsCount: number;
 }

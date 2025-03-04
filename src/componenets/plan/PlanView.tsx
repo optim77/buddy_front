@@ -71,6 +71,9 @@ const PlanView: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     <Typography>{plan?.price}</Typography>
 
                     <Button>Buy</Button>
+                    {plan?.planOwnerId == authService.getBuddyUser() ? (
+                        <Button>Edit</Button>
+                    ) : null}
                 </StyledCard>
             </MainContainer>
         </AppTheme>

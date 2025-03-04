@@ -6,15 +6,16 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import React, { useEffect, useState, useCallback } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { MainContainer } from '../../customStyles/MainContainer';
 import authService from '../../services/authService';
 import MediaGrip from '../media/grid/MediaGrip';
 import AppTheme from '../theme/AppTheme';
+import { IMedia } from '../media/IMedia';
 
 const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const [images, setImages] = useState<any[]>([]);
+    const [images, setImages] = useState<IMedia[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [error, setError] = useState<string | null>(null);

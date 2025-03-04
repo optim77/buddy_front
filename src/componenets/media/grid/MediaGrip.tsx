@@ -7,22 +7,9 @@ import { formatMediaLink } from '../../../utils/FormatMediaLink';
 import { truncateText } from '../../../utils/FormatText';
 import LikeButton from '../../like/LikeButton';
 import { NoAccessWall } from '../NoAccessWall';
+import { IMedia } from '../IMedia';
 
-const MediaGrip = ({
-    image,
-}: {
-    image: {
-        imageId: string;
-        mediaType: string;
-        imageUrl: string;
-        description: string | null;
-        username: string;
-        userId: string;
-        likeCount: number;
-        likedByCurrentUser: boolean;
-        blurredUrl: string;
-    };
-}) => {
+const MediaGrip = ({ image }: { image: IMedia }) => {
     return (
         <Grid item xs={12} sm={6} md={4} key={image.imageId}>
             <Card>
