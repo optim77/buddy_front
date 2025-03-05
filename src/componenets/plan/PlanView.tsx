@@ -10,34 +10,11 @@ import { MainContainer } from '../../customStyles/MainContainer';
 import authService from '../../services/authService';
 import AppTheme from '../theme/AppTheme';
 
-import Plan from './Plan';
+import { useFetchPlan } from './hooks/useFetchPlan';
 
 const PlanView: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const [plan, setPlan] = useState<Plan>();
-    const [message, setMessage] = useState<string>('');
-    const [messageType, setMessageType] = useState<string>('error');
     const id = useParams<{ id: string }>();
-
-    useEffect(() => {
-        fetch();
-    }, [id.id]);
-
-    const fetch = async () => {
-        await axios
-            .get(`${process.env.REACT_APP_API_ADDRESS}/plan/${id.id}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + authService.getToken(),
-                },
-            })
-            .then((res) => {
-                setPlan(res.data);
-            })
-            .catch(() => {
-                setMessageType('error');
-                setMessage('Error fetching plan');
-            });
-    };
+    const { plan, message, messageType } = useFetchPlan(id.id);
 
     return (
         <AppTheme {...props}>
@@ -72,7 +49,7 @@ const PlanView: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
                     <Button>Buy</Button>
                     {plan?.planOwnerId == authService.getBuddyUser() ? (
-                        <Button>Edit</Button>
+                        <LinkWhite to={'/edit/plan' + plan?.id}>Edit</LinkWhite>
                     ) : null}
                 </StyledCard>
             </MainContainer>
