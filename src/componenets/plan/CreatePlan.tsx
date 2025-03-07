@@ -5,7 +5,7 @@ import React from 'react';
 import { StyledCard, StyledTextareaAutosize } from '../../customStyles/Element';
 import { MainContainer } from '../../customStyles/MainContainer';
 import AppTheme from '../theme/AppTheme';
-import { useCreatePlan } from './useSendPlan';
+import { useCreatePlan } from './hooks/useSendPlan';
 
 const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const {

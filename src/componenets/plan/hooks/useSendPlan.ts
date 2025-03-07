@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import authService from '../../services/authService';
-import { HTTP_CODE } from '../../utils/CODE';
+import authService from '../../../services/authService';
+import { HTTP_CODE } from '../../../utils/CODE';
 
-export const useCreatePlan = () => {
+export const useCreatePlan = (update: boolean = false) => {
     const [isSending, setIsSending] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('');
     const [messageType, setMessageType] = useState<string>('error');
@@ -43,16 +43,30 @@ export const useCreatePlan = () => {
             formData.append('price', String(price));
 
             try {
-                await axios.post(
-                    `${process.env.REACT_APP_API_ADDRESS}/plan/create`,
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${authService.getToken()}`,
+                if (update) {
+                    await axios.post(
+                        `${process.env.REACT_APP_API_ADDRESS}/plan/create`,
+                        formData,
+                        {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${authService.getToken()}`,
+                            },
                         },
-                    },
-                );
+                    );
+                }else{
+                    await axios.post(
+                        `${process.env.REACT_APP_API_ADDRESS}/plan/create`,
+                        formData,
+                        {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${authService.getToken()}`,
+                            },
+                        },
+                    );
+                }
+
 
                 setMessage('Created! You will be redirected to profile page');
                 setMessageType('success');
