@@ -12,14 +12,14 @@ export const useFetchPlan = (id: string | undefined) => {
             message: MESSAGE_TYPE_ERROR.FAILED_TO_FETCH,
         };
     const [plan, setPlan] = useState<Plan | null>(null);
-    const [message, setMessage] = useState<string>('');
-    const [messageType, setMessageType] = useState<string>('');
+    const [fetchPlanMessage, setFetchPlanMessage] = useState<string>('');
+    const [fetchPlanMessageType, setFetchPlanMessageType] = useState<string>('');
 
     useEffect(() => {
         const getPlan = async () => {
             if (!id) {
-                setMessageType(MESSAGE_TYPE.ERROR);
-                setMessage(MESSAGE_TYPE_ERROR.FAILED_TO_FETCH);
+                setFetchPlanMessageType(MESSAGE_TYPE.ERROR);
+                setFetchPlanMessage(MESSAGE_TYPE_ERROR.FAILED_TO_FETCH);
                 return;
             }
 
@@ -27,15 +27,15 @@ export const useFetchPlan = (id: string | undefined) => {
             if (fetchedPlan) {
                 setPlan(fetchedPlan);
             } else {
-                setMessageType(MESSAGE_TYPE.ERROR);
-                setMessage(MESSAGE_TYPE_ERROR.FAILED_TO_FETCH);
+                setFetchPlanMessageType(MESSAGE_TYPE.ERROR);
+                setFetchPlanMessage(MESSAGE_TYPE_ERROR.FAILED_TO_FETCH);
             }
         };
 
         getPlan();
     }, [id]);
 
-    return { plan, message, messageType };
+    return { plan, fetchPlanMessage, fetchPlanMessageType };
 };
 
 const fetchPlan = async (id: string) => {

@@ -5,9 +5,9 @@ import authService from '../../../services/authService';
 import { HTTP_CODE } from '../../../utils/CODE';
 
 export const useCreatePlan = (update: boolean = false) => {
-    const [isSending, setIsSending] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>('');
-    const [messageType, setMessageType] = useState<string>('error');
+    const [isSendingPlan, setIsSendingPlan] = useState<boolean>(false);
+    const [messageSendPlan, setMessageSendPlan] = useState<string>('');
+    const [messageTypeSendPlan, setMessageTypeSendPlan] = useState<string>('error');
     const [name, setName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [price, setPrice] = useState<number | null>(null);
@@ -15,26 +15,26 @@ export const useCreatePlan = (update: boolean = false) => {
 
     const validate = (): boolean => {
         if (!name) {
-            setMessage('You need to fill name!');
-            setIsSending(false);
+            setMessageSendPlan('You need to fill name!');
+            setIsSendingPlan(false);
             return false;
         }
         if (description && description.length < 50) {
-            setMessage('Description is too short!');
-            setIsSending(false);
+            setMessageSendPlan('Description is too short!');
+            setIsSendingPlan(false);
             return false;
         }
         if (price === null || price < 0 || Number.isNaN(price)) {
-            setMessage('Insert correct price');
-            setIsSending(false);
+            setMessageSendPlan('Insert correct price');
+            setIsSendingPlan(false);
             return false;
         }
-        setMessage('');
+        setMessageSendPlan('');
         return true;
     };
 
-    const send = async () => {
-        setIsSending(true);
+    const sendPlan = async () => {
+        setIsSendingPlan(true);
 
         if (validate()) {
             const formData = new FormData();
@@ -68,29 +68,29 @@ export const useCreatePlan = (update: boolean = false) => {
                 }
 
 
-                setMessage('Created! You will be redirected to profile page');
-                setMessageType('success');
+                setMessageSendPlan('Created! You will be redirected to profile page');
+                setMessageTypeSendPlan('success');
                 setTimeout(() => {
                     navigate('/profile');
                 }, 2000);
             } catch (error: any) {
                 if (error.response?.status === HTTP_CODE.CONFLICT) {
-                    setMessage('You have too many plans');
+                    setMessageSendPlan('You have too many plans');
                 } else {
-                    setMessage('Something went wrong, try again later');
+                    setMessageSendPlan('Something went wrong, try again later');
                 }
-                setIsSending(false);
+                setIsSendingPlan(false);
             }
         }
     };
 
     return {
-        isSending,
-        message,
-        messageType,
+        isSendingPlan,
+        messageSendPlan,
+        messageTypeSendPlan,
         setName,
         setDescription,
         setPrice,
-        send,
+        sendPlan,
     };
 };

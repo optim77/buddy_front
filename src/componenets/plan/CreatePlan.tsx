@@ -6,16 +6,17 @@ import { StyledCard, StyledTextareaAutosize } from '../../customStyles/Element';
 import { MainContainer } from '../../customStyles/MainContainer';
 import AppTheme from '../theme/AppTheme';
 import { useCreatePlan } from './hooks/useSendPlan';
+import {fetchMessage} from "../../utils/fetchMessage";
 
 const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const {
-        isSending,
-        message,
-        messageType,
+        isSendingPlan,
+        messageSendPlan,
+        messageTypeSendPlan,
         setName,
         setDescription,
         setPrice,
-        send,
+        sendPlan,
     } = useCreatePlan();
 
     return (
@@ -27,10 +28,8 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         Create plan
                     </Typography>
 
-                    {message && (
-                        <Typography color={messageType} variant="body2">
-                            {message}
-                        </Typography>
+                    {messageSendPlan && (
+                        fetchMessage(messageSendPlan, messageTypeSendPlan)
                     )}
                     <Typography variant="h4" component="h1" gutterBottom>
                         Name
@@ -63,8 +62,8 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        onClick={send}
-                        disabled={isSending}
+                        onClick={sendPlan}
+                        disabled={isSendingPlan}
                     >
                         Create
                     </Button>

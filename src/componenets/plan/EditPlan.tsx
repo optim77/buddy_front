@@ -2,31 +2,32 @@ import {TextField, Typography} from '@mui/material';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 
-import React,  from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import {StyledCard, StyledTextareaAutosize} from '../../customStyles/Element';
-import {MainContainer} from '../../customStyles/MainContainer';
+import { StyledCard, StyledTextareaAutosize } from '../../customStyles/Element';
+import { MainContainer } from '../../customStyles/MainContainer';
 
 import AppTheme from '../theme/AppTheme';
 
-import {useFetchPlan} from "./hooks/useFetchPlan";
-import {useCreatePlan} from "./hooks/useSendPlan";
+import { useFetchPlan } from "./hooks/useFetchPlan";
+import { useCreatePlan } from "./hooks/useSendPlan";
+import { fetchMessage } from "../../utils/fetchMessage";
 
 const EditPlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
     const id = useParams<{ id: string }>();
-    const {plan, message, messageType} = useFetchPlan(id.id);
+    const {plan, fetchPlanMessage, fetchPlanMessageType} = useFetchPlan(id.id);
 
 
     const {
-        isSending,
-        message,
-        messageType,
+        isSendingPlan,
+        messageSendPlan,
+        messageTypeSendPlan,
         setName,
         setDescription,
         setPrice,
-        send,
+        sendPlan,
     } = useCreatePlan();
 
 
@@ -35,14 +36,16 @@ const EditPlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
             <CssBaseline enableColorScheme/>
             <MainContainer>
                 <StyledCard variant="outlined">
+
                     <Typography variant="h4" component="h1" gutterBottom>
                         Edit plan
                     </Typography>
 
-                    {message && (
-                        <Typography color={messageType} variant="body2">
-                            {message}
-                        </Typography>
+                    {fetchPlanMessage && (
+                        fetchMessage(fetchPlanMessage, fetchPlanMessageType)
+                    )}
+                    {messageSendPlan && (
+                        fetchMessage(messageSendPlan, messageTypeSendPlan)
                     )}
                     <Typography variant="h4" component="h1" gutterBottom>
                         Name
@@ -75,8 +78,8 @@ const EditPlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        onClick={send}
-                        disabled={isSending}
+                        onClick={sendPlan}
+                        disabled={isSendingPlan}
                     >
                         Update
                     </Button>
