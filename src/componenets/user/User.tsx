@@ -17,6 +17,9 @@ import ProfileWidget from '../profile/ProfileWidget';
 import AppTheme from '../theme/AppTheme';
 
 import { UserInformation } from './UserInformation';
+import {useFetchUser} from "./hook/useFetchUser";
+import {fetchMessage} from "../../utils/fetchMessage";
+import {MESSAGE_TYPE} from "../../utils/CODE";
 
 const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [images, setImages] = useState<any[]>([]);
@@ -26,10 +29,12 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
     let isContent = false;
     const { ref, inView } = useInView({ threshold: 0.5 });
     const { userId } = useParams<{ userId: string }>();
-    const [user, setUser] = useState<UserInformation>();
+
     const [viewMode, setViewMode] = useState<string>(
         localStorage.getItem('buddy-grip') || 'grid',
     );
+
+    const { userLoading, user , fetchUserMessage } = useFetchUser(userId)
 
     const fetchProfileImages = useCallback(async () => {
         if (!hasMore) return;
@@ -57,22 +62,6 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
         }
     }, [page, hasMore]);
 
-    const fetchUserInformation = useCallback(async (user: string) => {
-        try {
-            await axios
-                .get(`${process.env.REACT_APP_API_ADDRESS}/user/${user}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + authService.getToken(),
-                    },
-                })
-                .then((res) => {
-                    setUser(res.data);
-                });
-        } catch (error) {
-            setError('Error fetching profile information');
-        }
-    }, []);
 
     useEffect(() => {
         // if (userId === authService.getBuddyUser()){
@@ -91,11 +80,6 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
         }
     }, [inView, hasMore]);
 
-    useEffect(() => {
-        if (userId) {
-            fetchUserInformation(userId);
-        }
-    }, [fetchUserInformation]);
 
     const handleViewChange = (mode: string) => {
         setViewMode(mode);
@@ -111,9 +95,12 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
-                    {error && <TextField value={error} />}
-
+                    {fetchUserMessage && (
+                        fetchMessage(fetchUserMessage, MESSAGE_TYPE.ERROR)
+                    )}
+                    {!userLoading && <p>Loading...</p>}
                     {user && <ProfileWidget profile={user} />}
+
                     {!isContent ? null : (
                         <Typography variant="h1" gutterBottom>
                             There is no posts yet ;)
