@@ -8,7 +8,7 @@ export interface LikeButtonProps {
 
 export async function likePhoto(photoId: string): Promise<void> {
     try {
-        const response = await axios.post(
+        await axios.post(
             `${process.env.REACT_APP_API_ADDRESS}/like/image/` + photoId,
             { photoId },
             {
@@ -19,21 +19,7 @@ export async function likePhoto(photoId: string): Promise<void> {
             },
         );
 
-        if (response.status === 200) {
-            console.log(`Photo ${photoId} liked successfully!`);
-        } else {
-            console.error(
-                `Unexpected response status: ${response.status} - ${response.statusText}`,
-            );
-        }
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.error(
-                'Axios error:',
-                error.response?.data || error.message,
-            );
-        } else {
-            console.error('Unexpected error:', error);
-        }
+        return;
     }
 }

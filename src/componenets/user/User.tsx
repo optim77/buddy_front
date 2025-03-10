@@ -1,31 +1,24 @@
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useParams } from 'react-router-dom';
 
 import { MainContainer } from '../../customStyles/MainContainer';
-import authService from '../../services/authService';
 import MediaGrip from '../media/grid/MediaGrip';
 import ViewModeToggle from '../media/ViewModeToggle';
 import MediaWall from '../media/wall/MediaWall';
 import ProfileWidget from '../profile/ProfileWidget';
 import AppTheme from '../theme/AppTheme';
 
-import { UserInformation } from './UserInformation';
 import {useFetchUser} from "./hook/useFetchUser";
 import {fetchMessage} from "../../utils/fetchMessage";
 import {MESSAGE_TYPE} from "../../utils/CODE";
+import { useFetchProfileMedia } from "./hook/useFetchProfileImages";
 
 const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const [images, setImages] = useState<any[]>([]);
-    const [page, setPage] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+
     let isContent = false;
     const { ref, inView } = useInView({ threshold: 0.5 });
     const { userId } = useParams<{ userId: string }>();
@@ -35,44 +28,8 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
     );
 
     const { userLoading, user , fetchUserMessage } = useFetchUser(userId)
+    const { images, hasMore, setPage, fetchProfileImagesError } = useFetchProfileMedia(userId);
 
-    const fetchProfileImages = useCallback(async () => {
-        if (!hasMore) return;
-
-        try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/image/user/` + userId,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization:
-                            'Bearer ' + authService.getToken()
-                                ? authService.getToken()
-                                : '',
-                    },
-                    params: { page, size: 20 },
-                },
-            );
-
-            const newImages = response.data.content;
-            setImages((prevImages) => [...prevImages, ...newImages]);
-            setHasMore(page + 1 < response.data.page.totalPages);
-        } catch (error) {
-            setError('Error fetching profile images');
-        }
-    }, [page, hasMore]);
-
-
-    useEffect(() => {
-        // if (userId === authService.getBuddyUser()){
-        //     navigate("/profile")
-        // }
-        fetchProfileImages().then((res) => {
-            if (res !== undefined) {
-                isContent = true;
-            }
-        });
-    }, [page, userId]);
 
     useEffect(() => {
         if (inView && hasMore) {
@@ -97,6 +54,9 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 <MainContainer>
                     {fetchUserMessage && (
                         fetchMessage(fetchUserMessage, MESSAGE_TYPE.ERROR)
+                    )}
+                    {fetchProfileImagesError && (
+                        fetchMessage(fetchProfileImagesError, MESSAGE_TYPE.ERROR)
                     )}
                     {!userLoading && <p>Loading...</p>}
                     {user && <ProfileWidget profile={user} />}

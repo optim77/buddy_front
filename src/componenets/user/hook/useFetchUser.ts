@@ -4,7 +4,7 @@ import authService from "../../../services/authService";
 import { UserInformation } from "../UserInformation";
 import {MESSAGE_TYPE_ERROR} from "../../../utils/CODE";
 
-export const useFetchUser = (userId: string |undefined) => {
+export const useFetchUser = (userId?: string) => {
     const [userLoading, setUserLoading] = useState(true);
     const [fetchUserMessage, setFetchUserMessage] = useState<string>("");
     const [user, setUser] = useState<UserInformation | undefined>();
