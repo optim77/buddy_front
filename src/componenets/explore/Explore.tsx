@@ -13,14 +13,14 @@ import MediaGrip from '../media/grid/MediaGrip';
 import { MediaObject } from '../media/MediaObject';
 import ViewModeToggle from '../media/ViewModeToggle';
 import MediaWall from '../media/wall/MediaWall';
-import { TagInterface } from '../tag/TagInterface';
+import { ITag } from '../tag/ITag';
 import AppTheme from '../theme/AppTheme';
 
 import TagList from './TagList';
 
 const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [images, setImages] = useState<MediaObject[]>([]);
-    const [tags, setTags] = useState<TagInterface[]>([]);
+    const [tags, setTags] = useState<ITag[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [error, setError] = useState<string | null>(null);

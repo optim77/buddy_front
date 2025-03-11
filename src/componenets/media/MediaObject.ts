@@ -1,4 +1,4 @@
-import { TagInterface } from '../tag/TagInterface';
+import { ITag } from '../tag/ITag';
 
 export interface MediaObject {
     avatar: string | null;
@@ -14,5 +14,5 @@ export interface MediaObject {
     userId: string;
     username: string;
     blurredUrl: string;
-    tags: TagInterface[];
+    tags: ITag[];
 }

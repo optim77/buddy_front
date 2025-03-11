@@ -4,10 +4,11 @@ import axios from 'axios';
 import authService from '../../../services/authService';
 import { HTTP_CODE } from '../../../utils/CODE';
 
-export const useCreatePlan = (update: boolean = false) => {
+export const useCreatePlan = (update = false) => {
     const [isSendingPlan, setIsSendingPlan] = useState<boolean>(false);
     const [messageSendPlan, setMessageSendPlan] = useState<string>('');
-    const [messageTypeSendPlan, setMessageTypeSendPlan] = useState<string>('error');
+    const [messageTypeSendPlan, setMessageTypeSendPlan] =
+        useState<string>('error');
     const [name, setName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [price, setPrice] = useState<number | null>(null);
@@ -54,7 +55,7 @@ export const useCreatePlan = (update: boolean = false) => {
                             },
                         },
                     );
-                }else{
+                } else {
                     await axios.post(
                         `${process.env.REACT_APP_API_ADDRESS}/plan/create`,
                         formData,
@@ -67,8 +68,9 @@ export const useCreatePlan = (update: boolean = false) => {
                     );
                 }
 
-
-                setMessageSendPlan('Created! You will be redirected to profile page');
+                setMessageSendPlan(
+                    'Created! You will be redirected to profile page',
+                );
                 setMessageTypeSendPlan('success');
                 setTimeout(() => {
                     navigate('/profile');

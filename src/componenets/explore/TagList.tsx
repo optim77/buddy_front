@@ -2,10 +2,10 @@ import { Grid, Card, Typography, Avatar, Box } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { TagInterface } from '../tag/TagInterface';
+import { ITag } from '../tag/ITag';
 
 interface TagListProps {
-    tags: TagInterface[];
+    tags: ITag[];
 }
 
 const TagList: React.FC<TagListProps> = ({ tags }) => {

@@ -11,11 +11,13 @@ import authService from '../../services/authService';
 import AppTheme from '../theme/AppTheme';
 
 import { useFetchPlan } from './hooks/useFetchPlan';
-import {fetchMessage} from "../../utils/fetchMessage";
+import { fetchMessage } from '../../utils/fetchMessage';
 
 const PlanView: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const id = useParams<{ id: string }>();
-    const { plan, fetchPlanMessage, fetchPlanMessageType } = useFetchPlan(id.id);
+    const { plan, fetchPlanMessage, fetchPlanMessageType } = useFetchPlan(
+        id.id,
+    );
 
     return (
         <AppTheme {...props}>
@@ -29,9 +31,8 @@ const PlanView: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         </LinkWhite>
                     </Typography>
 
-                    {fetchPlanMessage && (
-                        fetchMessage(fetchPlanMessage, fetchPlanMessageType)
-                    )}
+                    {fetchPlanMessage &&
+                        fetchMessage(fetchPlanMessage, fetchPlanMessageType)}
                     <Typography variant="h4" component="h1" gutterBottom>
                         Name
                     </Typography>

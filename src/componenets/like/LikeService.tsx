@@ -18,7 +18,6 @@ export async function likePhoto(photoId: string): Promise<void> {
                 },
             },
         );
-
     } catch (error) {
         return;
     }

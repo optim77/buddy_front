@@ -19,11 +19,10 @@ module.exports = {
         'prettier/prettier': [
             'error',
             {
-                "endOfLine": "lf",
-                "bracketSpacing": true
+                endOfLine: 'auto',
+                bracketSpacing: true,
             },
         ],
         'import/order': 'off',
-
     },
 };

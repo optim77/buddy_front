@@ -20,9 +20,9 @@ import { Link, useParams } from 'react-router-dom';
 import authService from '../../services/authService';
 import { formatLikes } from '../../utils/FormatLike';
 import { buildMediaLink } from '../../utils/FormatMediaLink';
-import { EditIcon, InfoIcon, MuteIcon, UnmuteIcon } from '../CustomIcons';
+import { EditIcon, InfoIcon } from '../CustomIcons';
 import LikeButton from '../like/LikeButton';
-import { TagInterface } from '../tag/TagInterface';
+import { ITag } from '../tag/ITag';
 import AppTheme from '../theme/AppTheme';
 
 import { MediaObject } from './MediaObject';
@@ -148,23 +148,21 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     }}
                                 >
                                     {media.tags
-                                        ? media.tags.map(
-                                              (tag: TagInterface) => (
-                                                  <Link
-                                                      to={`/tag/${tag}`}
-                                                      key={tag.toString()}
-                                                  >
-                                                      <Chip
-                                                          label={tag.toString()}
-                                                          variant="filled"
-                                                          sx={{
-                                                              fontSize: '1rem',
-                                                              padding: '10px',
-                                                          }}
-                                                      />
-                                                  </Link>
-                                              ),
-                                          )
+                                        ? media.tags.map((tag: ITag) => (
+                                              <Link
+                                                  to={`/tag/${tag}`}
+                                                  key={tag.toString()}
+                                              >
+                                                  <Chip
+                                                      label={tag.toString()}
+                                                      variant="filled"
+                                                      sx={{
+                                                          fontSize: '1rem',
+                                                          padding: '10px',
+                                                      }}
+                                                  />
+                                              </Link>
+                                          ))
                                         : null}
                                 </Box>
 

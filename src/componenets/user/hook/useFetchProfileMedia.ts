@@ -1,8 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-import authService from "../../../services/authService";
+import { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
+import authService from '../../../services/authService';
 
 export const useFetchProfileMedia = (userId?: string) => {
+    const [fetchMediaProfileLoading, setFetchMediaProfileLoading] = useState<boolean>(true);
+    const [fetchProfileMediaContent, setFetchProfileMediaContent] = useState<boolean>(true);
     const [images, setImages] = useState<any[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
@@ -10,7 +12,7 @@ export const useFetchProfileMedia = (userId?: string) => {
 
     const fetchProfileImages = useCallback(async () => {
         if (!userId) {
-            setFetchProfileImagesError("User ID is undefined");
+            setFetchProfileImagesError('User ID is undefined');
             return;
         }
 
@@ -21,26 +23,36 @@ export const useFetchProfileMedia = (userId?: string) => {
                 `${process.env.REACT_APP_API_ADDRESS}/image/user/${userId}`,
                 {
                     headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${authService.getToken() || ""}`,
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authService.getToken() || ''}`,
                     },
                     params: { page, size: 20 },
-                }
+                },
             );
-
+            if (response.data.length === 0) {
+                setFetchProfileMediaContent(false);
+            }
             const newImages = response.data.content;
             setImages((prevImages) => [...prevImages, ...newImages]);
             setHasMore(page + 1 < response.data.page.totalPages);
         } catch (error) {
-            setFetchProfileImagesError("Error fetching profile images");
+            setFetchProfileImagesError('Error fetching profile images');
         }
     }, [userId, page, hasMore]);
 
     useEffect(() => {
         if (userId) {
             fetchProfileImages();
+            setFetchMediaProfileLoading(false);
         }
     }, [page, userId]);
 
-    return { images, hasMore, setPage, fetchProfileImagesError };
+    return {
+        fetchMediaProfileLoading,
+        fetchProfileMediaContent,
+        images,
+        hasMore,
+        setPage,
+        fetchProfileImagesError
+    };
 };

@@ -12,14 +12,13 @@ import MediaWall from '../media/wall/MediaWall';
 import ProfileWidget from '../profile/ProfileWidget';
 import AppTheme from '../theme/AppTheme';
 
-import {useFetchUser} from "./hook/useFetchUser";
-import {fetchMessage} from "../../utils/fetchMessage";
-import {MESSAGE_TYPE} from "../../utils/CODE";
-import { useFetchProfileMedia } from "./hook/useFetchProfileImages";
+import { useFetchUser } from './hook/useFetchUser';
+import { fetchMessage } from '../../utils/fetchMessage';
+import { MESSAGE_TYPE } from '../../utils/CODE';
+import { useFetchProfileMedia } from './hook/useFetchProfileMedia';
 
 const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
-    let isContent = false;
     const { ref, inView } = useInView({ threshold: 0.5 });
     const { userId } = useParams<{ userId: string }>();
 
@@ -27,16 +26,21 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
         localStorage.getItem('buddy-grip') || 'grid',
     );
 
-    const { userLoading, user , fetchUserMessage } = useFetchUser(userId)
-    const { images, hasMore, setPage, fetchProfileImagesError } = useFetchProfileMedia(userId);
-
+    const { userLoading, user, fetchUserMessage } = useFetchUser(userId);
+    const {
+        fetchMediaProfileLoading,
+        fetchProfileMediaContent,
+        images,
+        hasMore,
+        setPage,
+        fetchProfileImagesError
+    } = useFetchProfileMedia(userId);
 
     useEffect(() => {
         if (inView && hasMore) {
             setPage((prevPage) => prevPage + 1);
         }
     }, [inView, hasMore]);
-
 
     const handleViewChange = (mode: string) => {
         setViewMode(mode);
@@ -52,16 +56,19 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
-                    {fetchUserMessage && (
-                        fetchMessage(fetchUserMessage, MESSAGE_TYPE.ERROR)
-                    )}
-                    {fetchProfileImagesError && (
-                        fetchMessage(fetchProfileImagesError, MESSAGE_TYPE.ERROR)
-                    )}
+                    {fetchUserMessage &&
+                        fetchMessage(fetchUserMessage, MESSAGE_TYPE.ERROR)}
+                    {fetchProfileImagesError &&
+                        fetchMessage(
+                            fetchProfileImagesError,
+                            MESSAGE_TYPE.ERROR,
+                        )}
                     {!userLoading && <p>Loading...</p>}
+
                     {user && <ProfileWidget profile={user} />}
 
-                    {!isContent ? null : (
+                    {!fetchMediaProfileLoading && <p>Loading...</p>}
+                    {fetchProfileMediaContent && (
                         <Typography variant="h1" gutterBottom>
                             There is no posts yet ;)
                         </Typography>

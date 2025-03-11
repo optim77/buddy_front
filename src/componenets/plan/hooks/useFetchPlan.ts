@@ -13,7 +13,8 @@ export const useFetchPlan = (id: string | undefined) => {
         };
     const [plan, setPlan] = useState<Plan | null>(null);
     const [fetchPlanMessage, setFetchPlanMessage] = useState<string>('');
-    const [fetchPlanMessageType, setFetchPlanMessageType] = useState<string>('');
+    const [fetchPlanMessageType, setFetchPlanMessageType] =
+        useState<string>('');
 
     useEffect(() => {
         const getPlan = async () => {

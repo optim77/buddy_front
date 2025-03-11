@@ -6,7 +6,7 @@ import { StyledCard, StyledTextareaAutosize } from '../../customStyles/Element';
 import { MainContainer } from '../../customStyles/MainContainer';
 import AppTheme from '../theme/AppTheme';
 import { useCreatePlan } from './hooks/useSendPlan';
-import {fetchMessage} from "../../utils/fetchMessage";
+import { fetchMessage } from '../../utils/fetchMessage';
 
 const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const {
@@ -28,9 +28,8 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         Create plan
                     </Typography>
 
-                    {messageSendPlan && (
-                        fetchMessage(messageSendPlan, messageTypeSendPlan)
-                    )}
+                    {messageSendPlan &&
+                        fetchMessage(messageSendPlan, messageTypeSendPlan)}
                     <Typography variant="h4" component="h1" gutterBottom>
                         Name
                     </Typography>
