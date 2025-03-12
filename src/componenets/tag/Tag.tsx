@@ -1,58 +1,31 @@
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useParams } from 'react-router-dom';
-
 import { MainContainer } from '../../customStyles/MainContainer';
-import authService from '../../services/authService';
 import MediaGrip from '../media/grid/MediaGrip';
 import AppTheme from '../theme/AppTheme';
-import { IMedia } from '../media/IMedia';
+import {useFetchTagMedia} from "./hook/useFetchTagMedia";
+import {fetchMessage} from "../../utils/fetchMessage";
+import {MESSAGE_TYPE} from "../../utils/CODE";
 
 const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const [images, setImages] = useState<IMedia[]>([]);
-    const [page, setPage] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    let isContent = false;
+
     const { ref, inView } = useInView({ threshold: 0.5 });
     const { tag } = useParams<{ tag: string }>();
 
-    const fetchTagsImages = useCallback(async () => {
-        if (!hasMore) return;
 
-        try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/tag/${tag}`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + authService.getToken(),
-                    },
-                    params: { page, size: 20 },
-                },
-            );
-
-            const newImages = response.data.content;
-            setImages((prevImages) => [...prevImages, ...newImages]);
-            setHasMore(page + 1 < response.data.page.totalPages);
-        } catch (error) {
-            setError('Error fetching profile images');
-        }
-    }, [page, hasMore]);
-
-    useEffect(() => {
-        fetchTagsImages().then((res) => {
-            if (res != undefined) {
-                isContent = true;
-            }
-        });
-    }, [page]);
+    const {
+        fetchMediaTagLoading,
+        fetchMediaTagContent,
+        media,
+        hasMore,
+        setPage,
+        fetchTagMediaError
+    } = useFetchTagMedia(tag);
 
     useEffect(() => {
         if (inView && hasMore) {
@@ -69,15 +42,20 @@ const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
-                    {error && <TextField value={error} />}
-                    {!isContent ? null : (
+                    {fetchTagMediaError &&
+                        fetchMessage(fetchTagMediaError, MESSAGE_TYPE.ERROR)}
+
+                    {!fetchMediaTagLoading && <p>Loading...</p>}
+
+                    {!fetchMediaTagContent ? null : (
                         <Typography variant="h1" gutterBottom>
                             There is no posts yet ;)
                         </Typography>
                     )}
+
                     <Grid container spacing={4}>
-                        {images.map((image) => (
-                            <MediaGrip image={image} />
+                        {media.map((m) => (
+                            <MediaGrip image={m} />
                         ))}
                     </Grid>
                     <div ref={ref} style={{ height: '1px' }} />

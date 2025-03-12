@@ -30,7 +30,7 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const {
         fetchMediaProfileLoading,
         fetchProfileMediaContent,
-        images,
+        media,
         hasMore,
         setPage,
         fetchProfileImagesError
@@ -74,7 +74,7 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         </Typography>
                     )}
 
-                    {images.length === 0 ? null : (
+                    {media.length === 0 ? null : (
                         <ViewModeToggle
                             viewMode={viewMode}
                             onChange={handleViewChange}
@@ -91,8 +91,8 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                 padding: '20px',
                             }}
                         >
-                            {images.map((image) => (
-                                <MediaGrip key={image.imageId} image={image} />
+                            {media.map((m) => (
+                                <MediaGrip key={m.imageId} image={m} />
                             ))}
                         </div>
                     ) : (
@@ -105,8 +105,8 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                 width: '100%',
                             }}
                         >
-                            {images.map((image) => (
-                                <MediaWall key={image.imageId} image={image} />
+                            {media.map((m) => (
+                                <MediaWall key={m.imageId} image={m} />
                             ))}
                         </div>
                     )}

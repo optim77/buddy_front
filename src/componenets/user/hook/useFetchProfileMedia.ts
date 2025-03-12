@@ -5,7 +5,7 @@ import authService from '../../../services/authService';
 export const useFetchProfileMedia = (userId?: string) => {
     const [fetchMediaProfileLoading, setFetchMediaProfileLoading] = useState<boolean>(true);
     const [fetchProfileMediaContent, setFetchProfileMediaContent] = useState<boolean>(true);
-    const [images, setImages] = useState<any[]>([]);
+    const [media, setMedia] = useState<any[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [fetchProfileImagesError, setFetchProfileImagesError] = useState<string | null>(null);
@@ -32,8 +32,8 @@ export const useFetchProfileMedia = (userId?: string) => {
             if (response.data.length === 0) {
                 setFetchProfileMediaContent(false);
             }
-            const newImages = response.data.content;
-            setImages((prevImages) => [...prevImages, ...newImages]);
+            const newMedia = response.data.content;
+            setMedia((prevMedia) => [...prevMedia, ...newMedia]);
             setHasMore(page + 1 < response.data.page.totalPages);
         } catch (error) {
             setFetchProfileImagesError('Error fetching profile images');
@@ -41,16 +41,14 @@ export const useFetchProfileMedia = (userId?: string) => {
     }, [userId, page, hasMore]);
 
     useEffect(() => {
-        if (userId) {
-            fetchProfileImages();
-            setFetchMediaProfileLoading(false);
-        }
+        fetchProfileImages();
+        setFetchMediaProfileLoading(false);
     }, [page, userId]);
 
     return {
         fetchMediaProfileLoading,
         fetchProfileMediaContent,
-        images,
+        media,
         hasMore,
         setPage,
         fetchProfileImagesError
