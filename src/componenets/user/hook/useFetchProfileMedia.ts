@@ -51,6 +51,6 @@ export const useFetchProfileMedia = (userId?: string) => {
         media,
         hasMore,
         setPage,
-        fetchProfileImagesError
+        fetchProfileImagesError,
     };
 };

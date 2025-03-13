@@ -18,7 +18,6 @@ import { MESSAGE_TYPE } from '../../utils/CODE';
 import { useFetchProfileMedia } from './hook/useFetchProfileMedia';
 
 const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
-
     const { ref, inView } = useInView({ threshold: 0.5 });
     const { userId } = useParams<{ userId: string }>();
 
@@ -33,7 +32,7 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
         media,
         hasMore,
         setPage,
-        fetchProfileImagesError
+        fetchProfileImagesError,
     } = useFetchProfileMedia(userId);
 
     useEffect(() => {

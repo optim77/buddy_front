@@ -21,6 +21,7 @@ module.exports = {
             {
                 endOfLine: 'auto',
                 bracketSpacing: true,
+                prettier: 'never',
             },
         ],
         'import/order': 'off',

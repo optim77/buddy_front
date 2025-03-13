@@ -8,15 +8,13 @@ import { useParams } from 'react-router-dom';
 import { MainContainer } from '../../customStyles/MainContainer';
 import MediaGrip from '../media/grid/MediaGrip';
 import AppTheme from '../theme/AppTheme';
-import {useFetchTagMedia} from "./hook/useFetchTagMedia";
-import {fetchMessage} from "../../utils/fetchMessage";
-import {MESSAGE_TYPE} from "../../utils/CODE";
+import { useFetchTagMedia } from './hook/useFetchTagMedia';
+import { fetchMessage } from '../../utils/fetchMessage';
+import { MESSAGE_TYPE } from '../../utils/CODE';
 
 const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
-
     const { ref, inView } = useInView({ threshold: 0.5 });
     const { tag } = useParams<{ tag: string }>();
-
 
     const {
         fetchMediaTagLoading,
@@ -24,7 +22,7 @@ const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
         media,
         hasMore,
         setPage,
-        fetchTagMediaError
+        fetchTagMediaError,
     } = useFetchTagMedia(tag);
 
     useEffect(() => {
