@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import authService from '../../../services/authService';
+import { ILoop } from '../ILoop';
 
 export const useFetchLoops = () => {
-    const [videos, setVideos] = useState<any[]>([]);
+    const [videos, setVideos] = useState<ILoop[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [error, setError] = useState<string | null>(null);

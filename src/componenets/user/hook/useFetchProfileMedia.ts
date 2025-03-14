@@ -3,12 +3,15 @@ import axios from 'axios';
 import authService from '../../../services/authService';
 
 export const useFetchProfileMedia = (userId?: string) => {
-    const [fetchMediaProfileLoading, setFetchMediaProfileLoading] = useState<boolean>(true);
-    const [fetchProfileMediaContent, setFetchProfileMediaContent] = useState<boolean>(true);
+    const [fetchMediaProfileLoading, setFetchMediaProfileLoading] =
+        useState<boolean>(true);
+    const [fetchProfileMediaContent, setFetchProfileMediaContent] =
+        useState<boolean>(true);
     const [media, setMedia] = useState<any[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const [fetchProfileImagesError, setFetchProfileImagesError] = useState<string | null>(null);
+    const [fetchProfileImagesError, setFetchProfileImagesError] =
+        useState<string | null>(null);
 
     const fetchProfileImages = useCallback(async () => {
         if (!userId) {

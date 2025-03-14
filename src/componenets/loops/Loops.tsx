@@ -19,6 +19,7 @@ import { formatMediaLink } from '../../utils/FormatMediaLink';
 import LikeButton from '../like/LikeButton';
 import AppTheme from '../theme/AppTheme';
 import { useFetchLoops } from './hook/useFetchLoops';
+import { ILoop } from './ILoop';
 
 const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const { videos, hasMore, setPage, error, loading } = useFetchLoops();
@@ -128,7 +129,7 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
 };
 
 const VideoItem: React.FC<{
-    video: any;
+    video: ILoop;
     index: number;
     currentIndex: number;
     muted: boolean;
@@ -172,7 +173,7 @@ const VideoItem: React.FC<{
 };
 
 const VideoControls: React.FC<{
-    video: any;
+    video: ILoop;
     muted: boolean;
     setMuted: (muted: boolean) => void;
 }> = ({ video, muted, setMuted }) => {
