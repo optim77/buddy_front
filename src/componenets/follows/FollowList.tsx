@@ -10,13 +10,22 @@ import { buildMediaLink, formatMediaLink } from '../../utils/FormatMediaLink';
 
 import { FollowListUser } from './FollowListUser';
 
-const FollowList = ({ followers }: { followers: FollowListUser[] }) => {
-    if (!followers.length) {
-        return <Typography>No followers to display.</Typography>;
-    }
+const FollowList = ({
+                        isContent,
+                        isLoading,
+                        fetchFollowersError,
+                        followers }: {
+    isContent: boolean,
+    isLoading: boolean,
+    fetchFollowersError: string | null,
+    followers: FollowListUser[]
+}) => {
 
     return (
         <Grid container spacing={2}>
+            {!isContent && (<Typography>No content ;/</Typography>)}
+            {isLoading && (<Typography>Loading...</Typography>)}
+            {fetchFollowersError && (<Typography>fetchFollowersError</Typography>)}
             {followers.map((follower) => (
                 <Grid item xs={12} sm={6} md={4} key={follower.id}>
                     <Link
@@ -34,7 +43,7 @@ const FollowList = ({ followers }: { followers: FollowListUser[] }) => {
                                 transition: 'background-color 0.3s ease',
                                 backgroundColor: 'white',
                                 '&:hover': {
-                                    backgroundColor: '#f9f9f9', // Jasnoszare tło
+                                    backgroundColor: '#f9f9f9',
                                 },
                             }}
                         >
