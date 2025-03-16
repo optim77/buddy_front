@@ -1,23 +1,20 @@
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
-import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+
+import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { MainContainer } from '../../../customStyles/MainContainer';
-import authService from '../../../services/authService';
-import { MediaObject } from '../../media/MediaObject';
+
 import AppTheme from '../../theme/AppTheme';
-import { UserInformation } from '../../user/UserInformation';
 import FollowList from '../FollowList';
-import { FollowListUser } from '../FollowListUser';
-import {useFetchFollowers} from "../hook/useFetchFollowers";
+import { useFetchFollow } from "../hook/useFetchFollowers";
 
 const Followers: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
     const { ref, inView } = useInView({ threshold: 0.5 });
 
-    const {isContent, isLoading, fetchFollowersError, followers, hasMore , setPage } = useFetchFollowers();
+    const {isContent, isLoading, fetchFollowersError, followers, hasMore , setPage } = useFetchFollow("followers");
 
     useEffect(() => {
         if (inView && hasMore) {

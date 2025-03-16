@@ -3,7 +3,7 @@ import {FollowListUser} from "../FollowListUser";
 import axios from "axios";
 import authService from "../../../services/authService";
 
-export const useFetchFollowers = () => {
+export const useFetchFollow = (type: string) => {
     const [isContent, setIsContent] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [followers, setFollowers] = useState<FollowListUser[]>([]);
@@ -15,7 +15,7 @@ export const useFetchFollowers = () => {
         if (!hasMore) return;
         try {
             await axios
-                .get(`${process.env.REACT_APP_API_ADDRESS}/followers`, {
+                .get(`${process.env.REACT_APP_API_ADDRESS}/${type}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: authService.getToken()
