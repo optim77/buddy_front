@@ -8,7 +8,6 @@ import {
 import { getCookie } from 'typescript-cookie';
 
 import Account from './componenets/account/Account';
-import Register from './componenets/auth/Register';
 import Login from './componenets/auth/SignIn';
 import SignUp from './componenets/auth/SignUp';
 import Create from './componenets/create/Create';
@@ -57,16 +56,6 @@ const AppRouter: React.FC = () => {
                             <Navigate to="/dashboard" />
                         ) : (
                             <SignUp />
-                        )
-                    }
-                />
-                <Route
-                    path="/register"
-                    element={
-                        isAuthenticated ? (
-                            <Navigate to="/dashboard" />
-                        ) : (
-                            <Register />
                         )
                     }
                 />
