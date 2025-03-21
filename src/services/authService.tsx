@@ -68,6 +68,8 @@ const authService = {
     getIdFromCookie,
     setIds,
     getBuddyUser,
+    setToken,
+    setBuddyUser,
 };
 
 export default authService;

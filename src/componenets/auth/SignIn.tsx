@@ -1,232 +1,96 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import MuiCard from '@mui/material/Card';
-import Checkbox from '@mui/material/Checkbox';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import Link from '@mui/material/Link';
-import { styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import Link from "@mui/material/Link";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import React, { useState } from "react";
 
-import { MainContainer } from '../../customStyles/MainContainer';
-import authService from '../../services/authService';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../CustomIcons';
-import AppTheme from '../theme/AppTheme';
-import ColorModeSelect from '../theme/ColorModeSelect';
+import { MainContainer } from "../../customStyles/MainContainer";
+import { GoogleIcon, FacebookIcon, SitemarkIcon } from "../CustomIcons";
+import AppTheme from "../theme/AppTheme";
+import ColorModeSelect from "../theme/ColorModeSelect";
+import ForgotPassword from "./ForgotPassword";
+import { CustomCard } from "../../customStyles/Element";
+import { useAuth } from "./hook/useAuth";
+import { useAuthValidation } from "./hook/useAuthValidation";
 
-import ForgotPassword from './ForgotPassword';
-import {CustomCard} from "../../customStyles/Element";
-
-
-
-export default function SignIn(props: { disableCustomTheme?: boolean }) {
-    const [emailError, setEmailError] = React.useState(false);
-    const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
-    const [passwordError, setPasswordError] = React.useState(false);
-    const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-    const [open, setOpen] = React.useState(false);
-    const navigate = useNavigate();
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+export default function SignIn({ disableCustomTheme }: { disableCustomTheme?: boolean }) {
+    const { emailError, emailErrorMessage, passwordError, passwordErrorMessage } = useAuthValidation();
+    const { login, isSubmitting } = useAuth();
+    const [open, setOpen] = useState(false);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        const email = data.get('email') as string | null;
-        const password = data.get('password') as string | null;
-        if (email && password) {
-            authService
-                .login(email, password)
-                .then(function () {
-                    navigate(0);
-                })
-                .catch((error) => {
-                    if (
-                        error.response.data.message === 'Invalid email format'
-                    ) {
-                        setEmailError(true);
-                        setEmailErrorMessage(error.response.data.message);
-                    }
-                    if (
-                        error.response.data.message ===
-                        'Password does not meet the requirements (8-32 characters, upper and lower case, special character)'
-                    ) {
-                        setPasswordError(true);
-                        setPasswordErrorMessage(error.response.data.message);
-                    } else {
-                        setEmailError(true);
-                        setEmailErrorMessage('Wrong email or password');
-                    }
-                });
-        }
-    };
-
-    const validateInputs = () => {
-        const email = document.getElementById('email') as HTMLInputElement;
-        const password = document.getElementById(
-            'password',
-        ) as HTMLInputElement;
-
-        let isValid = true;
-
-        if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-            setEmailError(true);
-            setEmailErrorMessage('Please enter a valid email address.');
-            isValid = false;
-        } else {
-            setEmailError(false);
-            setEmailErrorMessage('');
-        }
-
-        if (!password.value || password.value.length < 6) {
-            setPasswordError(true);
-            setPasswordErrorMessage(
-                'Password must be at least 6 characters long.',
-            );
-            isValid = false;
-        } else {
-            setPasswordError(false);
-            setPasswordErrorMessage('');
-        }
-
-        return isValid;
+        const formData = new FormData(event.currentTarget);
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
+        login(email, password);
     };
 
     return (
-        <AppTheme {...props}>
+        <AppTheme disableCustomTheme={disableCustomTheme}>
             <CssBaseline enableColorScheme />
             <MainContainer direction="column" justifyContent="space-between">
-                <ColorModeSelect
-                    sx={{ position: 'fixed', top: '1rem', right: '1rem' }}
-                />
+                <ColorModeSelect sx={{ position: "fixed", top: "1rem", right: "1rem" }} />
                 <CustomCard variant="outlined">
                     <SitemarkIcon />
-                    <Typography
-                        component="h1"
-                        variant="h4"
-                        sx={{
-                            width: '100%',
-                            fontSize: 'clamp(2rem, 10vw, 2.15rem)',
-                        }}
-                    >
+                    <Typography component="h1" variant="h4">
                         Sign in
                     </Typography>
-                    <Box
-                        component="form"
-                        onSubmit={handleSubmit}
-                        noValidate
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            width: '100%',
-                            gap: 2,
-                        }}
-                    >
+                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                         <FormControl>
-                            <FormLabel htmlFor="email">Email</FormLabel>
+                            <FormLabel>Email</FormLabel>
                             <TextField
                                 error={emailError}
                                 helperText={emailErrorMessage}
-                                id="email"
-                                type="email"
                                 name="email"
+                                type="email"
                                 placeholder="your@email.com"
                                 autoComplete="email"
-                                autoFocus
                                 required
                                 fullWidth
                                 variant="outlined"
-                                color={emailError ? 'error' : 'primary'}
-                                sx={{ ariaLabel: 'email' }}
                             />
                         </FormControl>
                         <FormControl>
-                            <FormLabel htmlFor="password">Password</FormLabel>
+                            <FormLabel>Password</FormLabel>
                             <TextField
                                 error={passwordError}
                                 helperText={passwordErrorMessage}
                                 name="password"
-                                placeholder="••••••"
                                 type="password"
-                                id="password"
+                                placeholder="••••••"
                                 autoComplete="current-password"
-                                autoFocus
                                 required
                                 fullWidth
                                 variant="outlined"
-                                color={passwordError ? 'error' : 'primary'}
                             />
                         </FormControl>
-                        <FormControlLabel
-                            control={
-                                <Checkbox value="remember" color="primary" />
-                            }
-                            label="Remember me"
-                        />
-                        <ForgotPassword open={open} handleClose={handleClose} />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            onClick={validateInputs}
-                        >
-                            Sign in
+                        <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+                        <ForgotPassword open={open} handleClose={() => setOpen(false)} />
+                        <Button type="submit" fullWidth variant="contained" disabled={isSubmitting}>
+                            {isSubmitting ? "Signing in..." : "Sign in"}
                         </Button>
-                        <Link
-                            component="button"
-                            type="button"
-                            onClick={handleClickOpen}
-                            variant="body2"
-                            sx={{ alignSelf: 'center' }}
-                        >
+                        <Link component="button" onClick={() => setOpen(true)} variant="body2" sx={{ alignSelf: "center" }}>
                             Forgot your password?
                         </Link>
                     </Box>
                     <Divider>or</Divider>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 2,
-                        }}
-                    >
-                        <Button
-                            fullWidth
-                            variant="outlined"
-                            onClick={() => alert('Sign in with Google')}
-                            startIcon={<GoogleIcon />}
-                        >
+                    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                        <Button fullWidth variant="outlined" onClick={() => alert("Sign in with Google")} startIcon={<GoogleIcon />}>
                             Sign in with Google
                         </Button>
-                        <Button
-                            fullWidth
-                            variant="outlined"
-                            onClick={() => alert('Sign in with Facebook')}
-                            startIcon={<FacebookIcon />}
-                        >
+                        <Button fullWidth variant="outlined" onClick={() => alert("Sign in with Facebook")} startIcon={<FacebookIcon />}>
                             Sign in with Facebook
                         </Button>
-                        <Typography sx={{ textAlign: 'center' }}>
-                            Don&apos;t have an account?{' '}
-                            <Link
-                                href="/material-ui/getting-started/templates/sign-in/"
-                                variant="body2"
-                                sx={{ alignSelf: 'center' }}
-                            >
-                                Sign up
-                            </Link>
+                        <Typography sx={{ textAlign: "center" }}>
+                            Don&apos;t have an account? <Link href="/sign-up" variant="body2">Sign up</Link>
                         </Typography>
                     </Box>
                 </CustomCard>
