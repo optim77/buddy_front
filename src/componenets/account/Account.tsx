@@ -28,34 +28,17 @@ import {
 import { MainContainer } from '../../customStyles/MainContainer';
 import authService from '../../services/authService';
 import { buildMediaLink } from '../../utils/FormatMediaLink';
-import { isValidPassword } from '../../utils/ValidPassword';
 import { TikTok } from '../CustomIcons';
 import AppTheme from '../theme/AppTheme';
-
-interface UserData {
-    active: boolean;
-    age: number;
-    avatar: string | null;
-    description: string | null;
-    email: string;
-    locked: boolean;
-    username: string;
-    uuid: string;
-    socialInstagram: string;
-    socialFacebook: string;
-    socialYoutube: string;
-    socialTwitter: string;
-    socialTikTok: string;
-    socialOF: string;
-}
+import { IUserData } from "./IUserData";
+import {useChangePassword} from "./hook/useChangePassword";
 
 const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
-    const [userData, setUserData] = useState<UserData | null>(null);
+    const [userData, setUserData] = useState<IUserData | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [avatarError, setAvatarError] = useState<string | null>(null);
     const [editError, setEditError] = useState<string | null>(null);
-    const [passwordError, setPasswordError] = useState<string | null>(null);
     const [lockError, setLockError] = useState<string | null>(null);
     const [deleteError, setDeleteError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
@@ -64,12 +47,21 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
     const [editField, setEditField] = useState<string | null>(null);
     const [editValue, setEditValue] = useState<string>('');
     const [deactivateStatus, setDeactivateStatus] = useState<boolean>(false);
-    const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
     const [deactivateDialogOpen, setDeactivateDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [newPassword, setNewPassword] = useState<string>('');
-    const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+
+    const {
+        changePasswordNewPassword,
+        changePasswordNewPasswordConfirm,
+        setChangePasswordNewPassword,
+        setChangePasswordNewPasswordConfirm,
+        setChangePasswordDialogOpen,
+        changePasswordDialogOpen,
+        changePasswordError,
+        changePasswordMessage,
+        changePassword
+    } = useChangePassword();
 
     const fetchUserData = useCallback(async () => {
         try {
@@ -129,48 +121,6 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
             } catch (err) {
                 setEditError('Failed to update user data.');
             }
-        }
-    };
-
-    const changePassword = async () => {
-        if (confirmPassword !== newPassword) {
-            setPasswordError('Passwords do not match');
-            return;
-        }
-        if (confirmPassword.length < 6 && newPassword.length < 6) {
-            setPasswordError('Password must be at least 6 characters long.');
-            return;
-        }
-        if (isValidPassword(newPassword)) {
-            setPasswordError(
-                'Password does not meet the requirements (8-32 characters, upper and lower case, special character)',
-            );
-            return;
-        }
-        try {
-            await axios
-                .put(
-                    `${process.env.REACT_APP_API_ADDRESS}/user/change_password`,
-                    newPassword,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${authService.getToken()}`,
-                        },
-                    },
-                )
-                .then((res) => {
-                    if (res.status === 200) {
-                        setPasswordDialogOpen(false);
-                        setMessage('Password changed successfully!');
-                    } else {
-                        setPasswordError('Something went wrong');
-                    }
-                });
-        } catch (error) {
-            setPasswordError(
-                'Error occurred while trying to change your password',
-            );
         }
     };
 
@@ -336,6 +286,11 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                             {message ? (
                                 <Typography color="success">
                                     {message}
+                                </Typography>
+                            ) : null}
+                            {changePasswordMessage ? (
+                                <Typography color="success">
+                                    { changePasswordMessage }
                                 </Typography>
                             ) : null}
 
@@ -515,7 +470,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                         width: '100%',
                                         marginTop: '10px',
                                     }}
-                                    onClick={() => setPasswordDialogOpen(true)}
+                                    onClick={() => setChangePasswordDialogOpen(true)}
                                 >
                                     Change password
                                 </Button>
@@ -615,33 +570,33 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                     </DialogActions>
                 </Dialog>
                 <Dialog
-                    open={passwordDialogOpen}
-                    onClose={() => setPasswordDialogOpen(false)}
+                    open={changePasswordDialogOpen}
+                    onClose={() => setChangePasswordDialogOpen(false)}
                     fullWidth
                 >
                     <DialogTitle>Change Password</DialogTitle>
-                    {passwordError ? (
-                        <Typography color="error">{passwordError}</Typography>
+                    {changePasswordError ? (
+                        <Typography color="error">{changePasswordError}</Typography>
                     ) : null}
                     <DialogContent>
                         <TextField
                             label="New Password"
                             type="password"
                             fullWidth
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
+                            value={changePasswordNewPassword}
+                            onChange={(e) => setChangePasswordNewPassword(e.target.value)}
                             sx={{ my: 4 }}
                         />
                         <TextField
                             label="Confirm Password"
                             type="password"
                             fullWidth
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            value={changePasswordNewPasswordConfirm}
+                            onChange={(e) => setChangePasswordNewPasswordConfirm(e.target.value)}
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => setPasswordDialogOpen(false)}>
+                        <Button onClick={() => setChangePasswordDialogOpen(false)}>
                             Cancel
                         </Button>
                         <Button
