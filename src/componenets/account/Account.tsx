@@ -32,6 +32,7 @@ import { TikTok } from '../CustomIcons';
 import AppTheme from '../theme/AppTheme';
 import { IUserData } from "./IUserData";
 import {useChangePassword} from "./hook/useChangePassword";
+import {useDeleteAccount} from "./hook/useDeleteAccount";
 
 const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
     const [userData, setUserData] = useState<IUserData | null>(null);
@@ -40,7 +41,6 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
     const [avatarError, setAvatarError] = useState<string | null>(null);
     const [editError, setEditError] = useState<string | null>(null);
     const [lockError, setLockError] = useState<string | null>(null);
-    const [deleteError, setDeleteError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [editAvatar, setEditAvatar] = useState<boolean>(false);
     const [openDialog, setOpenDialog] = useState(false);
@@ -62,6 +62,8 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
         changePasswordMessage,
         changePassword
     } = useChangePassword();
+
+    const { deleteAccountError, deleteAccount } = useDeleteAccount();
 
     const fetchUserData = useCallback(async () => {
         try {
@@ -87,6 +89,13 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
         setEditValue(currentValue || '');
         setOpenDialog(true);
     };
+
+    useEffect(() => {
+        fetchUserData();
+        if (userData?.locked) {
+            setDeactivateStatus(userData.locked);
+        }
+    }, [fetchUserData]);
 
     const handleSave = async () => {
         if (editField === 'description' && editValue.length > 1000) {
@@ -121,30 +130,6 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
             } catch (err) {
                 setEditError('Failed to update user data.');
             }
-        }
-    };
-
-    const deleteAccount = async () => {
-        try {
-            await axios
-                .post(
-                    `${process.env.REACT_APP_API_ADDRESS}/user/delete`,
-                    {},
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${authService.getToken()}`,
-                        },
-                    },
-                )
-                .then((res) => {
-                    if (res.status === 200) {
-                        authService.logout();
-                    }
-                    setDeleteError('Error occurred while deleting account');
-                });
-        } catch (error) {
-            setDeleteError('Error occurred while deleting account');
         }
     };
 
@@ -237,12 +222,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
         }
     };
 
-    useEffect(() => {
-        fetchUserData();
-        if (userData?.locked) {
-            setDeactivateStatus(userData.locked);
-        }
-    }, [fetchUserData]);
+
 
     return (
         <Container
@@ -613,8 +593,8 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                     fullWidth
                 >
                     <DialogTitle>Delete account</DialogTitle>
-                    {deleteError ? (
-                        <Typography color="error">{deleteError}</Typography>
+                    {deleteAccountError ? (
+                        <Typography color="error">{deleteAccountError}</Typography>
                     ) : null}
                     <DialogContent>
                         <Typography>Are you sure to delete account?</Typography>
