@@ -1,9 +1,8 @@
-import axios from "axios";
-import authService from "../../../services/authService";
-import { useState } from "react";
+import axios from 'axios';
+import authService from '../../../services/authService';
+import { useState } from 'react';
 
 export const useDeleteAccount = () => {
-
     const [deleteAccountError, setDeleteAccountError] = useState<string>();
 
     const deleteAccount = async () => {
@@ -23,7 +22,9 @@ export const useDeleteAccount = () => {
                     if (res.status === 200) {
                         authService.logout();
                     }
-                    setDeleteAccountError('Error occurred while deleting account');
+                    setDeleteAccountError(
+                        'Error occurred while deleting account',
+                    );
                 });
         } catch (error) {
             setDeleteAccountError('Error occurred while deleting account');
@@ -31,4 +32,4 @@ export const useDeleteAccount = () => {
     };
 
     return { deleteAccountError, deleteAccount };
-}
+};

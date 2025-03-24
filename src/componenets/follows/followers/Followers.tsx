@@ -8,13 +8,19 @@ import { MainContainer } from '../../../customStyles/MainContainer';
 
 import AppTheme from '../../theme/AppTheme';
 import FollowList from '../FollowList';
-import { useFetchFollow } from "../hook/useFetchFollowers";
+import { useFetchFollow } from '../hook/useFetchFollowers';
 
 const Followers: React.FC = (props: { disableCustomTheme?: boolean }) => {
-
     const { ref, inView } = useInView({ threshold: 0.5 });
 
-    const {isContent, isLoading, fetchFollowersError, followers, hasMore , setPage } = useFetchFollow("followers");
+    const {
+        isContent,
+        isLoading,
+        fetchFollowersError,
+        followers,
+        hasMore,
+        setPage,
+    } = useFetchFollow('followers');
 
     useEffect(() => {
         if (inView && hasMore) {
@@ -31,7 +37,12 @@ const Followers: React.FC = (props: { disableCustomTheme?: boolean }) => {
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
-                    <FollowList isContent={isContent} isLoading={isLoading} fetchFollowersError={fetchFollowersError} followers={followers} />
+                    <FollowList
+                        isContent={isContent}
+                        isLoading={isLoading}
+                        fetchFollowersError={fetchFollowersError}
+                        followers={followers}
+                    />
                 </MainContainer>
             </AppTheme>
         </Container>

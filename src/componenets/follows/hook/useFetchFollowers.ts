@@ -1,7 +1,7 @@
-import {useCallback, useEffect, useState} from "react";
-import {FollowListUser} from "../FollowListUser";
-import axios from "axios";
-import authService from "../../../services/authService";
+import { useCallback, useEffect, useState } from 'react';
+import { FollowListUser } from '../FollowListUser';
+import axios from 'axios';
+import authService from '../../../services/authService';
 
 export const useFetchFollow = (type: string) => {
     const [isContent, setIsContent] = useState(false);
@@ -9,7 +9,9 @@ export const useFetchFollow = (type: string) => {
     const [followers, setFollowers] = useState<FollowListUser[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const [fetchFollowersError, setFetchFollowersError] = useState<string | null>(null);
+    const [fetchFollowersError, setFetchFollowersError] = useState<
+        string | null
+    >(null);
 
     const fetchFollowers = useCallback(async () => {
         if (!hasMore) return;
@@ -43,5 +45,12 @@ export const useFetchFollow = (type: string) => {
         setIsContent(true);
     }, []);
 
-    return {isContent, isLoading, fetchFollowersError, followers, hasMore , setPage };
-}
+    return {
+        isContent,
+        isLoading,
+        fetchFollowersError,
+        followers,
+        hasMore,
+        setPage,
+    };
+};

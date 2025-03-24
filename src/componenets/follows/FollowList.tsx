@@ -11,21 +11,23 @@ import { buildMediaLink, formatMediaLink } from '../../utils/FormatMediaLink';
 import { FollowListUser } from './FollowListUser';
 
 const FollowList = ({
-                        isContent,
-                        isLoading,
-                        fetchFollowersError,
-                        followers }: {
-    isContent: boolean,
-    isLoading: boolean,
-    fetchFollowersError: string | null,
-    followers: FollowListUser[]
+    isContent,
+    isLoading,
+    fetchFollowersError,
+    followers,
+}: {
+    isContent: boolean;
+    isLoading: boolean;
+    fetchFollowersError: string | null;
+    followers: FollowListUser[];
 }) => {
-
     return (
         <Grid container spacing={2}>
-            {!isContent && (<Typography>No content ;/</Typography>)}
-            {isLoading && (<Typography>Loading...</Typography>)}
-            {fetchFollowersError && (<Typography>fetchFollowersError</Typography>)}
+            {!isContent && <Typography>No content</Typography>}
+            {isLoading && <Typography>Loading...</Typography>}
+            {fetchFollowersError && (
+                <Typography>fetchFollowersError</Typography>
+            )}
             {followers.map((follower) => (
                 <Grid item xs={12} sm={6} md={4} key={follower.id}>
                     <Link

@@ -10,8 +10,9 @@ export const useFetchProfileMedia = (userId?: string) => {
     const [media, setMedia] = useState<any[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const [fetchProfileImagesError, setFetchProfileImagesError] =
-        useState<string | null>(null);
+    const [fetchProfileImagesError, setFetchProfileImagesError] = useState<
+        string | null
+    >(null);
 
     const fetchProfileImages = useCallback(async () => {
         if (!userId) {

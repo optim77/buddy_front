@@ -19,9 +19,7 @@ import authService from '../../services/authService';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../CustomIcons';
 import AppTheme from '../theme/AppTheme';
 import ColorModeSelect from '../theme/ColorModeSelect';
-import {CustomCard} from "../../customStyles/Element";
-
-
+import { CustomCard } from '../../customStyles/Element';
 
 export default function SignUp(props: { disableCustomTheme?: boolean }) {
     const [emailError, setEmailError] = React.useState(false);

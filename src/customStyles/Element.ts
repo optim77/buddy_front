@@ -2,7 +2,6 @@ import { ListItemText, TextareaAutosize } from '@mui/material';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-import Card from "@mui/material/Card";
 
 export const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -121,7 +120,7 @@ export const LinkWhite = styled(Link)({
     color: 'inherit',
 });
 
-export const CustomCard  = styled(MuiCard)(({ theme }) => ({
+export const CustomCard = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     alignSelf: 'center',

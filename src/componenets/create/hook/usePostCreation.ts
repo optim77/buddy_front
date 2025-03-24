@@ -1,17 +1,23 @@
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import authService from "../../../services/authService";
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import authService from '../../../services/authService';
 
-const usePostCreation = (uploadedFile: File | null, description: string, tags: string, isOpen: boolean) => {
+const usePostCreation = (
+    uploadedFile: File | null,
+    description: string,
+    tags: string,
+    isOpen: boolean,
+) => {
     const [isSending, setIsSending] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const navigate = useNavigate();
 
     const validateInput = () => {
-        if (!uploadedFile) return "Please upload an image!";
-        if (uploadedFile.size >= 100000000) return "Your file is too big, max size is 100Mb";
-        if (!description) return "Please fill in all fields!";
+        if (!uploadedFile) return 'Please upload an image!';
+        if (uploadedFile.size >= 100000000)
+            return 'Your file is too big, max size is 100Mb';
+        if (!description) return 'Please fill in all fields!';
         return null;
     };
 
@@ -28,20 +34,20 @@ const usePostCreation = (uploadedFile: File | null, description: string, tags: s
         const formData = new FormData();
 
         if (uploadedFile) {
-            formData.append("file", uploadedFile);
+            formData.append('file', uploadedFile);
         } else {
-            setErrorMessage("File is missing!");
+            setErrorMessage('File is missing!');
             setIsSending(false);
             return;
         }
 
-        formData.append("description", description);
-        formData.append("open", isOpen ? "true" : "false");
+        formData.append('description', description);
+        formData.append('open', isOpen ? 'true' : 'false');
 
-        tags.split(",")
+        tags.split(',')
             .map((tag) => tag.trim())
             .filter(Boolean)
-            .forEach((tag) => formData.append("tagSet", tag));
+            .forEach((tag) => formData.append('tagSet', tag));
 
         try {
             const response = await axios.post(
@@ -49,19 +55,21 @@ const usePostCreation = (uploadedFile: File | null, description: string, tags: s
                 formData,
                 {
                     headers: {
-                        "Content-Type": "multipart/form-data",
+                        'Content-Type': 'multipart/form-data',
                         Authorization: `Bearer ${authService.getToken()}`,
                     },
-                }
+                },
             );
 
             if (response.status === 201) {
-                navigate("/profile");
+                navigate('/profile');
             } else {
-                setErrorMessage("An error occurred: " + response.data.message);
+                setErrorMessage('An error occurred: ' + response.data.message);
             }
         } catch (error: any) {
-            setErrorMessage(error.response?.data?.message || "An error occurred");
+            setErrorMessage(
+                error.response?.data?.message || 'An error occurred',
+            );
         } finally {
             setIsSending(false);
         }

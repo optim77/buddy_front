@@ -1,12 +1,17 @@
-import {useCallback, useEffect, useState} from "react";
-import {IUserData} from "../IUserData";
-import axios from "axios";
-import authService from "../../../services/authService";
+import { useCallback, useEffect, useState } from 'react';
+import { IUserData } from '../IUserData';
+import axios from 'axios';
+import authService from '../../../services/authService';
 
 export const useFetchOwnProfile = () => {
-    const [isLoadingFetchOwnProfile, setIsLoadingFetchOwnProfile,] = useState(true);
-    const [ownProfileData, setOwnProfileData] = useState<IUserData | null>(null);
-    const [fetchOwnProfileError, setFetchOwnProfileError] = useState<string | null>(null);
+    const [isLoadingFetchOwnProfile, setIsLoadingFetchOwnProfile] =
+        useState(true);
+    const [ownProfileData, setOwnProfileData] = useState<IUserData | null>(
+        null,
+    );
+    const [fetchOwnProfileError, setFetchOwnProfileError] = useState<
+        string | null
+    >(null);
     const [deactivateStatus, setDeactivateStatus] = useState<boolean>(false);
 
     const fetchUserData = useCallback(async () => {
@@ -22,10 +27,9 @@ export const useFetchOwnProfile = () => {
             );
             setOwnProfileData(response.data);
 
-            if (ownProfileData?.locked){
+            if (ownProfileData?.locked) {
                 setDeactivateStatus(ownProfileData.locked);
             }
-
         } catch (err) {
             setFetchOwnProfileError('Failed to fetch user data.');
         }
@@ -35,6 +39,10 @@ export const useFetchOwnProfile = () => {
         setIsLoadingFetchOwnProfile(false);
     });
 
-    return { isLoadingFetchOwnProfile, ownProfileData, deactivateStatus, fetchOwnProfileError };
-
-}
+    return {
+        isLoadingFetchOwnProfile,
+        ownProfileData,
+        deactivateStatus,
+        fetchOwnProfileError,
+    };
+};

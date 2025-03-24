@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 const useFileUpload = () => {
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -9,11 +9,11 @@ const useFileUpload = () => {
 
         const files = Array.from(event.target.files);
         const validFile = files.find((file) =>
-            ["image/", "video/"].some((type) => file.type.startsWith(type))
+            ['image/', 'video/'].some((type) => file.type.startsWith(type)),
         );
 
         if (!validFile) {
-            setErrorMessage("Only images and videos are allowed.");
+            setErrorMessage('Only images and videos are allowed.');
             return;
         }
 

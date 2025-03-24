@@ -30,9 +30,9 @@ import authService from '../../services/authService';
 import { buildMediaLink } from '../../utils/FormatMediaLink';
 import { TikTok } from '../CustomIcons';
 import AppTheme from '../theme/AppTheme';
-import { IUserData } from "./IUserData";
-import {useChangePassword} from "./hook/useChangePassword";
-import {useDeleteAccount} from "./hook/useDeleteAccount";
+import { IUserData } from './IUserData';
+import { useChangePassword } from './hook/useChangePassword';
+import { useDeleteAccount } from './hook/useDeleteAccount';
 
 const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
     const [userData, setUserData] = useState<IUserData | null>(null);
@@ -60,7 +60,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
         changePasswordDialogOpen,
         changePasswordError,
         changePasswordMessage,
-        changePassword
+        changePassword,
     } = useChangePassword();
 
     const { deleteAccountError, deleteAccount } = useDeleteAccount();
@@ -222,8 +222,6 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
         }
     };
 
-
-
     return (
         <Container
             maxWidth="lg"
@@ -270,7 +268,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                             ) : null}
                             {changePasswordMessage ? (
                                 <Typography color="success">
-                                    { changePasswordMessage }
+                                    {changePasswordMessage}
                                 </Typography>
                             ) : null}
 
@@ -450,7 +448,9 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                         width: '100%',
                                         marginTop: '10px',
                                     }}
-                                    onClick={() => setChangePasswordDialogOpen(true)}
+                                    onClick={() =>
+                                        setChangePasswordDialogOpen(true)
+                                    }
                                 >
                                     Change password
                                 </Button>
@@ -556,7 +556,9 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                 >
                     <DialogTitle>Change Password</DialogTitle>
                     {changePasswordError ? (
-                        <Typography color="error">{changePasswordError}</Typography>
+                        <Typography color="error">
+                            {changePasswordError}
+                        </Typography>
                     ) : null}
                     <DialogContent>
                         <TextField
@@ -564,7 +566,9 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                             type="password"
                             fullWidth
                             value={changePasswordNewPassword}
-                            onChange={(e) => setChangePasswordNewPassword(e.target.value)}
+                            onChange={(e) =>
+                                setChangePasswordNewPassword(e.target.value)
+                            }
                             sx={{ my: 4 }}
                         />
                         <TextField
@@ -572,11 +576,17 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                             type="password"
                             fullWidth
                             value={changePasswordNewPasswordConfirm}
-                            onChange={(e) => setChangePasswordNewPasswordConfirm(e.target.value)}
+                            onChange={(e) =>
+                                setChangePasswordNewPasswordConfirm(
+                                    e.target.value,
+                                )
+                            }
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => setChangePasswordDialogOpen(false)}>
+                        <Button
+                            onClick={() => setChangePasswordDialogOpen(false)}
+                        >
                             Cancel
                         </Button>
                         <Button
@@ -594,7 +604,9 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                 >
                     <DialogTitle>Delete account</DialogTitle>
                     {deleteAccountError ? (
-                        <Typography color="error">{deleteAccountError}</Typography>
+                        <Typography color="error">
+                            {deleteAccountError}
+                        </Typography>
                     ) : null}
                     <DialogContent>
                         <Typography>Are you sure to delete account?</Typography>
