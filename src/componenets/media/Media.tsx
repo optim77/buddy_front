@@ -106,7 +106,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     {error ? (
                         <Typography color="error">{error}</Typography>
                     ) : media ? (
-                        <Card>
+                        <Card sx={{ borderRadius: '0px' }}>
                             {media.imageUrl ? (
                                 media.mediaType === 'VIDEO' ? (
                                     <video
@@ -119,6 +119,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                         style={{
                                             maxHeight: 500,
                                             width: '100%',
+                                            marginTop: '30px',
                                         }}
                                     />
                                 ) : (

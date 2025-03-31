@@ -32,6 +32,7 @@ export const useFetchTagMedia = (tag?: string) => {
                     params: { page, size: 20 },
                 },
             );
+            console.log(response);
             if (response.data.length === 0) {
                 setFetchMediaTagContent(false);
             }

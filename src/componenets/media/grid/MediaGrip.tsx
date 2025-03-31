@@ -49,7 +49,7 @@ const MediaGrip = ({ image }: { image: IMedia }) => {
                     />
                 )}
             </Link>
-            {process.env.REACT_APP_SHOW_MEDIA_DETAILS && (
+            {process.env.REACT_APP_SHOW_MEDIA_DETAILS === 'true' && (
                 <>
                     <CardContent>
                         <Typography variant="subtitle1" noWrap>

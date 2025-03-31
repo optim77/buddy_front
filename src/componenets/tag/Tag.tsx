@@ -43,17 +43,17 @@ const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     {fetchTagMediaError &&
                         fetchMessage(fetchTagMediaError, MESSAGE_TYPE.ERROR)}
 
-                    {!fetchMediaTagLoading && <p>Loading...</p>}
+                    {fetchMediaTagLoading && <p>Loading...</p>}
 
                     {!fetchMediaTagContent ? null : (
                         <Typography variant="h1" gutterBottom>
-                            There is no posts yet ;)
+                            There is no posts yet
                         </Typography>
                     )}
 
                     <Grid container spacing={4}>
                         {media.map((m) => (
-                            <MediaGrip image={m} />
+                            <MediaGrip key={m.imageId} image={m} />
                         ))}
                     </Grid>
                     <div ref={ref} style={{ height: '1px' }} />
