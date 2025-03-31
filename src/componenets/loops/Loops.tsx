@@ -15,11 +15,13 @@ import { useInView } from 'react-intersection-observer';
 
 import { MainContainer } from '../../customStyles/MainContainer';
 import { formatLikes } from '../../utils/FormatLike';
-import { formatMediaLink } from '../../utils/FormatMediaLink';
+import { buildMediaLink, formatMediaLink } from '../../utils/FormatMediaLink';
 import LikeButton from '../like/LikeButton';
 import AppTheme from '../theme/AppTheme';
 import { useFetchLoops } from './hook/useFetchLoops';
 import { ILoop } from './ILoop';
+import { Link } from 'react-router-dom';
+import { truncateText } from '../../utils/FormatText';
 
 const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const { videos, hasMore, setPage, error, loading } = useFetchLoops();
@@ -168,9 +170,11 @@ const VideoItem: React.FC<{
                 style={{ objectFit: 'cover', width: '100%', height: '100%' }}
             />
             <VideoControls video={video} muted={muted} setMuted={setMuted} />
+            <UserItem video={video} />
         </Grid>
     );
 };
+export default Loops;
 
 const VideoControls: React.FC<{
     video: ILoop;
@@ -220,4 +224,55 @@ const VideoControls: React.FC<{
     );
 };
 
-export default Loops;
+const UserItem: React.FC<{ video: ILoop }> = ({ video }) => {
+    return (
+        <Box
+            sx={{
+                background: 'rgba(0, 0, 0, 0.5)',
+                padding: '10px',
+                borderRadius: '8px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 1,
+                height: '120px',
+                width: '90%',
+                justifyContent: 'left',
+                alignItems: 'left',
+                margin: 'auto',
+                position: 'absolute',
+                bottom: '10%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 3,
+            }}
+        >
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2,
+                }}
+            >
+                <Avatar
+                    src={
+                        video.avatar ? buildMediaLink(video.avatar) : undefined
+                    }
+                    alt={video.username}
+                    sx={{ width: 40, height: 40 }}
+                />
+                <Typography variant="h6">
+                    <Link
+                        to={`/user/${video.userId}`}
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                    >
+                        {video.username}
+                    </Link>
+                </Typography>
+            </Box>
+
+            <Typography variant="body2">
+                {truncateText(video.description || 'No description', 300)}
+            </Typography>
+        </Box>
+    );
+};

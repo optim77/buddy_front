@@ -68,9 +68,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
             variant="outlined"
             sx={{
                 marginBottom: '20px',
-                padding: '20px',
+                marginTop: '-40px',
                 boxShadow: theme.shadows[3],
-                borderRadius: theme.shape.borderRadius,
+                borderRadius: 0,
                 flexDirection: 'column',
                 display: 'flex',
                 minHeight: '320px',
@@ -88,7 +88,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                     </Typography>
                 )}
 
-                <Stack direction="row" spacing={2} alignItems="center">
+                <Stack sx={{ alignItems: 'center' }}>
                     <Avatar
                         alt={profile.username}
                         src={buildMediaLink(profile.avatar) || undefined}
@@ -97,20 +97,21 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                             height: 70,
                             fontSize: '32px',
                             bgcolor: theme.palette.primary.main,
+                            alignItems: 'center',
+                            marginBottom: '20px',
                         }}
                     >
                         {profile.username.charAt(0).toUpperCase()}
                     </Avatar>
-                    <Stack spacing={1}>
-                        <Typography variant="h5" fontWeight="bold">
-                            {profile.username}
-                        </Typography>
-                        {authService.getBuddyUser() === profile.uuid && (
-                            <Link to="/account">
-                                <EditIcon />
-                            </Link>
-                        )}
-                    </Stack>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            alignItems: 'center',
+                        }}
+                        fontWeight="bold"
+                    >
+                        {profile.username}
+                    </Typography>
                 </Stack>
 
                 <Stack spacing={2} mt={3}>
