@@ -12,7 +12,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import authService from '../../services/authService';
 import { formatLikes } from '../../utils/FormatLike';
 import { buildMediaLink } from '../../utils/FormatMediaLink';
-import { EditIcon } from '../CustomIcons';
 import { UserInformation } from '../user/UserInformation';
 
 import { ProfileInformation } from './ProfileInformation';

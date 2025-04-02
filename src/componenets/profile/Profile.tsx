@@ -6,73 +6,21 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { MainContainer } from '../../customStyles/MainContainer';
-import authService from '../../services/authService';
 import MediaGrip from '../media/grid/MediaGrip';
-import { MediaObject } from '../media/MediaObject';
 import { useViewMode } from '../media/useViewMode';
 import ViewModeToggle from '../media/ViewModeToggle';
 import MediaWall from '../media/wall/MediaWall';
 import PlanWidget from '../plan/PlanWidget';
 import AppTheme from '../theme/AppTheme';
-
-import { ProfileInformation } from './ProfileInformation';
 import ProfileWidget from './ProfileWidget';
+import { useProfile } from './hook/useProfile';
+import { useProfileImages } from './hook/useProfileImages';
 
 const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const [images, setImages] = useState<MediaObject[]>([]);
-    const [page, setPage] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const { images, hasMore, setPage, profileImageError } = useProfileImages();
     const { viewMode, handleViewChange } = useViewMode();
-    const [profile, setProfile] = useState<ProfileInformation>();
+    const { profile, profileError } = useProfile();
     const { ref, inView } = useInView({ threshold: 0.5 });
-
-    const fetchProfileImages = useCallback(async () => {
-        if (!hasMore) return;
-
-        try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/profile/images`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + authService.getToken(),
-                    },
-                    params: { page, size: 20 },
-                },
-            );
-            const newImages = response.data.content;
-            setImages((prevImages) => [...prevImages, ...newImages]);
-            setHasMore(page + 1 < response.data.page.totalPages);
-        } catch (error) {
-            setError('Error fetching profile images');
-        }
-    }, [page, hasMore]);
-
-    const fetchProfile = useCallback(async () => {
-        try {
-            await axios
-                .get(`${process.env.REACT_APP_API_ADDRESS}/profile`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + authService.getToken(),
-                    },
-                })
-                .then((res) => {
-                    setProfile(res.data);
-                });
-        } catch (error) {
-            setError('Error fetching profile information');
-        }
-    }, []);
-
-    useEffect(() => {
-        fetchProfileImages();
-    }, [page]);
-
-    useEffect(() => {
-        fetchProfile();
-    }, [fetchProfile]);
 
     useEffect(() => {
         if (inView && hasMore) {
@@ -89,7 +37,14 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
-                    {error && <Typography color="error">{error}</Typography>}
+                    {profileError && (
+                        <Typography color="error">{profileError}</Typography>
+                    )}
+                    {profileImageError && (
+                        <Typography color="error">
+                            {profileImageError}
+                        </Typography>
+                    )}
 
                     {profile && <ProfileWidget profile={profile} />}
 
