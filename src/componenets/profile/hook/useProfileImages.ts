@@ -5,6 +5,7 @@ import { IMedia } from '../../media/IMedia';
 
 export const useProfileImages = () => {
     const [images, setImages] = useState<IMedia[]>([]);
+    const [profileImagesLoading, setProfileImagesLoading] = useState(true);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [profileImageError, setProfileImageError] = useState<string>();
@@ -34,7 +35,14 @@ export const useProfileImages = () => {
 
     useEffect(() => {
         fetchProfileImages();
+        setProfileImagesLoading(false);
     }, [page]);
 
-    return { images, hasMore, setPage, profileImageError };
+    return {
+        images,
+        hasMore,
+        setPage,
+        profileImageError,
+        profileImagesLoading,
+    };
 };

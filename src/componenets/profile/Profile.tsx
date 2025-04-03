@@ -1,8 +1,7 @@
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { MainContainer } from '../../customStyles/MainContainer';
@@ -15,11 +14,18 @@ import AppTheme from '../theme/AppTheme';
 import ProfileWidget from './ProfileWidget';
 import { useProfile } from './hook/useProfile';
 import { useProfileImages } from './hook/useProfileImages';
+import { errorBox } from '../../utils/errorBox';
 
 const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const { images, hasMore, setPage, profileImageError } = useProfileImages();
+    const {
+        images,
+        hasMore,
+        setPage,
+        profileImageError,
+        profileImagesLoading,
+    } = useProfileImages();
     const { viewMode, handleViewChange } = useViewMode();
-    const { profile, profileError } = useProfile();
+    const { profile, profileError, profileLoading } = useProfile();
     const { ref, inView } = useInView({ threshold: 0.5 });
 
     useEffect(() => {
@@ -37,14 +43,33 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
-                    {profileError && (
-                        <Typography color="error">{profileError}</Typography>
-                    )}
-                    {profileImageError && (
-                        <Typography color="error">
-                            {profileImageError}
-                        </Typography>
-                    )}
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '100%',
+                            margin: '20px 0',
+                        }}
+                    >
+                        {profileError && errorBox(profileError)}
+                        {profileImageError && errorBox(profileImageError)}
+                        {profileLoading && (
+                            <img
+                                src="/load-32.gif"
+                                alt="Loading..."
+                                width="40px"
+                            />
+                        )}
+                        {profileImagesLoading && (
+                            <img
+                                src="/load-32.gif"
+                                alt="Loading..."
+                                width="40px"
+                            />
+                        )}
+                    </div>
 
                     {profile && <ProfileWidget profile={profile} />}
 

@@ -6,6 +6,7 @@ import { ProfileInformation } from '../ProfileInformation';
 export const useProfile = () => {
     const [profile, setProfile] = useState<ProfileInformation>();
     const [profileError, setProfileError] = useState<string>('');
+    const [profileLoading, setProfileLoading] = useState<boolean>(true);
 
     const fetchProfile = useCallback(async () => {
         try {
@@ -26,7 +27,8 @@ export const useProfile = () => {
 
     useEffect(() => {
         fetchProfile();
+        setProfileLoading(false);
     }, [fetchProfile]);
 
-    return { profile, profileError };
+    return { profile, profileError, profileLoading };
 };
