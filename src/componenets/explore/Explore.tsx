@@ -2,7 +2,6 @@ import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -17,6 +16,7 @@ import { ITag } from '../tag/ITag';
 import AppTheme from '../theme/AppTheme';
 
 import TagList from './TagList';
+import { errorBox } from '../../utils/errorBox';
 
 const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const [images, setImages] = useState<MediaObject[]>([]);
@@ -133,7 +133,7 @@ const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             onChange={handleViewChange}
                         />
                     ) : null}
-                    {error && <Typography>{error}</Typography>}
+                    {error && errorBox(error)}
                     {contentType === 'posts' ? (
                         viewMode === 'grid' ? (
                             <div

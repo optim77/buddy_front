@@ -22,6 +22,7 @@ import { useFetchLoops } from './hook/useFetchLoops';
 import { ILoop } from './ILoop';
 import { Link } from 'react-router-dom';
 import { truncateText } from '../../utils/FormatText';
+import { errorBox } from '../../utils/errorBox';
 
 const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const { videos, hasMore, setPage, error, loading } = useFetchLoops();
@@ -84,7 +85,7 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
-                    {error && <Typography color="error">{error}</Typography>}
+                    {error && errorBox(error)}
 
                     {loading && (
                         <Box

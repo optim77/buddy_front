@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Backdrop,
     CircularProgress,
@@ -25,6 +25,8 @@ import {
 import useFileUpload from './hook/useFileUpload';
 import useTags from './hook/useTags';
 import usePostCreation from './hook/usePostCreation';
+import authService from '../../services/authService';
+import { useNavigate } from 'react-router-dom';
 
 const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const {
@@ -49,6 +51,13 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
         tags,
         isOpen,
     );
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!authService.getBuddyUser()) {
+            navigate('/sing-in');
+        }
+    }, []);
 
     return (
         <AppTheme {...props}>
