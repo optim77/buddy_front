@@ -143,7 +143,14 @@ const VideoItem: React.FC<{
         <Grid
             item
             xs={12}
-            sx={{ position: 'absolute', width: '100%', height: '100%' }}
+            sx={{
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}
             component={motion.div}
             initial={{
                 y:
@@ -168,7 +175,13 @@ const VideoItem: React.FC<{
                 src={formatMediaLink(video.imageUrl)}
                 loop
                 muted={muted}
-                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                style={{
+                    objectFit: 'cover',
+                    width: '70%',
+                    height: '100%',
+                    margin: '0 auto',
+                    display: 'block',
+                }}
             />
             <VideoControls video={video} muted={muted} setMuted={setMuted} />
             <UserItem video={video} />
@@ -186,8 +199,8 @@ const VideoControls: React.FC<{
         <Box
             sx={{
                 position: 'absolute',
-                bottom: '20px',
-                left: '20px',
+                bottom: '140px',
+                left: '180px',
                 right: '20px',
                 zIndex: 2,
                 display: 'flex',
@@ -236,12 +249,12 @@ const UserItem: React.FC<{ video: ILoop }> = ({ video }) => {
                 flexDirection: 'column',
                 gap: 1,
                 height: '120px',
-                width: '90%',
+                width: '67%',
                 justifyContent: 'left',
                 alignItems: 'left',
                 margin: 'auto',
                 position: 'absolute',
-                bottom: '10%',
+                bottom: '1%',
                 left: '50%',
                 transform: 'translateX(-50%)',
                 zIndex: 3,
