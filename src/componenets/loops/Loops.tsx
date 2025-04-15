@@ -175,6 +175,7 @@ const VideoItem: React.FC<{
                 src={formatMediaLink(video.imageUrl)}
                 loop
                 muted={muted}
+                preload="auto"
                 style={{
                     objectFit: 'cover',
                     width: '70%',
@@ -183,8 +184,13 @@ const VideoItem: React.FC<{
                     display: 'block',
                 }}
             />
-            <VideoControls video={video} muted={muted} setMuted={setMuted} />
-            <UserItem video={video} />
+            <VideoControls
+                key={`controls-${index === currentIndex}`}
+                video={video}
+                muted={muted}
+                setMuted={setMuted}
+            />
+            <UserItem key={`user-${index === currentIndex}`} video={video} />
         </Grid>
     );
 };
@@ -196,97 +202,131 @@ const VideoControls: React.FC<{
     setMuted: (muted: boolean) => void;
 }> = ({ video, muted, setMuted }) => {
     return (
-        <Box
-            sx={{
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 1 }}
+            style={{
                 position: 'absolute',
-                bottom: '140px',
-                left: '180px',
+                bottom: '20px',
+                left: '2%',
                 right: '20px',
                 zIndex: 2,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 2,
+                gap: 8,
             }}
         >
             <Box
                 sx={{
-                    background: 'rgba(0, 0, 0, 0.5)',
+                    position: 'absolute',
+                    bottom: '140px',
+                    left: '17%',
+                    right: '20px',
+                    zIndex: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'center',
-                    padding: '5px',
-                    borderRadius: '8px',
-                    width: '60px',
-                    textAlign: 'center',
+                    gap: 2,
                 }}
             >
-                <Typography variant="h6">
-                    {formatLikes(video.likeCount)}
-                </Typography>
-                <LikeButton
-                    mediaId={video.imageId}
-                    isLiked={video.likedByCurrentUser}
-                />
-                <Button onClick={() => setMuted(!muted)}>
-                    {muted ? <VolumeOff /> : <VolumeUp />}
-                </Button>
-                <Button>
-                    <MoreVert />
-                </Button>
+                <Box
+                    sx={{
+                        background: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        padding: '5px',
+                        borderRadius: '8px',
+                        width: '60px',
+                        textAlign: 'center',
+                    }}
+                >
+                    <Typography variant="h6">
+                        {formatLikes(video.likeCount)}
+                    </Typography>
+                    <LikeButton
+                        mediaId={video.imageId}
+                        isLiked={video.likedByCurrentUser}
+                    />
+                    <Button onClick={() => setMuted(!muted)}>
+                        {muted ? <VolumeOff /> : <VolumeUp />}
+                    </Button>
+                    <Button>
+                        <MoreVert />
+                    </Button>
+                </Box>
             </Box>
-        </Box>
+        </motion.div>
     );
 };
 
 const UserItem: React.FC<{ video: ILoop }> = ({ video }) => {
     return (
-        <Box
-            sx={{
-                background: 'rgba(0, 0, 0, 0.5)',
-                padding: '10px',
-                borderRadius: '8px',
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
+            style={{
+                position: 'absolute',
+                bottom: '20px',
+                left: '2%',
+                right: '20px',
+                zIndex: 2,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 1,
-                height: '120px',
-                width: '67%',
-                justifyContent: 'left',
-                alignItems: 'left',
-                margin: 'auto',
-                position: 'absolute',
-                bottom: '1%',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 3,
+                gap: 8,
             }}
         >
             <Box
                 sx={{
+                    background: 'rgba(0, 0, 0, 0.5)',
+                    padding: '10px',
+                    borderRadius: '8px',
                     display: 'flex',
-                    alignItems: 'center',
-                    gap: 2,
+                    flexDirection: 'column',
+                    gap: 1,
+                    height: '120px',
+                    width: '67%',
+                    justifyContent: 'left',
+                    alignItems: 'left',
+                    margin: 'auto',
+                    position: 'absolute',
+                    bottom: '1%',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 3,
                 }}
             >
-                <Avatar
-                    src={
-                        video.avatar ? buildMediaLink(video.avatar) : undefined
-                    }
-                    alt={video.username}
-                    sx={{ width: 40, height: 40 }}
-                />
-                <Typography variant="h6">
-                    <Link
-                        to={`/user/${video.userId}`}
-                        style={{ textDecoration: 'none', color: 'inherit' }}
-                    >
-                        {video.username}
-                    </Link>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 2,
+                    }}
+                >
+                    <Avatar
+                        src={
+                            video.avatar
+                                ? buildMediaLink(video.avatar)
+                                : undefined
+                        }
+                        alt={video.username}
+                        sx={{ width: 40, height: 40 }}
+                    />
+                    <Typography variant="h6">
+                        <Link
+                            to={`/user/${video.userId}`}
+                            style={{ textDecoration: 'none', color: 'inherit' }}
+                        >
+                            {video.username}
+                        </Link>
+                    </Typography>
+                </Box>
+
+                <Typography variant="body2">
+                    {truncateText(video.description || 'No description', 300)}
                 </Typography>
             </Box>
-
-            <Typography variant="body2">
-                {truncateText(video.description || 'No description', 300)}
-            </Typography>
-        </Box>
+        </motion.div>
     );
 };
