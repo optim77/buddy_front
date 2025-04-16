@@ -30,7 +30,7 @@ const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
             setPage((prevPage) => prevPage + 1);
         }
     }, [inView, hasMore]);
-
+    console.log(media);
     return (
         <Container
             maxWidth="lg"

@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Chip from '@mui/material/Chip';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import FormControl from '@mui/material/FormControl';
@@ -14,7 +13,6 @@ import Grid from '@mui/material/Grid2';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import React from 'react';
@@ -201,10 +199,6 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
     const handleBlur = () => {
         setFocusedCardIndex(null);
-    };
-
-    const handleClick = () => {
-        console.info('You clicked the filter chip.');
     };
 
     return (

@@ -120,9 +120,11 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                 display: 'grid',
                                 gridTemplateColumns:
                                     'repeat(auto-fill, minmax(300px, 1fr))',
-                                gap: '16px',
+                                gap: '0px',
                                 width: '100%',
-                                padding: '20px',
+                                borderLeft: '1px solid black',
+                                borderRight: '1px solid black',
+                                borderTop: '1px solid black',
                             }}
                         >
                             {images.map((image) => (

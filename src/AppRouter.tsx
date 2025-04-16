@@ -59,16 +59,7 @@ const AppRouter: React.FC = () => {
                         )
                     }
                 />
-                <Route
-                    path="/dashboard"
-                    element={
-                        isAuthenticated ? (
-                            <Dashboard />
-                        ) : (
-                            <Navigate to="/sign-in" />
-                        )
-                    }
-                />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/explore" element={<Explore />} />
                 <Route
                     path="/profile"
