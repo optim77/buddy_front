@@ -19,6 +19,7 @@ import ForgotPassword from './ForgotPassword';
 import { CustomCard } from '../../customStyles/Element';
 import { useAuth } from './hook/useAuth';
 import { useAuthValidation } from './hook/useAuthValidation';
+import { errorBox } from '../../utils/errorBox';
 
 export default function SignIn({
     disableCustomTheme,
@@ -31,7 +32,7 @@ export default function SignIn({
         passwordError,
         passwordErrorMessage,
     } = useAuthValidation();
-    const { login, isSubmitting } = useAuth();
+    const { login, isSubmitting, isSuccess, errorMessage } = useAuth();
     const [open, setOpen] = useState(false);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -64,6 +65,7 @@ export default function SignIn({
                             gap: 2,
                         }}
                     >
+                        {!isSuccess && errorBox(errorMessage)}
                         <FormControl>
                             <FormLabel>Email</FormLabel>
                             <TextField
