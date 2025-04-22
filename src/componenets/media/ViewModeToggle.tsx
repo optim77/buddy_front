@@ -16,7 +16,6 @@ const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
         <div
             style={{
                 display: 'flex',
-
                 gap: '8px',
                 marginBottom: '16px',
             }}
@@ -26,8 +25,8 @@ const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
                 onClick={() => onChange('wall')}
                 sx={{
                     backgroundColor:
-                        viewMode === 'wall' ? 'primary.main' : 'transparent',
-                    color: viewMode === 'wall' ? '#fff' : 'primary.main',
+                        viewMode === 'wall' ? 'primary.dark' : 'transparent',
+                    color: viewMode === 'wall' ? '#2c2020' : 'primary.main',
                     borderColor: 'primary.main',
                     '&:hover': {
                         backgroundColor:
@@ -44,8 +43,8 @@ const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
                 onClick={() => onChange('grid')}
                 sx={{
                     backgroundColor:
-                        viewMode === 'grid' ? 'primary.main' : 'transparent',
-                    color: viewMode === 'grid' ? '#fff' : 'primary.main',
+                        viewMode === 'grid' ? 'primary.dark' : 'transparent',
+                    color: viewMode === 'grid' ? '#2c2020' : 'primary.main',
                     borderColor: 'primary.main',
                     '&:hover': {
                         backgroundColor:

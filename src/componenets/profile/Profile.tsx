@@ -122,9 +122,6 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     'repeat(auto-fill, minmax(300px, 1fr))',
                                 gap: '0px',
                                 width: '100%',
-                                borderLeft: '1px solid black',
-                                borderRight: '1px solid black',
-                                borderTop: '1px solid black',
                             }}
                         >
                             {images.map((image) => (

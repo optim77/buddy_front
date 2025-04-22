@@ -141,7 +141,7 @@ const Explore: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     display: 'grid',
                                     gridTemplateColumns:
                                         'repeat(auto-fill, minmax(300px, 1fr))',
-                                    gap: '16px',
+                                    gap: '0px',
                                 }}
                             >
                                 {images.map((image) => (

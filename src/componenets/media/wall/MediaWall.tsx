@@ -31,6 +31,7 @@ const MediaWall = ({
                 maxWidth: '700px',
                 mx: 'auto',
                 overflow: 'visible',
+                borderRadius: '0px',
             }}
         >
             <Link
