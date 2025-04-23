@@ -31,6 +31,10 @@ export const useAuth = () => {
                 setErrorMessage('Wrong email or password');
             }
         } catch (error: any) {
+            if (error.code == 'ERR_NETWORK') {
+                setErrorMessage('Something went wrong! Try again.');
+                return;
+            }
             setErrorMessage('Wrong email or password');
         } finally {
             setIsSubmitting(false);
