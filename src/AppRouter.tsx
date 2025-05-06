@@ -27,6 +27,7 @@ import Tag from './componenets/tag/Tag';
 import User from './componenets/user/User';
 import Registered from './pages/Registered';
 import { EditPlan } from './componenets/plan/EditPlan';
+import Session from './componenets/account/Session';
 
 const AppRouter: React.FC = () => {
     const isAuthenticated = !!getCookie('buddy-token');
@@ -141,6 +142,13 @@ const AppRouter: React.FC = () => {
                         ) : (
                             <Navigate to="/login" />
                         )
+                    }
+                />
+
+                <Route
+                    path="/sessions"
+                    element={
+                        isAuthenticated ? <Session /> : <Navigate to="/login" />
                     }
                 />
 

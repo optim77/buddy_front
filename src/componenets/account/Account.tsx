@@ -448,6 +448,26 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                         width: '100%',
                                         marginTop: '10px',
                                     }}
+                                >
+                                    <Link
+                                        style={{
+                                            textDecoration: 'none',
+                                            color: 'inherit',
+                                        }}
+                                        to="/sessions"
+                                    >
+                                        Your sessions
+                                    </Link>
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    fullWidth
+                                    sx={{
+                                        textAlign: 'center',
+                                        width: '100%',
+                                        marginTop: '10px',
+                                    }}
                                     onClick={() =>
                                         setChangePasswordDialogOpen(true)
                                     }
