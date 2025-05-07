@@ -9,10 +9,24 @@ import React, { useEffect } from 'react';
 import { MainContainer } from '../../customStyles/MainContainer';
 import AppTheme from '../theme/AppTheme';
 import { useFetchSessions } from './hook/useFetchSessions';
+import { useInView } from 'react-intersection-observer';
 
 const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
-    const { isLoadingSessions, messageFetchingSession, sessions } =
-        useFetchSessions();
+    const {
+        isLoadingSessions,
+        messageFetchingSession,
+        hasMore,
+        setPage,
+        sessions,
+    } = useFetchSessions();
+
+    const { ref, inView } = useInView({ threshold: 0.5 });
+
+    useEffect(() => {
+        if (inView && hasMore) {
+            setPage((prevPage) => prevPage + 1);
+        }
+    }, [inView, hasMore]);
 
     return (
         <Container
@@ -45,11 +59,13 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                             {messageFetchingSession}
                         </Typography>
                     ) : sessions ? (
-                        <Card></Card>
+                        <Card>
+                            {sessions.map((session) => (
+                                <Typography>{session.sessionId}</Typography>
+                            ))}
+                        </Card>
                     ) : (
-                        <Typography variant="h5">
-                            No user data found.
-                        </Typography>
+                        <Typography variant="h5">No sessions</Typography>
                     )}
                 </MainContainer>
             </AppTheme>
