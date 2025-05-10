@@ -439,26 +439,26 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                     </Link>
                                 </Box>
                                 <hr />
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    fullWidth
-                                    sx={{
-                                        textAlign: 'center',
-                                        width: '100%',
-                                        marginTop: '10px',
+                                <Link
+                                    style={{
+                                        textDecoration: 'none',
+                                        color: 'inherit',
                                     }}
+                                    to="/sessions"
                                 >
-                                    <Link
-                                        style={{
-                                            textDecoration: 'none',
-                                            color: 'inherit',
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        fullWidth
+                                        sx={{
+                                            textAlign: 'center',
+                                            width: '100%',
+                                            marginTop: '10px',
                                         }}
-                                        to="/sessions"
                                     >
                                         Your sessions
-                                    </Link>
-                                </Button>
+                                    </Button>
+                                </Link>
                                 <Button
                                     variant="contained"
                                     color="primary"

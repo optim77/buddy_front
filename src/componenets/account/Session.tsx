@@ -10,6 +10,7 @@ import { MainContainer } from '../../customStyles/MainContainer';
 import AppTheme from '../theme/AppTheme';
 import { useFetchSessions } from './hook/useFetchSessions';
 import { useInView } from 'react-intersection-observer';
+import SessionList from './SessionList';
 
 const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
     const {
@@ -59,11 +60,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                             {messageFetchingSession}
                         </Typography>
                     ) : sessions ? (
-                        <Card>
-                            {sessions.map((session) => (
-                                <Typography>{session.sessionId}</Typography>
-                            ))}
-                        </Card>
+                        <SessionList sessions={sessions} />
                     ) : (
                         <Typography variant="h5">No sessions</Typography>
                     )}

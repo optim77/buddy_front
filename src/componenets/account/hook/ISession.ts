@@ -2,8 +2,8 @@ export interface ISession {
     id: string;
     sessionId: string;
     userId: string;
-    startTime: Date;
-    endTime: Date;
+    startTime: string;
+    endTime: string;
     ip: string;
     agent: string;
     country: string;
