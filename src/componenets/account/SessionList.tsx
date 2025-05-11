@@ -3,11 +3,20 @@ import { Button, Grid, Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import React from 'react';
 import { formatDate } from '../../utils/FormatDate';
+import {useSession} from "./hook/useSession";
 
 interface SessionListProps {
     sessions: ISession[];
 }
 const SessionList: React.FC<SessionListProps> = ({ sessions }) => {
+
+    const {
+        deleting,
+        deleted,
+        message,
+        deleteSession,
+    } = useSession()
+
     return (
         <Grid container spacing={2}>
             <Card>
@@ -50,6 +59,8 @@ const SessionList: React.FC<SessionListProps> = ({ sessions }) => {
                         variant="contained"
                         color="error"
                         sx={{ marginTop: '10px' }}
+                        onClick={() => { deleteSession(session.sessionId) }}
+                        disabled={deleting}
                     >
                         Delete
                     </Button>
