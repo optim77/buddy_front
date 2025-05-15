@@ -4,6 +4,7 @@ import Card from '@mui/material/Card';
 import React from 'react';
 import { formatDate } from '../../utils/FormatDate';
 import { useDeleteSingleSession } from './hook/useDeleteSingleSession';
+import { useDeleteAllSessions } from './hook/useDeleteAllSessions';
 
 interface SessionListProps {
     sessions: ISession[];
@@ -11,6 +12,8 @@ interface SessionListProps {
 const SessionList: React.FC<SessionListProps> = ({ sessions }) => {
     const { deletingSingle, deletedSingle, deleteSession } =
         useDeleteSingleSession();
+
+    const { deletingAll, deletedAll, deleteAll } = useDeleteAllSessions();
 
     return (
         <Grid container spacing={2}>

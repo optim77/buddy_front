@@ -54,10 +54,23 @@ const register = async (email: string, password: string) => {
 };
 
 const logout = async (): Promise<void> => {
-    removeCookie('buddy-token');
-    removeCookie('buddy-id');
-    removeCookie('buddy-user');
-    document.location.href = '/';
+    await axios
+        .post(
+            `${process.env.REACT_APP_API_ADDRESS}/session/logout/single`,
+            { sessionId: getToken() },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authService.getToken()}`,
+                },
+            },
+        )
+        .then(() => {
+            removeCookie('buddy-token');
+            removeCookie('buddy-id');
+            removeCookie('buddy-user');
+            document.location.href = '/';
+        });
 };
 
 const authService = {
