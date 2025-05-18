@@ -67,17 +67,18 @@ const logout = async (): Promise<void> => {
                 },
             )
             .then(() => {
-                removeCookie('buddy-token');
-                removeCookie('buddy-id');
-                removeCookie('buddy-user');
-                document.location.href = '/';
+                destroyThisSession();
             });
     } catch {
-        removeCookie('buddy-token');
-        removeCookie('buddy-id');
-        removeCookie('buddy-user');
-        document.location.href = '/';
+        destroyThisSession();
     }
+};
+
+export const destroyThisSession = (): void => {
+    removeCookie('buddy-token');
+    removeCookie('buddy-id');
+    removeCookie('buddy-user');
+    document.location.href = '/dashboard';
 };
 
 const authService = {

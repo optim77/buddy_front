@@ -5,16 +5,15 @@ import React from 'react';
 import { formatDate } from '../../utils/FormatDate';
 import { useDeleteSingleSession } from './hook/useDeleteSingleSession';
 import { useDeleteAllSessions } from './hook/useDeleteAllSessions';
+import authService from '../../services/authService';
 
 interface SessionListProps {
     sessions: ISession[];
 }
 const SessionList: React.FC<SessionListProps> = ({ sessions }) => {
-    const { deletingSingle, deletedSingle, deleteSession } =
-        useDeleteSingleSession();
+    const { deletingSingle, deleteSession } = useDeleteSingleSession();
 
-    const { deletingAll, deletedAll, deleteAll } = useDeleteAllSessions();
-
+    const { deletingAll, deleteAll } = useDeleteAllSessions();
     return (
         <Grid container spacing={2}>
             <Card>
@@ -24,6 +23,10 @@ const SessionList: React.FC<SessionListProps> = ({ sessions }) => {
                     variant="contained"
                     color="error"
                     sx={{ marginTop: '10px' }}
+                    onClick={async () => {
+                        confirm('You will be log out after this action!');
+                        deleteAll();
+                    }}
                 >
                     Logout from all sessions
                 </Button>
@@ -58,9 +61,7 @@ const SessionList: React.FC<SessionListProps> = ({ sessions }) => {
                         color="error"
                         sx={{ marginTop: '10px' }}
                         onClick={async () => {
-                            deleteSession(session.sessionId).then((res) => {
-                                window.location.reload();
-                            });
+                            await deleteSession(session.sessionId);
                         }}
                         disabled={deletingSingle}
                     >

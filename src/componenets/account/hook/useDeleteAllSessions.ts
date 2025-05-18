@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
-import authService from '../../../services/authService';
+import authService, { destroyThisSession } from '../../../services/authService';
 
 export const useDeleteAllSessions = () => {
     const [deletingAll, setDeletingAll] = useState(false);
-    const [deletedAll, setDeletedAll] = useState(false);
 
     const deleteAll = async () => {
         if (deletingAll) return;
@@ -22,7 +21,7 @@ export const useDeleteAllSessions = () => {
             )
             .then((res) => {
                 if (res.status === 200) {
-                    setDeletedAll(false);
+                    destroyThisSession();
                     return true;
                 } else {
                     setDeletingAll(false);
@@ -31,5 +30,5 @@ export const useDeleteAllSessions = () => {
             });
     };
 
-    return { deletingAll, deletedAll, deleteAll };
+    return { deletingAll, deleteAll };
 };
