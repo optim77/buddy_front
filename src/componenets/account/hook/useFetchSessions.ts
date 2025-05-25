@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ISession } from './ISession';
+import { ISession } from '../types/ISession';
 import axios from 'axios';
 import authService from '../../../services/authService';
 

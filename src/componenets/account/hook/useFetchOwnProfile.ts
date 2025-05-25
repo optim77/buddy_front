@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { IUserData } from '../IUserData';
+import { IUserData } from '../types/IUserData';
 import axios from 'axios';
 import authService from '../../../services/authService';
 

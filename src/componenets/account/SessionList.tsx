@@ -1,4 +1,4 @@
-import { ISession } from './hook/ISession';
+import { ISession } from './types/ISession';
 import { Button, Grid, Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import React from 'react';

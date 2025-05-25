@@ -30,7 +30,7 @@ import authService from '../../services/authService';
 import { buildMediaLink } from '../../utils/FormatMediaLink';
 import { TikTok } from '../CustomIcons';
 import AppTheme from '../theme/AppTheme';
-import { IUserData } from './IUserData';
+import { IUserData } from './types/IUserData';
 import { useChangePassword } from './hook/useChangePassword';
 import { useDeleteAccount } from './hook/useDeleteAccount';
 
