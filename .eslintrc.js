@@ -25,5 +25,11 @@ module.exports = {
             },
         ],
         'import/order': 'off',
+        "max-len": [
+          "error",
+            {
+                code: 500
+            }
+        ]
     },
 };

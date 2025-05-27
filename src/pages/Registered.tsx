@@ -1,7 +1,5 @@
-import Box from '@mui/material/Box';
 import MuiCard from '@mui/material/Card';
 import CssBaseline from '@mui/material/CssBaseline';
-import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
