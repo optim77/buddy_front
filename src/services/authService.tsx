@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
+import {apiClient} from "../componenets/api/apiClient";
 
 const setToken = (token: string) => {
     setCookie('buddy-token', token);
@@ -25,20 +26,15 @@ const getIdFromCookie = () => {
 };
 
 const login = async (email: string, password: string) => {
-    await axios
-        .post(
-            `${process.env.REACT_APP_API_ADDRESS}/authenticate`,
-            { email, password },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            },
-        )
-        .then((content) => {
-            setToken(content.data.token);
-            setBuddyUser(content.data.userId);
-        });
+    try {
+        const res = await apiClient.post('/authenticate', { email, password });
+        if (res.status === 200) {
+            setToken(res.data.token);
+            setBuddyUser(res.data.userId);
+        }
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const register = async (email: string, password: string) => {

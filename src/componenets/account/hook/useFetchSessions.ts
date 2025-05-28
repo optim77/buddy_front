@@ -5,8 +5,7 @@ import authService from '../../../services/authService';
 
 export const useFetchSessions = () => {
     const [isLoadingSessions, setIsLoadingSessions] = useState<boolean>(true);
-    const [messageFetchingSession, setMessageFetchingSession] =
-        useState<string>('');
+    const [messageFetchingSession, setMessageFetchingSession] = useState<string>('');
     const [sessions, setSessions] = useState<ISession[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);

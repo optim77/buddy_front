@@ -1,34 +1,32 @@
 import { useState } from 'react';
-import axios from 'axios';
-import authService, { destroyThisSession } from '../../../services/authService';
+import { destroyThisSession } from '../../../services/authService';
+import { apiClient } from '../../api/apiClient';
 
-export const useDeleteAllSessions = () => {
+interface useDeleteAllSessionsResult {
+    deletingAll: boolean;
+    deleteAll: () => void;
+    deletingAllMessage: string
+}
+
+export const useDeleteAllSessions = (): useDeleteAllSessionsResult => {
     const [deletingAll, setDeletingAll] = useState(false);
+    const [deletingAllMessage, setDeletingAllMessage] = useState<string>('');
 
-    const deleteAll = async () => {
-        if (deletingAll) return;
-        setDeletingAll(true);
-        await axios
-            .post(
-                `${process.env.REACT_APP_API_ADDRESS}/session/logout/all`,
-                {},
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authService.getToken()}`,
-                    },
-                },
-            )
-            .then((res) => {
-                if (res.status === 200) {
-                    destroyThisSession();
-                    return true;
-                } else {
-                    setDeletingAll(false);
-                    return false;
-                }
-            });
+    const deleteAll = async (): Promise<boolean> => {
+        try {
+            const apiResponse = await apiClient.post('/session/logout/all');
+            if (apiResponse.status === 200) {
+                destroyThisSession();
+                return true;
+            }
+            setDeletingAll(false);
+            return false;
+
+        } catch (err) {
+            setDeletingAllMessage('Something went wrong.');
+            return false
+        }
     };
 
-    return { deletingAll, deleteAll };
+    return { deletingAll, deletingAllMessage, deleteAll };
 };

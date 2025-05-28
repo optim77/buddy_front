@@ -1,46 +1,45 @@
 import { useState } from 'react';
-import axios, {AxiosError} from 'axios';
-import authService from '../../../services/authService';
 import { PasswordValidationResult, validatePassword } from '../../../utils/validatePassword';
+import {apiClient} from "../../api/apiClient";
 
 interface ChangePasswordResponse {
     message: string;
 }
+interface UseChangePasswordResult {
+    changePasswordNewPassword: string;
+    changePasswordNewPasswordConfirm: string;
+    setChangePasswordNewPassword: (val: string) => void;
+    setChangePasswordNewPasswordConfirm: (val: string) => void;
+    setChangePasswordDialogOpen: (open: boolean) => void;
+    changePasswordDialogOpen: boolean;
+    changePasswordError: string | undefined;
+    changePasswordMessage: string | null;
+    changePassword: () => Promise<void>;
+}
 
-export const useChangePassword = () => {
+export const useChangePassword = (): UseChangePasswordResult => {
     const [changePasswordNewPassword, setChangePasswordNewPassword] = useState('');
     const [changePasswordNewPasswordConfirm, setChangePasswordNewPasswordConfirm] = useState('');
     const [changePasswordDialogOpen, setChangePasswordDialogOpen] = useState(false);
-    const [changePasswordError, setChangePasswordError] = useState<string | null>(null);
+    const [changePasswordError, setChangePasswordError] = useState<string | undefined>();
     const [changePasswordMessage, setChangePasswordMessage] = useState<string | null>(null);
 
     const resetState = () => {
         setChangePasswordNewPassword('');
         setChangePasswordNewPasswordConfirm('');
-        setChangePasswordError(null);
+        setChangePasswordError('');
         setChangePasswordMessage(null);
     }
 
     const changePassword = async () => {
         const validation: PasswordValidationResult = validatePassword(changePasswordNewPassword, changePasswordNewPasswordConfirm);
         if (!validation.valid) {
-            setChangePasswordError('Passwords do not match');
+            setChangePasswordError(validation.message);
             return;
         }
-
         try {
-            const response = await axios
-                .put<ChangePasswordResponse>(
-                    `${process.env.REACT_APP_API_ADDRESS}/user/change_password`,
-                    { password: changePasswordNewPassword },
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${authService.getToken()}`,
-                        },
-                    },
-                );
-            if (response.status === 200){
+            const res = await apiClient.put<ChangePasswordResponse>('/user/change_password', { password: changePasswordNewPassword });
+            if (res.status === 200) {
                 setChangePasswordDialogOpen(false);
                 setChangePasswordMessage(
                     'Password changed successfully!',
@@ -49,18 +48,12 @@ export const useChangePassword = () => {
             } else {
                 setChangePasswordError('Something went wrong');
             }
-        } catch (error: unknown) {
-            const axiosError = error as AxiosError;
-            if (axiosError.response?.data && axiosError.response.data === 'string') {
-                setChangePasswordError(
-                    'Error occurred while trying to change your password',
-                );
-            } else {
-                setChangePasswordError('Error occurred while trying to change your password');
-            }
-
+        } catch (err) {
+            setChangePasswordError('Something went wrong');
         }
-    };
+
+
+    }
 
     return {
         changePasswordNewPassword,
