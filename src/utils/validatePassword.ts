@@ -18,4 +18,4 @@ export const validatePassword = (password: string, confirmPassword: string): Pas
         return { valid: false, message: 'Password does not meet the requirements (8–32 characters, upper and lower case, special character)' };
     }
     return { valid: true };
-}
+};

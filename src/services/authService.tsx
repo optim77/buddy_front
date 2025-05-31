@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
-import {apiClient} from "../componenets/api/apiClient";
+import { apiClient } from '../componenets/api/apiClient';
 
 const setToken = (token: string) => {
     setCookie('buddy-token', token);

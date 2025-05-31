@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../../services/authService';
 import { useAuthValidation } from './useAuthValidation';
+import { useErrorStore } from '../../banner/useErrorStore';
+import {showBanner} from "../../banner/BannerUtils";
 
 export const useAuth = () => {
     const { validateInputs } = useAuthValidation();
@@ -28,6 +30,7 @@ export const useAuth = () => {
                 navigate(0);
             } else {
                 setIsSuccess(false);
+                showBanner("Wrong email or password", 'error');
                 setErrorMessage('Wrong email or password');
             }
         } catch (error: any) {
@@ -35,6 +38,7 @@ export const useAuth = () => {
                 setErrorMessage('Something went wrong! Try again.');
                 return;
             }
+            showBanner("Wrong email or password", 'error');
             setErrorMessage('Wrong email or password');
         } finally {
             setIsSubmitting(false);

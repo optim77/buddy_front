@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PasswordValidationResult, validatePassword } from '../../../utils/validatePassword';
-import {apiClient} from "../../api/apiClient";
+import { apiClient } from '../../api/apiClient';
 
 interface ChangePasswordResponse {
     message: string;
@@ -29,7 +29,7 @@ export const useChangePassword = (): UseChangePasswordResult => {
         setChangePasswordNewPasswordConfirm('');
         setChangePasswordError('');
         setChangePasswordMessage(null);
-    }
+    };
 
     const changePassword = async () => {
         const validation: PasswordValidationResult = validatePassword(changePasswordNewPassword, changePasswordNewPasswordConfirm);
@@ -41,9 +41,7 @@ export const useChangePassword = (): UseChangePasswordResult => {
             const res = await apiClient.put<ChangePasswordResponse>('/user/change_password', { password: changePasswordNewPassword });
             if (res.status === 200) {
                 setChangePasswordDialogOpen(false);
-                setChangePasswordMessage(
-                    'Password changed successfully!',
-                );
+                setChangePasswordMessage('Password changed successfully!');
                 resetState();
             } else {
                 setChangePasswordError('Something went wrong');
@@ -51,9 +49,7 @@ export const useChangePassword = (): UseChangePasswordResult => {
         } catch (err) {
             setChangePasswordError('Something went wrong');
         }
-
-
-    }
+    };
 
     return {
         changePasswordNewPassword,
