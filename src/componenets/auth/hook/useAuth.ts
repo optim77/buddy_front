@@ -1,16 +1,26 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../../services/authService';
 import { useAuthValidation } from './useAuthValidation';
-import { useErrorStore } from '../../banner/useErrorStore';
-import {showBanner} from "../../banner/BannerUtils";
+import { showBanner } from '../../banner/BannerUtils';
+import { apiClient } from '../../api/apiClient';
 
-export const useAuth = () => {
+interface useAuthProps {
+    login: (email: string, password: string) => Promise<void>;
+    isSubmitting: boolean;
+    isSuccess: boolean;
+}
+
+interface authResponse {
+    token: string;
+    message: string;
+    userId: string;
+}
+
+export const useAuth = (): useAuthProps => {
     const { validateInputs } = useAuthValidation();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    const [errorMessage, setErrorMessage] = useState<string>('');
     const navigate = useNavigate();
 
     const login = async (email: string, password: string) => {
@@ -18,32 +28,28 @@ export const useAuth = () => {
 
         setIsSubmitting(true);
         try {
-            const response = await axios.post(
-                `${process.env.REACT_APP_API_ADDRESS}/authenticate`,
-                { email, password },
-                { headers: { 'Content-Type': 'application/json' } },
-            );
-            if (response.data.token != '' && response.data.userId != '') {
-                authService.setToken(response.data.token);
-                authService.setBuddyUser(response.data.userId);
+            const res = await apiClient.post<authResponse>('/authenticate', { email, password });
+            if (res?.data?.token && res?.data?.userId) {
+                authService.setToken(res.data.token);
+                authService.setBuddyUser(res.data.userId);
                 setIsSuccess(true);
                 navigate(0);
             } else {
                 setIsSuccess(false);
-                showBanner("Wrong email or password", 'error');
-                setErrorMessage('Wrong email or password');
+                showBanner('Wrong email or password', 'error');
             }
         } catch (error: any) {
-            if (error.code == 'ERR_NETWORK') {
-                setErrorMessage('Something went wrong! Try again.');
-                return;
+            setIsSuccess(false);
+            if (error.response?.data?.message == 'Bad credentials') {
+                showBanner('Wrong email or password', 'error');
+            } else {
+                showBanner('Something went wrong! Try again.', 'error');
             }
-            showBanner("Wrong email or password", 'error');
-            setErrorMessage('Wrong email or password');
+            return;
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    return { login, isSubmitting, isSuccess, errorMessage };
+    return { login, isSubmitting, isSuccess };
 };

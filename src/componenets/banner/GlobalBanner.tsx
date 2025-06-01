@@ -1,6 +1,6 @@
 import { useErrorStore } from './useErrorStore';
 import { useEffect } from 'react';
-import { Snackbar, Alert, AlertColor } from '@mui/material';
+import { Snackbar, Alert } from '@mui/material';
 
 export const GlobalBanner = () => {
     const { message, type, clearError } = useErrorStore();

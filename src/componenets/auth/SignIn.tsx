@@ -19,7 +19,6 @@ import ForgotPassword from './ForgotPassword';
 import { CustomCard } from '../../customStyles/Element';
 import { useAuth } from './hook/useAuth';
 import { useAuthValidation } from './hook/useAuthValidation';
-import { errorBox } from '../../utils/errorBox';
 
 export default function SignIn({
     disableCustomTheme,
@@ -32,7 +31,7 @@ export default function SignIn({
         passwordError,
         passwordErrorMessage,
     } = useAuthValidation();
-    const { login, isSubmitting, isSuccess, errorMessage } = useAuth();
+    const { login, isSubmitting, isSuccess } = useAuth();
     const [open, setOpen] = useState(false);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -47,9 +46,7 @@ export default function SignIn({
         <AppTheme disableCustomTheme={disableCustomTheme}>
             <CssBaseline enableColorScheme />
             <MainContainer direction="column" justifyContent="space-between">
-                <ColorModeSelect
-                    sx={{ position: 'fixed', top: '1rem', right: '1rem' }}
-                />
+                <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }}/>
                 <CustomCard variant="outlined">
                     <SitemarkIcon />
                     <Typography component="h1" variant="h4">
@@ -65,7 +62,6 @@ export default function SignIn({
                             gap: 2,
                         }}
                     >
-                        {!isSuccess && errorBox(errorMessage)}
                         <FormControl>
                             <FormLabel>Email</FormLabel>
                             <TextField

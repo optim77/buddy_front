@@ -6,7 +6,7 @@ export const useAuthValidation = () => {
     const [passwordError, setPasswordError] = useState(false);
     const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
 
-    const validateInputs = (email: string, password: string) => {
+    const validateInputs = (email: string, password: string): boolean => {
         let isValid = true;
 
         if (!email || !/\S+@\S+\.\S+/.test(email)) {
