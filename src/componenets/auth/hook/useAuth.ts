@@ -8,7 +8,6 @@ import { apiClient } from '../../api/apiClient';
 interface useAuthProps {
     login: (email: string, password: string) => Promise<void>;
     isSubmitting: boolean;
-    isSuccess: boolean;
 }
 
 interface authResponse {
@@ -20,7 +19,6 @@ interface authResponse {
 export const useAuth = (): useAuthProps => {
     const { validateInputs } = useAuthValidation();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isSuccess, setIsSuccess] = useState(false);
     const navigate = useNavigate();
 
     const login = async (email: string, password: string) => {
@@ -32,24 +30,20 @@ export const useAuth = (): useAuthProps => {
             if (res?.data?.token && res?.data?.userId) {
                 authService.setToken(res.data.token);
                 authService.setBuddyUser(res.data.userId);
-                setIsSuccess(true);
                 navigate(0);
             } else {
-                setIsSuccess(false);
                 showBanner('Wrong email or password', 'error');
             }
         } catch (error: any) {
-            setIsSuccess(false);
-            if (error.response?.data?.message == 'Bad credentials') {
+            if (error.status == 401) {
                 showBanner('Wrong email or password', 'error');
             } else {
                 showBanner('Something went wrong! Try again.', 'error');
             }
-            return;
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    return { login, isSubmitting, isSuccess };
+    return { login, isSubmitting };
 };

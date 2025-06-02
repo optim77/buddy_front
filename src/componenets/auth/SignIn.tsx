@@ -31,7 +31,7 @@ export default function SignIn({
         passwordError,
         passwordErrorMessage,
     } = useAuthValidation();
-    const { login, isSubmitting, isSuccess } = useAuth();
+    const { login, isSubmitting } = useAuth();
     const [open, setOpen] = useState(false);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

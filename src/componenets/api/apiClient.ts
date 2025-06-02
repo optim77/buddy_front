@@ -21,9 +21,6 @@ apiClient.interceptors.request.use((config) => {
 apiClient.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.status === 401) {
-            window.location.href = '/sign-in';
-        }
         const message = error.response?.data?.message || 'Unexpected error occurred';
         useErrorStore.getState().setBanner(message, 'error');
         return Promise.reject(error);
