@@ -33,13 +33,8 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
 
     const validateInputs = () => {
         const email = document.getElementById('email') as HTMLInputElement;
-        const password = document.getElementById(
-            'password',
-        ) as HTMLInputElement;
-        const repeatPassword = document.getElementById(
-            'repeatPassword',
-        ) as HTMLInputElement;
-        // const name = document.getElementById('name') as HTMLInputElement;
+        const password = document.getElementById('password',) as HTMLInputElement;
+        const repeatPassword = document.getElementById('repeatPassword',) as HTMLInputElement;
 
         let isValid = true;
 

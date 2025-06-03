@@ -1,9 +1,6 @@
-import { useState } from 'react';
-import {showBanner} from "../../banner/BannerUtils";
+import { showBanner } from '../../banner/BannerUtils';
 
 export const useAuthValidation = () => {
-    const [emailError, setEmailError] = useState(false);
-    const [emailErrorMessage, setEmailErrorMessage] = useState('');
 
     const validateInputs = (email: string, password: string): boolean => {
         let isValid = true;
@@ -11,9 +8,6 @@ export const useAuthValidation = () => {
         if (!email || !/\S+@\S+\.\S+/.test(email)) {
             showBanner('Please enter a valid email address.', 'error');
             isValid = false;
-        } else {
-            setEmailError(false);
-            setEmailErrorMessage('');
         }
 
         if (!password || password.length < 6) {
@@ -24,9 +18,5 @@ export const useAuthValidation = () => {
         return isValid;
     };
 
-    return {
-        emailError,
-        emailErrorMessage,
-        validateInputs,
-    };
+    return { validateInputs };
 };
