@@ -20,6 +20,7 @@ import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../CustomIcons';
 import AppTheme from '../theme/AppTheme';
 import ColorModeSelect from '../theme/ColorModeSelect';
 import { CustomCard } from '../../customStyles/Element';
+import {useAuthValidation} from "./hook/useAuthValidation";
 
 export default function SignUp(props: { disableCustomTheme?: boolean }) {
     const [emailError, setEmailError] = React.useState(false);
@@ -28,8 +29,13 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
     const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
     const [nameError, setNameError] = React.useState(false);
     const [isSubmiting, setIsSubmitting] = React.useState(false);
+    const { validateSignUpInputs } = useAuthValidation()
 
     const navigate = useNavigate();
+    const email = document.getElementById('email') as string;
+    const password = document.getElementById('password',) as string;
+    const repeatPassword = document.getElementById('repeatPassword',) as string;
+    validateSignUpInputs(email, password, repeatPassword);
 
     const validateInputs = () => {
         const email = document.getElementById('email') as HTMLInputElement;
