@@ -7,7 +7,9 @@ import { apiClient } from '../../api/apiClient';
 
 interface useAuthProps {
     login: (email: string, password: string) => Promise<void>;
-    isSubmitting: boolean;
+    signUp: (email: string, password: string, repeatPassword: string) => Promise<void>;
+    isSubmittingLogin: boolean;
+    isSubmittingSignUp: boolean;
 }
 
 interface authResponse {
@@ -17,14 +19,15 @@ interface authResponse {
 }
 
 export const useAuth = (): useAuthProps => {
-    const { validateInputs } = useAuthValidation();
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { validateInputs, validateSignUpInputs } = useAuthValidation();
+    const [isSubmittingLogin, setIsSubmittingLogin] = useState(false);
+    const [isSubmittingSignUp, setIsSubmittingSignUp] = useState(false);
     const navigate = useNavigate();
 
     const login = async (email: string, password: string) => {
         if (!validateInputs(email, password)) return;
 
-        setIsSubmitting(true);
+        setIsSubmittingLogin(true);
         try {
             const res = await apiClient.post<authResponse>('/authenticate', { email, password });
             if (res?.data?.token && res?.data?.userId) {
@@ -41,9 +44,19 @@ export const useAuth = (): useAuthProps => {
                 showBanner('Something went wrong! Try again.', 'error');
             }
         } finally {
-            setIsSubmitting(false);
+            setIsSubmittingLogin(false);
         }
     };
 
-    return { login, isSubmitting };
+    const signUp = async (email: string, password: string, repeatPassword: string) => {
+        if (validateSignUpInputs(email, password, repeatPassword)) return;
+        setIsSubmittingSignUp(true);
+        try {
+            const res = await apiClient.post<authResponse>('/authenticate', { email, password });
+        } catch (error: any) {
+            showBanner('Something went', 'error');
+        }
+    };
+
+    return { login, signUp, isSubmittingLogin, isSubmittingSignUp };
 };

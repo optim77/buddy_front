@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
-import { apiClient } from '../componenets/api/apiClient';
 
 const setToken = (token: string) => {
     setCookie('buddy-token', token);
@@ -25,17 +24,6 @@ const getIdFromCookie = () => {
     return getCookie('buddy-id') || null;
 };
 
-const login = async (email: string, password: string) => {
-    try {
-        const res = await apiClient.post('/authenticate', { email, password });
-        if (res.status === 200) {
-            setToken(res.data.token);
-            setBuddyUser(res.data.userId);
-        }
-    } catch (error) {
-        console.log(error);
-    }
-};
 
 const register = async (email: string, password: string) => {
     await axios.post(
@@ -78,7 +66,6 @@ export const destroyThisSession = (): void => {
 };
 
 const authService = {
-    login,
     register,
     logout,
     getToken,

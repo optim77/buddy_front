@@ -21,71 +21,29 @@ import AppTheme from '../theme/AppTheme';
 import ColorModeSelect from '../theme/ColorModeSelect';
 import { CustomCard } from '../../customStyles/Element';
 import {useAuthValidation} from "./hook/useAuthValidation";
+import {useAuth} from "./hook/useAuth";
 
 export default function SignUp(props: { disableCustomTheme?: boolean }) {
     const [emailError, setEmailError] = React.useState(false);
     const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
     const [passwordError, setPasswordError] = React.useState(false);
     const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-    const [nameError, setNameError] = React.useState(false);
-    const [isSubmiting, setIsSubmitting] = React.useState(false);
-    const { validateSignUpInputs } = useAuthValidation()
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
+    const { signUp } = useAuth();
 
     const navigate = useNavigate();
-    const email = document.getElementById('email') as string;
-    const password = document.getElementById('password',) as string;
-    const repeatPassword = document.getElementById('repeatPassword',) as string;
-    validateSignUpInputs(email, password, repeatPassword);
 
-    const validateInputs = () => {
-        const email = document.getElementById('email') as HTMLInputElement;
-        const password = document.getElementById('password',) as HTMLInputElement;
-        const repeatPassword = document.getElementById('repeatPassword',) as HTMLInputElement;
-
-        let isValid = true;
-
-        if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-            setEmailError(true);
-            setEmailErrorMessage('Please enter a valid email address.');
-            isValid = false;
-        } else {
-            setEmailError(false);
-            setEmailErrorMessage('');
-        }
-
-        // if (!password.value || password.value.length < 6 && !repeatPassword.value || repeatPassword.value.length < 6 &&password.value !== repeatPassword.value) {
-        //     setEmailError(true);
-        //     setPasswordErrorMessage("Passwords do not match.");
-        // }else{
-        //     setPasswordError(false);
-        //     setPasswordErrorMessage('');
-        // }
-
-        if (!password.value || password.value.length < 6) {
-            setPasswordError(true);
-            setPasswordErrorMessage(
-                'Password must be at least 6 characters long.',
-            );
-            isValid = false;
-        } else {
-            setPasswordError(false);
-            setPasswordErrorMessage('');
-        }
-
-        return isValid;
-    };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        setIsSubmitting(true);
-        if (nameError || emailError || passwordError) {
-            event.preventDefault();
-            setIsSubmitting(false);
-            return;
-        }
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        const email = data.get('email') as string | null;
-        const password = data.get('password') as string | null;
+        setIsSubmitting(true);
+        const formData = new FormData(event.currentTarget);
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
+        const repeatPassword = formData.get('repeatPassword') as string;
+
+        signUp(email, password, repeatPassword);
+
         if (email && password) {
             authService
                 .register(email, password)
@@ -216,10 +174,9 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            onClick={validateInputs}
-                            disabled={isSubmiting}
+                            disabled={isSubmitting}
                         >
-                            {isSubmiting ? 'Signing up...' : 'Sign up'}
+                            {isSubmitting ? 'Signing up...' : 'Sign up'}
                         </Button>
                     </Box>
                     <Divider>

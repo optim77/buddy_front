@@ -18,20 +18,13 @@ import ColorModeSelect from '../theme/ColorModeSelect';
 import ForgotPassword from './ForgotPassword';
 import { CustomCard } from '../../customStyles/Element';
 import { useAuth } from './hook/useAuth';
-import { useAuthValidation } from './hook/useAuthValidation';
 
 export default function SignIn({
     disableCustomTheme,
 }: {
     disableCustomTheme?: boolean;
 }) {
-    const {
-        emailError,
-        emailErrorMessage,
-        passwordError,
-        passwordErrorMessage,
-    } = useAuthValidation();
-    const { login, isSubmitting } = useAuth();
+    const { login, isSubmittingLogin } = useAuth();
     const [open, setOpen] = useState(false);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -65,8 +58,6 @@ export default function SignIn({
                         <FormControl>
                             <FormLabel>Email</FormLabel>
                             <TextField
-                                error={emailError}
-                                helperText={emailErrorMessage}
                                 name="email"
                                 type="email"
                                 placeholder="your@email.com"
@@ -79,8 +70,6 @@ export default function SignIn({
                         <FormControl>
                             <FormLabel>Password</FormLabel>
                             <TextField
-                                error={passwordError}
-                                helperText={passwordErrorMessage}
                                 name="password"
                                 type="password"
                                 placeholder="••••••"
@@ -104,9 +93,9 @@ export default function SignIn({
                             type="submit"
                             fullWidth
                             variant="contained"
-                            disabled={isSubmitting}
+                            disabled={isSubmittingLogin}
                         >
-                            {isSubmitting ? 'Signing in...' : 'Sign in'}
+                            {isSubmittingLogin ? 'Signing in...' : 'Sign in'}
                         </Button>
                         <Link
                             component="button"
