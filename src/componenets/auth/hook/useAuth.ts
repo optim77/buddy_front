@@ -53,8 +53,18 @@ export const useAuth = (): useAuthProps => {
         setIsSubmittingSignUp(true);
         try {
             const res = await apiClient.post<authResponse>('/authenticate', { email, password });
+            if (res.status === 200) {
+                setTimeout(() => {
+                    showBanner('Sign Up successfully', 'info');
+                }, 1000)
+                navigate('/registered');
+            }
         } catch (error: any) {
-            showBanner('Something went', 'error');
+            if (error.data?.message) {
+                showBanner(error.data?.message, 'error');
+            } else {
+                showBanner('Something went', 'error');
+            }
         }
     };
 
