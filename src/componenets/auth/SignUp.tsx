@@ -26,6 +26,7 @@ import AuthLayout from "../layout/AuthLayout";
 import {useSignUp} from "./hook/useSignUp";
 import {SocialSignUpButtons} from "./SocialSignUpButtons";
 import FormField from "../form/FormField";
+import {SignInRouter} from "./AuthRouter";
 
 export default function SignUp() {
 
@@ -78,16 +79,7 @@ export default function SignUp() {
                 }}
             >
                 <SocialSignUpButtons />
-                <Typography sx={{ textAlign: 'center' }}>
-                    Already have an account?
-                    <Link
-                        href="/sign-in"
-                        variant="body2"
-                        sx={{ alignSelf: 'center' }}
-                    >
-                        Sign in
-                    </Link>
-                </Typography>
+                <SignInRouter />
             </Box>
         </AuthLayout>
 

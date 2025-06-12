@@ -1,6 +1,6 @@
-import { useAuth } from "./useAuth";
-import {SyntheticEvent, useState} from "react";
-import * as React from "react";
+import { useAuth } from './useAuth';
+import { useState } from 'react';
+import * as React from 'react';
 
 export const useSignUp = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);

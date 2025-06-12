@@ -8,7 +8,6 @@ import { apiClient } from '../../api/apiClient';
 interface useAuthProps {
     login: (email: string, password: string) => Promise<void>;
     signUp: (email: string, password: string, repeatPassword: string) => Promise<void>;
-    isSubmittingLogin: boolean;
     isSubmittingSignUp: boolean;
 }
 
@@ -20,14 +19,12 @@ interface authResponse {
 
 export const useAuth = (): useAuthProps => {
     const { validateInputs, validateSignUpInputs } = useAuthValidation();
-    const [isSubmittingLogin, setIsSubmittingLogin] = useState(false);
     const [isSubmittingSignUp, setIsSubmittingSignUp] = useState(false);
     const navigate = useNavigate();
 
     const login = async (email: string, password: string) => {
         if (!validateInputs(email, password)) return;
 
-        setIsSubmittingLogin(true);
         try {
             const res = await apiClient.post<authResponse>('/authenticate', { email, password });
             if (res?.data?.token && res?.data?.userId) {
@@ -43,8 +40,6 @@ export const useAuth = (): useAuthProps => {
             } else {
                 showBanner('Something went wrong! Try again.', 'error');
             }
-        } finally {
-            setIsSubmittingLogin(false);
         }
     };
 
@@ -68,5 +63,5 @@ export const useAuth = (): useAuthProps => {
         }
     };
 
-    return { login, signUp, isSubmittingLogin, isSubmittingSignUp };
+    return { login, signUp, isSubmittingSignUp };
 };
