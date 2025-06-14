@@ -1,8 +1,7 @@
 import React from 'react';
-import { Typography } from '@mui/material';
 import AppLayout from './AppLayout';
-import { CustomCard } from '../../customStyles/Element';
-import { SitemarkIcon } from '../CustomIcons';
+import { CustomCard, StyledCard } from '../../customStyles/Element';
+import {Typography} from "@mui/material";
 
 interface AuthLayoutProps {
     children: React.ReactNode;
@@ -10,14 +9,14 @@ interface AuthLayoutProps {
     disableCustomTheme?: boolean;
 }
 
-const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title = 'Sign in', disableCustomTheme }) => {
+const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title = 'Create post', disableCustomTheme }) => {
     return (
         <AppLayout disableCustomTheme={disableCustomTheme}>
             <CustomCard variant="outlined">
-                <SitemarkIcon />
-                <Typography component="h1" variant="h4">
-                    {title}
-                </Typography>
+                <StyledCard variant="outlined">
+                    <Typography variant="h4">{title}</Typography>
+                    {children}
+                </StyledCard>
                 {children}
             </CustomCard>
         </AppLayout>

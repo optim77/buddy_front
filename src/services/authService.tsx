@@ -24,7 +24,6 @@ const getIdFromCookie = () => {
     return getCookie('buddy-id') || null;
 };
 
-
 const register = async (email: string, password: string) => {
     await axios.post(
         `${process.env.REACT_APP_API_ADDRESS}/register`,

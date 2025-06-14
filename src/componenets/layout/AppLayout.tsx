@@ -1,7 +1,7 @@
-import AppTheme from "../theme/AppTheme";
-import CssBaseline from "@mui/material/CssBaseline";
-import {MainContainer} from "../../customStyles/MainContainer";
-import ColorModeSelect from "../theme/ColorModeSelect";
+import AppTheme from '../theme/AppTheme';
+import CssBaseline from '@mui/material/CssBaseline';
+import { MainContainer } from '../../customStyles/MainContainer';
+import ColorModeSelect from '../theme/ColorModeSelect';
 
 interface AppLayoutProps {
     children: React.ReactNode;
@@ -17,14 +17,12 @@ const AppLayout: React.FC<AppLayoutProps> = ({
     showColorModeToggle = true,
     direction = 'column',
     justifyContent = 'space-between',
-    }) => {
+}) => {
     return (
         <AppTheme disableCustomTheme={disableCustomTheme}>
-            <CssBaseline enableColorScheme/>
+            <CssBaseline enableColorScheme />
             <MainContainer direction={direction} justifyContent={justifyContent}>
-                {showColorModeToggle && (
-                    <ColorModeSelect sx={{position: 'fixed', top: '1rem', right: '1rem'}}/>
-                )}
+                {showColorModeToggle && <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />}
                 {children}
             </MainContainer>
         </AppTheme>

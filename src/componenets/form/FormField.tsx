@@ -1,7 +1,7 @@
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { TextField } from '@mui/material';
-import React from "react";
+import React from 'react';
 
 interface FormFieldProps {
     name: string;
@@ -9,7 +9,7 @@ interface FormFieldProps {
     type?: string;
 }
 
-const FormField: React.FC<FormFieldProps> = ({ name, label, type = "text" }) => (
+const FormField: React.FC<FormFieldProps> = ({ name, label, type = 'text' }) => (
     <FormControl>
         <FormLabel htmlFor={name}>{label}</FormLabel>
         <TextField
@@ -25,5 +25,3 @@ const FormField: React.FC<FormFieldProps> = ({ name, label, type = "text" }) => 
 );
 
 export default FormField;
-
-

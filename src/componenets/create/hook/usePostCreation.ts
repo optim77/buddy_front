@@ -2,6 +2,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../../services/authService';
+import {useFileValidation} from "./useFileValidation";
+import {showBanner} from "../../banner/BannerUtils";
 
 const usePostCreation = (
     uploadedFile: File | null,
@@ -13,21 +15,12 @@ const usePostCreation = (
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const navigate = useNavigate();
 
-    const validateInput = () => {
-        if (!uploadedFile) return 'Please upload an image!';
-        if (uploadedFile.size >= 100000000)
-            return 'Your file is too big, max size is 100Mb';
-        if (!description) return 'Please fill in all fields!';
-        return null;
-    };
+    const { validatePostCreate } = useFileValidation();
 
     const send = async () => {
         setIsSending(true);
-        const validationError = validateInput();
 
-        if (validationError) {
-            setErrorMessage(validationError);
-            setIsSending(false);
+        if (!validatePostCreate(uploadedFile, description)) {
             return;
         }
 
@@ -36,7 +29,7 @@ const usePostCreation = (
         if (uploadedFile) {
             formData.append('file', uploadedFile);
         } else {
-            setErrorMessage('File is missing!');
+            showBanner('File is missing!', 'error');
             setIsSending(false);
             return;
         }

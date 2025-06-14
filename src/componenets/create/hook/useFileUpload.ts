@@ -1,8 +1,13 @@
 import { useState } from 'react';
+import { showBanner } from "../../banner/BannerUtils";
 
-const useFileUpload = () => {
+interface useFileUploadProps {
+    uploadedFile: File | null;
+    handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const useFileUpload = (): useFileUploadProps => {
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) return;
@@ -13,15 +18,14 @@ const useFileUpload = () => {
         );
 
         if (!validFile) {
-            setErrorMessage('Only images and videos are allowed.');
+            showBanner('Only images and videos are allowed.', 'error')
             return;
         }
 
         setUploadedFile(validFile);
-        setErrorMessage(null);
     };
 
-    return { uploadedFile, errorMessage, handleFileChange };
+    return { uploadedFile, handleFileChange };
 };
 
 export default useFileUpload;
