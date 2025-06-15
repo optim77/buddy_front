@@ -22,6 +22,6 @@ const SocialSignUpButtons = () => {
                 Sign up with Facebook
             </Button>
         </>
-    )
-}
+    );
+};
 export { SocialSignUpButtons };

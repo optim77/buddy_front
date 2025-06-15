@@ -17,7 +17,7 @@ export const useSignUp = () => {
 
         await signUp(email, password, repeatPassword);
         setIsSubmitting(false);
-    }
+    };
 
     return { handleSubmit, isSubmitting };
-}
+};

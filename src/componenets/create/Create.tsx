@@ -1,35 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {
-    TextField,
-    Typography,
-    Button,
-    Checkbox,
-    FormControlLabel,
-    Tooltip,
-    List,
-    ListItem
-} from '@mui/material';
+import React, { useEffect } from 'react';
+import { TextField, Typography, Button, Checkbox, FormControlLabel, Tooltip, List, ListItem } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
     StyledTextareaAutosize,
     SuggestionsContainer,
     StyledListItemText,
-    VisuallyHiddenInput
+    VisuallyHiddenInput,
 } from '../../customStyles/Element';
-import useFileUpload from './hook/useFileUpload';
 import useTags from './hook/useTags';
 import usePostCreation from './hook/usePostCreation';
 import authService from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
-import Box from "@mui/material/Box";
-import CreateLayout from "../layout/CreateLayout";
+import Box from '@mui/material/Box';
+import CreateLayout from '../layout/CreateLayout';
 
 const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const {uploadedFile, handleFileChange} = useFileUpload();
-    const {tags, setTags, suggestedTags, showSuggestions, findTags, addTag, tagsInputRef} = useTags();
-    const [description, setDescription] = useState<string>('');
-    const [isOpen, setIsOpen] = useState(false);
-    const {isSending, errorMessage, send} = usePostCreation(uploadedFile, description, tags, isOpen);
+    const { tags, setTags, suggestedTags, showSuggestions, findTags, addTag, tagsInputRef } = useTags();
+    const { isSending, send, file, handleFileChange, setDescription, setIsOpen, isOpen } = usePostCreation(tags);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,24 +28,11 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
     return (
         <CreateLayout>
             <Box onSubmit={send}>
-                <Button
-                    component="label"
-                    variant="contained"
-                    startIcon={<CloudUploadIcon/>}
-                >
+                <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                     Upload file
-                    <VisuallyHiddenInput
-                        type="file"
-                        accept="image/*,video/*"
-                        onChange={handleFileChange}
-                        multiple
-                    />
+                    <VisuallyHiddenInput type="file" accept="image/*,video/*" onChange={handleFileChange} multiple />
                 </Button>
-                {uploadedFile && (
-                    <Typography>
-                        Selected File: {uploadedFile.name}
-                    </Typography>
-                )}
+                {file && <Typography>Selected File: {file.name}</Typography>}
 
                 <Typography variant="h4">Description</Typography>
                 <StyledTextareaAutosize
@@ -68,16 +42,13 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 />
 
                 <Typography variant="h4">Tags</Typography>
-                <div style={{position: 'relative'}}>
+                <div style={{ position: 'relative' }}>
                     <TextField
                         placeholder="Tags (comma-separated)"
                         value={tags}
                         onChange={(e) => {
                             setTags(e.target.value);
-                            const lastTag = e.target.value
-                                .split(',')
-                                .pop()
-                                ?.trim();
+                            const lastTag = e.target.value.split(',').pop()?.trim();
                             if (lastTag) findTags(lastTag);
                         }}
                         fullWidth
@@ -87,14 +58,8 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         <SuggestionsContainer>
                             <List>
                                 {suggestedTags.map((tag) => (
-                                    <ListItem
-                                        key={tag}
-                                        sx={{cursor: 'pointer'}}
-                                        onClick={() => addTag(tag)}
-                                    >
-                                        <StyledListItemText>
-                                            {tag}
-                                        </StyledListItemText>
+                                    <ListItem key={tag} sx={{ cursor: 'pointer' }} onClick={() => addTag(tag)}>
+                                        <StyledListItemText>{tag}</StyledListItemText>
                                     </ListItem>
                                 ))}
                             </List>
@@ -104,22 +69,12 @@ const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
                 <Tooltip title="Make your post visible to everyone." arrow>
                     <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={isOpen}
-                                onChange={() => setIsOpen((prev) => !prev)}
-                            />
-                        }
+                        control={<Checkbox checked={isOpen} onChange={() => setIsOpen((prev) => !prev)} />}
                         label="Open"
                     />
                 </Tooltip>
 
-                <Button
-                    variant="contained"
-                    fullWidth
-                    type="submit"
-                    disabled={isSending}
-                >
+                <Button variant="contained" fullWidth type="submit" disabled={isSending}>
                     Create
                 </Button>
             </Box>

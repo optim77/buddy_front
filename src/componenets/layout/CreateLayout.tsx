@@ -1,7 +1,7 @@
 import React from 'react';
 import AppLayout from './AppLayout';
 import { CustomCard, StyledCard } from '../../customStyles/Element';
-import {Typography} from "@mui/material";
+import { Typography } from '@mui/material';
 
 interface AuthLayoutProps {
     children: React.ReactNode;

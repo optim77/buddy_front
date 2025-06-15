@@ -1,5 +1,5 @@
-import {useAuth} from "./useAuth";
-import React, {useState} from "react";
+import { useAuth } from './useAuth';
+import React, { useState } from 'react';
 
 export const useSingIn = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -16,5 +16,4 @@ export const useSingIn = () => {
     };
 
     return { handleSubmit, isSubmitting };
-
-}
+};

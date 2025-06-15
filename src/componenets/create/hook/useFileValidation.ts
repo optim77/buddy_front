@@ -1,15 +1,14 @@
 import { showBanner } from '../../banner/BannerUtils';
 
 export const useFileValidation = () => {
-
     const validatePostCreate = (file: File | null, description: string): boolean => {
         let isValid = true;
 
-        if (!file){
+        if (!file) {
             isValid = false;
-            showBanner('Please upload an image!', 'error')
+            showBanner('Please upload an image!', 'error');
         }
-        if (file && file.size >= 100000000){
+        if (file && file.size >= 100000000) {
             isValid = false;
             showBanner('Your file is too big, max size is 100Mb', 'error');
         }
@@ -17,8 +16,8 @@ export const useFileValidation = () => {
             isValid = false;
             showBanner('Please fill in all fields!', 'error');
         }
-        return isValid
-    }
+        return isValid;
+    };
 
-    return { validatePostCreate }
-}
+    return { validatePostCreate };
+};

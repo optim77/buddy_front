@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { showBanner } from "../../banner/BannerUtils";
+import { showBanner } from '../../banner/BannerUtils';
 
 interface useFileUploadProps {
     uploadedFile: File | null;
@@ -13,12 +13,10 @@ const useFileUpload = (): useFileUploadProps => {
         if (!event.target.files) return;
 
         const files = Array.from(event.target.files);
-        const validFile = files.find((file) =>
-            ['image/', 'video/'].some((type) => file.type.startsWith(type)),
-        );
+        const validFile = files.find((file) => ['image/', 'video/'].some((type) => file.type.startsWith(type)));
 
         if (!validFile) {
-            showBanner('Only images and videos are allowed.', 'error')
+            showBanner('Only images and videos are allowed.', 'error');
             return;
         }
 

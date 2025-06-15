@@ -51,7 +51,7 @@ export const useAuth = (): useAuthProps => {
             if (res.status === 200) {
                 setTimeout(() => {
                     showBanner('Sign Up successfully', 'info');
-                }, 1000)
+                }, 1000);
                 navigate('/registered');
             }
         } catch (error: any) {
