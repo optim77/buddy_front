@@ -7,9 +7,12 @@ interface FormFieldProps {
     name: string;
     label: string;
     type?: string;
+    placeholder?: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FormField: React.FC<FormFieldProps> = ({ name, label, type = 'text' }) => (
+const FormField: React.FC<FormFieldProps> = ({ name, label, type = 'text', placeholder = '', value, onChange }) => (
     <FormControl>
         <FormLabel htmlFor={name}>{label}</FormLabel>
         <TextField
@@ -19,7 +22,10 @@ const FormField: React.FC<FormFieldProps> = ({ name, label, type = 'text' }) => 
             name={name}
             type={type}
             variant="outlined"
+            placeholder={placeholder}
             autoComplete={type === 'password' ? 'new-password' : 'email'}
+            value={value}
+            onChange={onChange}
         />
     </FormControl>
 );

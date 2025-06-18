@@ -44,19 +44,20 @@ export const useAuth = (): useAuthProps => {
     };
 
     const signUp = async (email: string, password: string, repeatPassword: string) => {
-        if (validateSignUpInputs(email, password, repeatPassword)) return;
+        if (!validateSignUpInputs(email, password, repeatPassword)) return;
         setIsSubmittingSignUp(true);
         try {
-            const res = await apiClient.post<authResponse>('/authenticate', { email, password });
-            if (res.status === 200) {
+            const res = await apiClient.post<authResponse>('/register', { email, password });
+            if (res.status === 201) {
                 setTimeout(() => {
                     showBanner('Sign Up successfully', 'info');
                 }, 1000);
                 navigate('/registered');
             }
         } catch (error: any) {
-            if (error.data?.message) {
-                showBanner(error.data?.message, 'error');
+            console.log(error.response.data.message);
+            if (error.response.data.message) {
+                showBanner(error.response.data.message, 'error');
             } else {
                 showBanner('Something went', 'error');
             }

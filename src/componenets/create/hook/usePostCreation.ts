@@ -28,7 +28,8 @@ const usePostCreation = (tags: string) => {
         setFile(validFile);
     };
 
-    const send = async () => {
+    const send = async (event: React.FormEvent) => {
+        event.preventDefault();
         setIsSending(true);
 
         if (!validatePostCreate(file, description)) {
@@ -55,13 +56,13 @@ const usePostCreation = (tags: string) => {
 
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_ADDRESS}/image/upload`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${authService.getToken()}`}
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${authService.getToken()}`,
                 },
-            );
-
+            });
             if (response.status === 201) {
+                showBanner('Successfully uploaded file!', 'info');
                 navigate('/profile');
             } else {
                 showBanner('An error occurred', 'error');

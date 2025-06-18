@@ -13,22 +13,45 @@ import FormField from '../form/FormField';
 import { SignInRouter } from './AuthRouter';
 
 export default function SignUp() {
-    const { handleSubmit, isSubmitting } = useSignUp();
+    const { email, password, repeatPassword, setEmail, setPassword, setRepeatPassword, handleSubmit, isSubmitting } =
+        useSignUp();
 
     return (
         <AuthLayout title="Sign Up">
             <Box
                 component="form"
                 onSubmit={handleSubmit}
+                noValidate
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 2,
                 }}
             >
-                <FormField name="email" label="Email" type="email" />
-                <FormField name="password" label="Password" type="password" />
-                <FormField name="repeatPassword" label="Repeat Password" type="password" />
+                <FormField
+                    name="email"
+                    label="Email"
+                    type="email"
+                    placeholder="email@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <FormField
+                    name="password"
+                    label="Password"
+                    type="password"
+                    placeholder="********"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <FormField
+                    name="repeatPassword"
+                    label="Repeat Password"
+                    type="password"
+                    placeholder="********"
+                    value={repeatPassword}
+                    onChange={(e) => setRepeatPassword(e.target.value)}
+                />
 
                 <FormControlLabel
                     control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -41,13 +64,7 @@ export default function SignUp() {
             <Divider>
                 <Typography sx={{ color: 'text.secondary' }}>or</Typography>
             </Divider>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 2,
-                }}
-            >
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <SocialSignUpButtons />
                 <SignInRouter />
             </Box>

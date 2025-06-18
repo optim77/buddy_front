@@ -12,13 +12,10 @@ interface AuthLayoutProps {
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title = 'Create post', disableCustomTheme }) => {
     return (
         <AppLayout disableCustomTheme={disableCustomTheme}>
-            <CustomCard variant="outlined">
-                <StyledCard variant="outlined">
-                    <Typography variant="h4">{title}</Typography>
-                    {children}
-                </StyledCard>
+            <StyledCard variant="outlined">
+                <Typography variant="h4">{title}</Typography>
                 {children}
-            </CustomCard>
+            </StyledCard>
         </AppLayout>
     );
 };

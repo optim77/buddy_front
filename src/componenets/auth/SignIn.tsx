@@ -13,11 +13,11 @@ import { useSingIn } from './hook/useSingIn';
 import FormField from '../form/FormField';
 
 export default function SignIn() {
-    const { handleSubmit, isSubmitting } = useSingIn();
+    const { email, password, setEmail, setPassword, handleSubmit, isSubmitting } = useSingIn();
     const [open, setOpen] = useState(false);
 
     return (
-        <AuthLayout title="Sign Up">
+        <AuthLayout title="Sign In">
             <Box
                 component="form"
                 onSubmit={handleSubmit}
@@ -28,8 +28,22 @@ export default function SignIn() {
                     gap: 2,
                 }}
             >
-                <FormField name="email" label="Email" type="email" />
-                <FormField name="password" label="Password" type="password" />
+                <FormField
+                    name="email"
+                    label="Email"
+                    placeholder="email@example.com"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <FormField
+                    name="password"
+                    label="Password"
+                    type="password"
+                    placeholder="********"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
 
                 <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
                 <ForgotPassword open={open} handleClose={() => setOpen(false)} />

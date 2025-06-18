@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { TextField, Typography, Button, Checkbox, FormControlLabel, Tooltip, List, ListItem } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
@@ -9,25 +9,16 @@ import {
 } from '../../customStyles/Element';
 import useTags from './hook/useTags';
 import usePostCreation from './hook/usePostCreation';
-import authService from '../../services/authService';
-import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import CreateLayout from '../layout/CreateLayout';
 
 const Create: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const { tags, setTags, suggestedTags, showSuggestions, findTags, addTag, tagsInputRef } = useTags();
     const { isSending, send, file, handleFileChange, setDescription, setIsOpen, isOpen } = usePostCreation(tags);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!authService.getBuddyUser()) {
-            navigate('/sing-in');
-        }
-    }, []);
 
     return (
         <CreateLayout>
-            <Box onSubmit={send}>
+            <Box component="form" onSubmit={send}>
                 <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                     Upload file
                     <VisuallyHiddenInput type="file" accept="image/*,video/*" onChange={handleFileChange} multiple />

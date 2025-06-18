@@ -12,7 +12,7 @@ export const VisuallyHiddenInput = styled('input')({
     bottom: 0,
     left: 0,
     whiteSpace: 'nowrap',
-    width: 1,
+    width: 100,
 });
 
 export const StyledCard = styled(MuiCard)(({ theme }) => ({
@@ -26,11 +26,9 @@ export const StyledCard = styled(MuiCard)(({ theme }) => ({
     [theme.breakpoints.up('sm')]: {
         maxWidth: '800px',
     },
-    boxShadow:
-        'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+    boxShadow: 'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
     ...theme.applyStyles('dark', {
-        boxShadow:
-            'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
+        boxShadow: 'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
     }),
 }));
 
@@ -40,10 +38,7 @@ export const StyledTextareaAutosize = styled(TextareaAutosize)(({ theme }) => ({
     color: 'currentColor',
     padding: '16.5px 14px',
     border: '1px solid',
-    borderColor:
-        theme.palette.mode === 'light'
-            ? theme.palette.grey[400]
-            : theme.palette.grey[700],
+    borderColor: theme.palette.mode === 'light' ? theme.palette.grey[400] : theme.palette.grey[700],
     borderRadius: theme.shape.borderRadius,
     boxSizing: 'border-box',
     background: 'none',
@@ -62,10 +57,7 @@ export const StyledTextareaAutosize = styled(TextareaAutosize)(({ theme }) => ({
 
 export const StyledListItemText = styled(ListItemText)(({ theme }) => ({
     border: '1px solid',
-    borderColor:
-        theme.palette.mode === 'light'
-            ? theme.palette.grey[400]
-            : theme.palette.grey[700],
+    borderColor: theme.palette.mode === 'light' ? theme.palette.grey[400] : theme.palette.grey[700],
     borderRadius: theme.shape.borderRadius,
     padding: '16.5px 14px',
 }));
@@ -90,30 +82,26 @@ export const StyledAuthCard = styled(MuiCard)(({ theme }) => ({
     padding: theme.spacing(4),
     gap: theme.spacing(2),
     margin: 'auto',
-    boxShadow:
-        'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+    boxShadow: 'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
     [theme.breakpoints.up('sm')]: {
         width: '450px',
     },
     ...theme.applyStyles('dark', {
-        boxShadow:
-            'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
+        boxShadow: 'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
     }),
 }));
 
-export const StyledTextareaAutosizeEditProfile = styled('textarea')(
-    ({ theme }) => ({
-        width: '100%',
-        minHeight: '100px',
-        padding: theme.spacing(1),
-        border: `1px solid ${theme.palette.divider}`,
-        borderRadius: theme.shape.borderRadius,
-        fontSize: '1rem',
-        fontFamily: theme.typography.fontFamily,
-        resize: 'vertical',
-        outline: 'none',
-    }),
-);
+export const StyledTextareaAutosizeEditProfile = styled('textarea')(({ theme }) => ({
+    width: '100%',
+    minHeight: '100px',
+    padding: theme.spacing(1),
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: theme.shape.borderRadius,
+    fontSize: '1rem',
+    fontFamily: theme.typography.fontFamily,
+    resize: 'vertical',
+    outline: 'none',
+}));
 
 export const LinkWhite = styled(Link)({
     textDecoration: 'none',
@@ -128,13 +116,11 @@ export const CustomCard = styled(MuiCard)(({ theme }) => ({
     padding: theme.spacing(4),
     gap: theme.spacing(2),
     margin: 'auto',
-    boxShadow:
-        'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+    boxShadow: 'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
     [theme.breakpoints.up('sm')]: {
         width: '450px',
     },
     ...theme.applyStyles('dark', {
-        boxShadow:
-            'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
+        boxShadow: 'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
     }),
 }));
