@@ -35,12 +35,7 @@ const TagList: React.FC<TagListProps> = ({ tags }) => {
                                 {tag.name}
                             </Typography>
 
-                            {/* Count */}
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                                sx={{ marginRight: 2 }}
-                            >
+                            <Typography variant="body2" color="text.secondary" sx={{ marginRight: 2 }}>
                                 {tag.count}
                             </Typography>
 
