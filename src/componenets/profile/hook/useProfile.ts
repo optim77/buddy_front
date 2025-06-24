@@ -10,15 +10,12 @@ export const useProfile = () => {
 
     const fetchProfile = useCallback(async () => {
         try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/profile`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + authService.getToken(),
-                    },
+            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/profile`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + authService.getToken(),
                 },
-            );
+            });
             setProfile(response.data);
         } catch (error) {
             setProfileError('Error fetching profile information');

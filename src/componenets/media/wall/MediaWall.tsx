@@ -34,10 +34,7 @@ const MediaWall = ({
                 borderRadius: '0px',
             }}
         >
-            <Link
-                to={`/image/${image.imageId}`}
-                style={{ textDecoration: 'none', color: 'inherit' }}
-            >
+            <Link to={`/image/${image.imageId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 {image.imageUrl ? (
                     image.mediaType === 'VIDEO' ? (
                         <video
@@ -64,32 +61,20 @@ const MediaWall = ({
                         />
                     )
                 ) : (
-                    <Typography sx={{ textAlign: 'center', padding: 2 }}>
-                        No Access
-                    </Typography>
+                    <Typography sx={{ textAlign: 'center', padding: 2 }}>No Access</Typography>
                 )}
             </Link>
             <CardContent sx={{ width: '100%', padding: 2 }}>
                 <Typography variant="subtitle1" gutterBottom>
-                    <Link
-                        to={`/user/${image.userId}`}
-                        style={{ textDecoration: 'none', color: 'inherit' }}
-                    >
+                    <Link to={`/user/${image.userId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         {image.username}
                     </Link>
                 </Typography>
-                <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ mb: 2 }}
-                >
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                     {truncateText(image.description || 'No description', 200)}
                 </Typography>
                 <Stack direction="row" alignItems="center" spacing={1}>
-                    <LikeButton
-                        mediaId={image.imageId}
-                        isLiked={image.likedByCurrentUser}
-                    />
+                    <LikeButton mediaId={image.imageId} isLiked={image.likedByCurrentUser} />
                     <Typography variant="body2" color="text.secondary">
                         {formatLikes(image.likeCount)}
                     </Typography>

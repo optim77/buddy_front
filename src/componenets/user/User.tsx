@@ -21,19 +21,11 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const { ref, inView } = useInView({ threshold: 0.5 });
     const { userId } = useParams<{ userId: string }>();
 
-    const [viewMode, setViewMode] = useState<string>(
-        localStorage.getItem('buddy-grip') || 'grid',
-    );
+    const [viewMode, setViewMode] = useState<string>(localStorage.getItem('buddy-grip') || 'grid');
 
     const { userLoading, user, fetchUserMessage } = useFetchUser(userId);
-    const {
-        fetchMediaProfileLoading,
-        fetchProfileMediaContent,
-        media,
-        hasMore,
-        setPage,
-        fetchProfileImagesError,
-    } = useFetchProfileMedia(userId);
+    const { fetchMediaProfileLoading, fetchProfileMediaContent, media, hasMore, setPage, fetchProfileImagesError } =
+        useFetchProfileMedia(userId);
 
     useEffect(() => {
         if (inView && hasMore) {
@@ -47,21 +39,12 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
     };
 
     return (
-        <Container
-            maxWidth="lg"
-            component="main"
-            sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
-        >
+        <Container maxWidth="lg" component="main" sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}>
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
-                    {fetchUserMessage &&
-                        fetchMessage(fetchUserMessage, MESSAGE_TYPE.ERROR)}
-                    {fetchProfileImagesError &&
-                        fetchMessage(
-                            fetchProfileImagesError,
-                            MESSAGE_TYPE.ERROR,
-                        )}
+                    {fetchUserMessage && fetchMessage(fetchUserMessage, MESSAGE_TYPE.ERROR)}
+                    {fetchProfileImagesError && fetchMessage(fetchProfileImagesError, MESSAGE_TYPE.ERROR)}
                     {!userLoading && <p>Loading...</p>}
 
                     {user && <ProfileWidget profile={user} />}
@@ -73,18 +56,12 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         </Typography>
                     )}
 
-                    {media.length === 0 ? null : (
-                        <ViewModeToggle
-                            viewMode={viewMode}
-                            onChange={handleViewChange}
-                        />
-                    )}
+                    {media.length === 0 ? null : <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} />}
                     {viewMode === 'grid' ? (
                         <div
                             style={{
                                 display: 'grid',
-                                gridTemplateColumns:
-                                    'repeat(auto-fill, minmax(300px, 1fr))',
+                                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
                                 gap: '16px',
                                 width: '100%',
                                 padding: '20px',

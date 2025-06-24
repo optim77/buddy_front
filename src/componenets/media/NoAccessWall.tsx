@@ -37,13 +37,10 @@ export const NoAccessWall = ({
             }}
         >
             <Typography variant="h3" component="div" sx={{ marginBottom: 2 }}>
-                Get a subscription to view the{' '}
-                {mediaType === 'VIDEO' ? 'video' : 'photo'}
+                Get a subscription to view the {mediaType === 'VIDEO' ? 'video' : 'photo'}
             </Typography>
             <Typography variant="caption" component="div">
-                {username} does not make this{' '}
-                {mediaType === 'VIDEO' ? 'video' : 'photo'} available to the
-                public
+                {username} does not make this {mediaType === 'VIDEO' ? 'video' : 'photo'} available to the public
             </Typography>
             <Button
                 variant="contained"

@@ -1,14 +1,5 @@
 import { VolumeOff, VolumeUp, MoreVert } from '@mui/icons-material';
-import {
-    Container,
-    Typography,
-    Grid,
-    CssBaseline,
-    CircularProgress,
-    Box,
-    Avatar,
-    Button,
-} from '@mui/material';
+import { Container, Typography, Grid, CssBaseline, CircularProgress, Box, Avatar, Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -153,20 +144,10 @@ const VideoItem: React.FC<{
             }}
             component={motion.div}
             initial={{
-                y:
-                    index === currentIndex
-                        ? '0%'
-                        : index > currentIndex
-                          ? '100%'
-                          : '-100%',
+                y: index === currentIndex ? '0%' : index > currentIndex ? '100%' : '-100%',
             }}
             animate={{
-                y:
-                    index === currentIndex
-                        ? '0%'
-                        : index > currentIndex
-                          ? '100%'
-                          : '-100%',
+                y: index === currentIndex ? '0%' : index > currentIndex ? '100%' : '-100%',
             }}
             transition={{ duration: 0.8 }}
         >
@@ -184,12 +165,7 @@ const VideoItem: React.FC<{
                     display: 'block',
                 }}
             />
-            <VideoControls
-                key={`controls-${index === currentIndex}`}
-                video={video}
-                muted={muted}
-                setMuted={setMuted}
-            />
+            <VideoControls key={`controls-${index === currentIndex}`} video={video} muted={muted} setMuted={setMuted} />
             <UserItem key={`user-${index === currentIndex}`} video={video} />
         </Grid>
     );
@@ -241,16 +217,9 @@ const VideoControls: React.FC<{
                         textAlign: 'center',
                     }}
                 >
-                    <Typography variant="h6">
-                        {formatLikes(video.likeCount)}
-                    </Typography>
-                    <LikeButton
-                        mediaId={video.imageId}
-                        isLiked={video.likedByCurrentUser}
-                    />
-                    <Button onClick={() => setMuted(!muted)}>
-                        {muted ? <VolumeOff /> : <VolumeUp />}
-                    </Button>
+                    <Typography variant="h6">{formatLikes(video.likeCount)}</Typography>
+                    <LikeButton mediaId={video.imageId} isLiked={video.likedByCurrentUser} />
+                    <Button onClick={() => setMuted(!muted)}>{muted ? <VolumeOff /> : <VolumeUp />}</Button>
                     <Button>
                         <MoreVert />
                     </Button>
@@ -305,27 +274,18 @@ const UserItem: React.FC<{ video: ILoop }> = ({ video }) => {
                     }}
                 >
                     <Avatar
-                        src={
-                            video.avatar
-                                ? buildMediaLink(video.avatar)
-                                : undefined
-                        }
+                        src={video.avatar ? buildMediaLink(video.avatar) : undefined}
                         alt={video.username}
                         sx={{ width: 40, height: 40 }}
                     />
                     <Typography variant="h6">
-                        <Link
-                            to={`/user/${video.userId}`}
-                            style={{ textDecoration: 'none', color: 'inherit' }}
-                        >
+                        <Link to={`/user/${video.userId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             {video.username}
                         </Link>
                     </Typography>
                 </Box>
 
-                <Typography variant="body2">
-                    {truncateText(video.description || 'No description', 300)}
-                </Typography>
+                <Typography variant="body2">{truncateText(video.description || 'No description', 300)}</Typography>
             </Box>
         </motion.div>
     );

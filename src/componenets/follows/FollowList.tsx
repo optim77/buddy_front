@@ -25,15 +25,10 @@ const FollowList = ({
         <Grid container spacing={2}>
             {!isContent && <Typography>No content</Typography>}
             {isLoading && <Typography>Loading...</Typography>}
-            {fetchFollowersError && (
-                <Typography>fetchFollowersError</Typography>
-            )}
+            {fetchFollowersError && <Typography>fetchFollowersError</Typography>}
             {followers.map((follower) => (
                 <Grid item xs={12} sm={6} md={4} key={follower.id}>
-                    <Link
-                        to={`/user/${follower.id}`}
-                        style={{ textDecoration: 'none', color: 'inherit' }}
-                    >
+                    <Link to={`/user/${follower.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <Paper
                             elevation={3}
                             sx={{
@@ -65,20 +60,11 @@ const FollowList = ({
                                 >
                                     {follower.username}
                                 </Typography>
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                >
+                                <Typography variant="body2" color="text.secondary">
                                     {follower.description}
                                 </Typography>
-                                <Typography
-                                    variant="caption"
-                                    color="text.secondary"
-                                >
-                                    Joined:{' '}
-                                    {new Date(
-                                        follower.createdAt,
-                                    ).toLocaleDateString()}
+                                <Typography variant="caption" color="text.secondary">
+                                    Joined: {new Date(follower.createdAt).toLocaleDateString()}
                                 </Typography>
                             </Box>
                         </Paper>

@@ -32,13 +32,18 @@ export const useChangePassword = (): UseChangePasswordResult => {
     };
 
     const changePassword = async () => {
-        const validation: PasswordValidationResult = validatePassword(changePasswordNewPassword, changePasswordNewPasswordConfirm);
+        const validation: PasswordValidationResult = validatePassword(
+            changePasswordNewPassword,
+            changePasswordNewPasswordConfirm,
+        );
         if (!validation.valid) {
             setChangePasswordError(validation.message);
             return;
         }
         try {
-            const res = await apiClient.put<ChangePasswordResponse>('/user/change_password', { password: changePasswordNewPassword });
+            const res = await apiClient.put<ChangePasswordResponse>('/user/change_password', {
+                password: changePasswordNewPassword,
+            });
             if (res.status === 200) {
                 setChangePasswordDialogOpen(false);
                 setChangePasswordMessage('Password changed successfully!');

@@ -2,13 +2,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export const NoAccessWall = ({
-    username,
-    mediaType,
-}: {
-    username: string;
-    mediaType: string;
-}) => {
+export const NoAccessWall = ({ username, mediaType }: { username: string; mediaType: string }) => {
     return (
         <Box
             sx={{
@@ -30,22 +24,11 @@ export const NoAccessWall = ({
                 textAlign: 'center',
             }}
         >
-            <Typography
-                variant="h3"
-                component="div"
-                sx={{ color: '#fff', marginBottom: 2 }}
-            >
-                Get a subscription to view the{' '}
-                {mediaType === 'VIDEO' ? 'video' : 'photo'}
+            <Typography variant="h3" component="div" sx={{ color: '#fff', marginBottom: 2 }}>
+                Get a subscription to view the {mediaType === 'VIDEO' ? 'video' : 'photo'}
             </Typography>
-            <Typography
-                variant="caption"
-                component="div"
-                sx={{ color: '#fff' }}
-            >
-                {username} does not make this{' '}
-                {mediaType === 'VIDEO' ? 'video' : 'photo'} available to the
-                public
+            <Typography variant="caption" component="div" sx={{ color: '#fff' }}>
+                {username} does not make this {mediaType === 'VIDEO' ? 'video' : 'photo'} available to the public
             </Typography>
             <Button
                 variant="contained"

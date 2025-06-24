@@ -28,7 +28,8 @@ export const useExplore = () => {
                     showBanner('Error fetching posts', 'error');
                 }
             } else if (contentType === 'tags') {
-                const res = await apiClient.get('/tags/all`');
+                const res = await apiClient.get('/tags/all');
+                console.log(res);
                 if (res.status == 200) {
                     setTags(res.data.content);
                 } else {

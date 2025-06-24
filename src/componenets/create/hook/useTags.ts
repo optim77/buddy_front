@@ -9,12 +9,8 @@ const useTags = () => {
 
     const findTags = async (input: string) => {
         try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/tags/${input}`,
-            );
-            const fetchedTags = response.data.content
-                .map((tag: { name: string }) => tag.name)
-                .slice(0, 5);
+            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/tags/${input}`);
+            const fetchedTags = response.data.content.map((tag: { name: string }) => tag.name).slice(0, 5);
             setSuggestedTags(fetchedTags);
             setShowSuggestions(fetchedTags.length > 0);
         } catch {
@@ -29,8 +25,7 @@ const useTags = () => {
                 .split(',')
                 .map((t) => t.trim())
                 .filter(Boolean);
-            if (tagArray.includes(newTag) || tagArray.length >= 20)
-                return prevTags;
+            if (tagArray.includes(newTag) || tagArray.length >= 20) return prevTags;
             return [...tagArray, newTag].join(', ') + ', ';
         });
         setShowSuggestions(false);

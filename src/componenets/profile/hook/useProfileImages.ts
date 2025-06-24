@@ -13,20 +13,14 @@ export const useProfileImages = () => {
     const fetchProfileImages = useCallback(async () => {
         if (!hasMore) return;
         try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/profile/images`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + authService.getToken(),
-                    },
-                    params: { page, size: 20 },
+            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/profile/images`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + authService.getToken(),
                 },
-            );
-            setImages((prevImages) => [
-                ...prevImages,
-                ...response.data.content,
-            ]);
+                params: { page, size: 20 },
+            });
+            setImages((prevImages) => [...prevImages, ...response.data.content]);
             setHasMore(page + 1 < response.data.page.totalPages);
         } catch (error) {
             setProfileImageError('Error fetching profile images');

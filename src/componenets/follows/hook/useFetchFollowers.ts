@@ -9,9 +9,7 @@ export const useFetchFollow = (type: string) => {
     const [followers, setFollowers] = useState<FollowListUser[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const [fetchFollowersError, setFetchFollowersError] = useState<
-        string | null
-    >(null);
+    const [fetchFollowersError, setFetchFollowersError] = useState<string | null>(null);
 
     const fetchFollowers = useCallback(async () => {
         if (!hasMore) return;
@@ -20,18 +18,13 @@ export const useFetchFollow = (type: string) => {
                 .get(`${process.env.REACT_APP_API_ADDRESS}/${type}`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: authService.getToken()
-                            ? `Bearer ${authService.getToken()}`
-                            : '',
+                        Authorization: authService.getToken() ? `Bearer ${authService.getToken()}` : '',
                     },
                     params: { page, size: 20 },
                 })
                 .then((response) => {
                     const newFollowers = response.data.content;
-                    setFollowers((prevFollowers) => [
-                        ...prevFollowers,
-                        ...newFollowers,
-                    ]);
+                    setFollowers((prevFollowers) => [...prevFollowers, ...newFollowers]);
                     setHasMore(page + 1 < response.data.page.totalPages);
                 });
         } catch (err) {

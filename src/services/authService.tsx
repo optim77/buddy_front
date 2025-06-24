@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
+import { deactivateWebSocket } from '../componenets/ws/Connect';
 
 const setToken = (token: string) => {
     setCookie('buddy-token', token);
@@ -51,9 +52,11 @@ const logout = async (): Promise<void> => {
             )
             .then(() => {
                 destroyThisSession();
+                deactivateWebSocket();
             });
     } catch {
         destroyThisSession();
+        deactivateWebSocket();
     }
 };
 

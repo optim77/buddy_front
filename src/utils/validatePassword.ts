@@ -6,7 +6,6 @@ export interface PasswordValidationResult {
 }
 
 export const validatePassword = (password: string, confirmPassword: string): PasswordValidationResult => {
-
     if (password !== confirmPassword) {
         return { valid: false, message: 'Passwords do not match' };
     }
@@ -15,7 +14,11 @@ export const validatePassword = (password: string, confirmPassword: string): Pas
         return { valid: false, message: 'Password must be at least 6 characters long.' };
     }
     if (isValidPassword(password)) {
-        return { valid: false, message: 'Password does not meet the requirements (8–32 characters, upper and lower case, special character)' };
+        return {
+            valid: false,
+            message:
+                'Password does not meet the requirements (8–32 characters, upper and lower case, special character)',
+        };
     }
     return { valid: true };
 };

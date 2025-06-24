@@ -3,11 +3,7 @@ module.exports = {
         browser: true,
         es2021: true,
     },
-    extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:prettier/recommended',
-    ],
+    extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
     parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaVersion: 'latest',
@@ -25,11 +21,11 @@ module.exports = {
             },
         ],
         'import/order': 'off',
-        "max-len": [
-          "error",
+        'max-len': [
+            'error',
             {
-                code: 120
-            }
-        ]
+                code: 120,
+            },
+        ],
     },
 };

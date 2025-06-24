@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-    BrowserRouter as Router,
-    Route,
-    Routes,
-    Navigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { getCookie } from 'typescript-cookie';
 
 import Account from './componenets/account/Account';
@@ -36,121 +31,23 @@ const AppRouter: React.FC = () => {
         <Router>
             <Navbar />
             <Routes>
-                <Route
-                    path="/"
-                    element={isAuthenticated ? <Dashboard /> : <LandingPage />}
-                />
-                <Route
-                    path="/sign-in"
-                    element={
-                        isAuthenticated ? (
-                            <Navigate to="/dashboard" />
-                        ) : (
-                            <Login />
-                        )
-                    }
-                />
-                <Route
-                    path="/sign-up"
-                    element={
-                        isAuthenticated ? (
-                            <Navigate to="/dashboard" />
-                        ) : (
-                            <SignUp />
-                        )
-                    }
-                />
+                <Route path="/" element={isAuthenticated ? <Dashboard /> : <LandingPage />} />
+                <Route path="/sign-in" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />} />
+                <Route path="/sign-up" element={isAuthenticated ? <Navigate to="/dashboard" /> : <SignUp />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/explore" element={<Explore />} />
-                <Route
-                    path="/profile"
-                    element={
-                        isAuthenticated ? (
-                            <Profile />
-                        ) : (
-                            <Navigate to="/sign-in" />
-                        )
-                    }
-                />
-                <Route
-                    path="/account"
-                    element={
-                        isAuthenticated ? (
-                            <Account />
-                        ) : (
-                            <Navigate to="/sign-in" />
-                        )
-                    }
-                />
-                <Route
-                    path="/create"
-                    element={
-                        isAuthenticated ? (
-                            <Create />
-                        ) : (
-                            <Navigate to="/sign-in" />
-                        )
-                    }
-                />
+                <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/sign-in" />} />
+                <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/sign-in" />} />
+                <Route path="/create" element={isAuthenticated ? <Create /> : <Navigate to="/sign-in" />} />
                 <Route path="/image/:imageId" element={<Media />} />
-                <Route
-                    path="/edit/:imageId"
-                    element={
-                        isAuthenticated ? (
-                            <EditMedia />
-                        ) : (
-                            <Navigate to="/login" />
-                        )
-                    }
-                />
-                <Route
-                    path="/followers"
-                    element={
-                        isAuthenticated ? (
-                            <Followers />
-                        ) : (
-                            <Navigate to="/login" />
-                        )
-                    }
-                />
-                <Route
-                    path="/following"
-                    element={
-                        isAuthenticated ? (
-                            <Following />
-                        ) : (
-                            <Navigate to="/login" />
-                        )
-                    }
-                />
-                <Route
-                    path="/plan/create"
-                    element={
-                        isAuthenticated ? (
-                            <CreatePlan />
-                        ) : (
-                            <Navigate to="/login" />
-                        )
-                    }
-                />
+                <Route path="/edit/:imageId" element={isAuthenticated ? <EditMedia /> : <Navigate to="/login" />} />
+                <Route path="/followers" element={isAuthenticated ? <Followers /> : <Navigate to="/login" />} />
+                <Route path="/following" element={isAuthenticated ? <Following /> : <Navigate to="/login" />} />
+                <Route path="/plan/create" element={isAuthenticated ? <CreatePlan /> : <Navigate to="/login" />} />
                 <Route path="/plan/:id" element={<PlanView />} />
-                <Route
-                    path="/plan/edit/:id"
-                    element={
-                        isAuthenticated ? (
-                            <EditPlan />
-                        ) : (
-                            <Navigate to="/login" />
-                        )
-                    }
-                />
+                <Route path="/plan/edit/:id" element={isAuthenticated ? <EditPlan /> : <Navigate to="/login" />} />
 
-                <Route
-                    path="/sessions"
-                    element={
-                        isAuthenticated ? <Session /> : <Navigate to="/login" />
-                    }
-                />
+                <Route path="/sessions" element={isAuthenticated ? <Session /> : <Navigate to="/login" />} />
 
                 <Route path="/tags/:tag" element={<Tag />} />
                 <Route path="/user/:userId" element={<User />} />

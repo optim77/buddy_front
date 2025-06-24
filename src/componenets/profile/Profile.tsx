@@ -17,13 +17,7 @@ import { useProfileImages } from './hook/useProfileImages';
 import { errorBox } from '../../utils/errorBox';
 
 const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const {
-        images,
-        hasMore,
-        setPage,
-        profileImageError,
-        profileImagesLoading,
-    } = useProfileImages();
+    const { images, hasMore, setPage, profileImageError, profileImagesLoading } = useProfileImages();
     const { viewMode, handleViewChange } = useViewMode();
     const { profile, profileError, profileLoading } = useProfile();
     const { ref, inView } = useInView({ threshold: 0.5 });
@@ -35,11 +29,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
     }, [inView, hasMore]);
 
     return (
-        <Container
-            maxWidth="lg"
-            component="main"
-            sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
-        >
+        <Container maxWidth="lg" component="main" sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}>
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
@@ -55,30 +45,13 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     >
                         {profileError && errorBox(profileError)}
                         {profileImageError && errorBox(profileImageError)}
-                        {profileLoading && (
-                            <img
-                                src="/load-32.gif"
-                                alt="Loading..."
-                                width="40px"
-                            />
-                        )}
-                        {profileImagesLoading && (
-                            <img
-                                src="/load-32.gif"
-                                alt="Loading..."
-                                width="40px"
-                            />
-                        )}
+                        {profileLoading && <img src="/load-32.gif" alt="Loading..." width="40px" />}
+                        {profileImagesLoading && <img src="/load-32.gif" alt="Loading..." width="40px" />}
                     </div>
 
                     {profile && <ProfileWidget profile={profile} />}
 
-                    {images.length === 0 ? null : (
-                        <ViewModeToggle
-                            viewMode={viewMode}
-                            onChange={handleViewChange}
-                        />
-                    )}
+                    {images.length === 0 ? null : <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} />}
 
                     <div
                         style={{
@@ -90,9 +63,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         }}
                     >
                         {profile?.plans && profile?.plans?.length > 0
-                            ? profile?.plans?.map((plan) => (
-                                  <PlanWidget key={plan.id} plan={plan} />
-                              ))
+                            ? profile?.plans?.map((plan) => <PlanWidget key={plan.id} plan={plan} />)
                             : null}
                     </div>
 
@@ -118,8 +89,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         <div
                             style={{
                                 display: 'grid',
-                                gridTemplateColumns:
-                                    'repeat(auto-fill, minmax(300px, 1fr))',
+                                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
                                 gap: '0px',
                                 width: '100%',
                             }}

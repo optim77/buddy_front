@@ -16,14 +16,8 @@ const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const { ref, inView } = useInView({ threshold: 0.5 });
     const { tag } = useParams<{ tag: string }>();
 
-    const {
-        fetchMediaTagLoading,
-        fetchMediaTagContent,
-        media,
-        hasMore,
-        setPage,
-        fetchTagMediaError,
-    } = useFetchTagMedia(tag);
+    const { fetchMediaTagLoading, fetchMediaTagContent, media, hasMore, setPage, fetchTagMediaError } =
+        useFetchTagMedia(tag);
 
     useEffect(() => {
         if (inView && hasMore) {
@@ -31,16 +25,11 @@ const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
         }
     }, [inView, hasMore]);
     return (
-        <Container
-            maxWidth="lg"
-            component="main"
-            sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
-        >
+        <Container maxWidth="lg" component="main" sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}>
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
-                    {fetchTagMediaError &&
-                        fetchMessage(fetchTagMediaError, MESSAGE_TYPE.ERROR)}
+                    {fetchTagMediaError && fetchMessage(fetchTagMediaError, MESSAGE_TYPE.ERROR)}
 
                     {fetchMediaTagLoading && <p>Loading...</p>}
 

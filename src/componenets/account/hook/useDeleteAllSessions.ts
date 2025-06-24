@@ -5,7 +5,7 @@ import { apiClient } from '../../api/apiClient';
 interface useDeleteAllSessionsResult {
     deletingAll: boolean;
     deleteAll: () => void;
-    deletingAllMessage: string
+    deletingAllMessage: string;
 }
 
 export const useDeleteAllSessions = (): useDeleteAllSessionsResult => {
@@ -21,10 +21,9 @@ export const useDeleteAllSessions = (): useDeleteAllSessionsResult => {
             }
             setDeletingAll(false);
             return false;
-
         } catch (err) {
             setDeletingAllMessage('Something went wrong.');
-            return false
+            return false;
         }
     };
 

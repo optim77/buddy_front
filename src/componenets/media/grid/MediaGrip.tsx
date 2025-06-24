@@ -12,10 +12,7 @@ import { IMedia } from '../IMedia';
 const MediaGrip = ({ image }: { image: IMedia }) => {
     return (
         <Grid item xs={12} sm={6} md={4} key={image.imageId}>
-            <Link
-                to={`/image/${image.imageId}`}
-                style={{ textDecoration: 'none', color: 'inherit' }}
-            >
+            <Link to={`/image/${image.imageId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 {image.imageUrl ? (
                     image.mediaType === 'VIDEO' ? (
                         <video
@@ -64,21 +61,10 @@ const MediaGrip = ({ image }: { image: IMedia }) => {
                             </Link>
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            {truncateText(
-                                image.description || 'No description',
-                                50,
-                            )}
+                            {truncateText(image.description || 'No description', 50)}
                         </Typography>
-                        <Stack
-                            direction="row"
-                            alignItems="center"
-                            spacing={1}
-                            sx={{ mt: 1 }}
-                        >
-                            <LikeButton
-                                mediaId={image.imageId}
-                                isLiked={image.likedByCurrentUser}
-                            />
+                        <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 1 }}>
+                            <LikeButton mediaId={image.imageId} isLiked={image.likedByCurrentUser} />
                             <Typography variant="body2" color="text.secondary">
                                 {formatLikes(image.likeCount)}
                             </Typography>

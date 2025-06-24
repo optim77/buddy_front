@@ -30,9 +30,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     backdropFilter: 'blur(24px)',
     border: '1px solid',
     borderColor: theme.palette.divider,
-    backgroundColor: theme
-        ? `rgba(${theme.palette.background.default} / 0.4)`
-        : alpha(theme, 0.4),
+    backgroundColor: theme ? `rgba(${theme.palette.background.default} / 0.4)` : alpha(theme, 0.4),
     boxShadow: theme.shadows[1],
     padding: '8px 12px',
 }));
@@ -101,40 +99,19 @@ export default function AppAppBar() {
                         )}
 
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                            <Button
-                                variant="text"
-                                color="info"
-                                size="small"
-                                sx={{ minWidth: 0 }}
-                            >
+                            <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
                                 <StyledLink className="link-styles" to="/loops">
                                     Loops
                                 </StyledLink>
                             </Button>
-                            <Button
-                                variant="text"
-                                color="info"
-                                size="small"
-                                sx={{ minWidth: 0 }}
-                            >
-                                <StyledLink
-                                    className="link-styles"
-                                    to="/explore"
-                                >
+                            <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
+                                <StyledLink className="link-styles" to="/explore">
                                     Explore
                                 </StyledLink>
                             </Button>
                             {isAuthenticated ? (
-                                <Button
-                                    variant="text"
-                                    color="info"
-                                    size="small"
-                                    sx={{ minWidth: 0 }}
-                                >
-                                    <StyledLink
-                                        className="link-styles"
-                                        to="/profile"
-                                    >
+                                <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
+                                    <StyledLink className="link-styles" to="/profile">
                                         Profile
                                     </StyledLink>
                                 </Button>
@@ -150,10 +127,7 @@ export default function AppAppBar() {
                     >
                         {!isAuthenticated ? (
                             <StyledButton color="primary" variant="text">
-                                <StyledLink
-                                    className="link-styles"
-                                    to="/sign-in"
-                                >
+                                <StyledLink className="link-styles" to="/sign-in">
                                     Sign in
                                 </StyledLink>
                             </StyledButton>
@@ -161,10 +135,7 @@ export default function AppAppBar() {
 
                         {!isAuthenticated ? (
                             <Button color="primary" variant="text">
-                                <StyledLink
-                                    className="link-styles"
-                                    to="/sign-up"
-                                >
+                                <StyledLink className="link-styles" to="/sign-up">
                                     Sign up
                                 </StyledLink>
                             </Button>
@@ -172,10 +143,7 @@ export default function AppAppBar() {
 
                         {isAuthenticated ? (
                             <StyledButton color="primary" variant="text">
-                                <StyledLink
-                                    className="link-styles"
-                                    to="/create"
-                                >
+                                <StyledLink className="link-styles" to="/create">
                                     Create
                                 </StyledLink>
                             </StyledButton>
@@ -185,9 +153,7 @@ export default function AppAppBar() {
                             <div>
                                 <Button
                                     id="fade-button"
-                                    aria-controls={
-                                        isOpen ? 'fade-menu' : undefined
-                                    }
+                                    aria-controls={isOpen ? 'fade-menu' : undefined}
                                     aria-haspopup="true"
                                     aria-expanded={isOpen ? 'true' : undefined}
                                     onClick={handleClick}
@@ -205,16 +171,11 @@ export default function AppAppBar() {
                                     TransitionComponent={Fade}
                                 >
                                     <MenuItem onClick={handleClose}>
-                                        <StyledLink
-                                            className="link-styles"
-                                            to="/account"
-                                        >
+                                        <StyledLink className="link-styles" to="/account">
                                             Account
                                         </StyledLink>
                                     </MenuItem>
-                                    <MenuItem onClick={handleLogout}>
-                                        Logout
-                                    </MenuItem>
+                                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
                                 </Menu>
                             </div>
                         ) : null}
@@ -222,10 +183,7 @@ export default function AppAppBar() {
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
                         <ColorModeIconDropdown size="medium" />
-                        <IconButton
-                            aria-label="Menu button"
-                            onClick={toggleDrawer(true)}
-                        >
+                        <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
                             <MenuIcon />
                         </IconButton>
                         <Drawer
@@ -259,20 +217,12 @@ export default function AppAppBar() {
 
                                 <Divider sx={{ my: 4 }} />
                                 <MenuItem>
-                                    <Button
-                                        color="primary"
-                                        variant="contained"
-                                        fullWidth
-                                    >
+                                    <Button color="primary" variant="contained" fullWidth>
                                         Sign up
                                     </Button>
                                 </MenuItem>
                                 <MenuItem>
-                                    <Button
-                                        color="primary"
-                                        variant="outlined"
-                                        fullWidth
-                                    >
+                                    <Button color="primary" variant="outlined" fullWidth>
                                         Sign in
                                     </Button>
                                 </MenuItem>

@@ -20,9 +20,7 @@ axios.interceptors.request.use(
     },
 );
 
-const root = ReactDOM.createRoot(
-    document.getElementById('root') as HTMLElement,
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
     <StyledEngineProvider injectFirst>
         <App />

@@ -4,27 +4,19 @@ import axios from 'axios';
 import authService from '../../../services/authService';
 
 export const useFetchOwnProfile = () => {
-    const [isLoadingFetchOwnProfile, setIsLoadingFetchOwnProfile] =
-        useState(true);
-    const [ownProfileData, setOwnProfileData] = useState<IUserData | null>(
-        null,
-    );
-    const [fetchOwnProfileError, setFetchOwnProfileError] = useState<
-        string | null
-    >(null);
+    const [isLoadingFetchOwnProfile, setIsLoadingFetchOwnProfile] = useState(true);
+    const [ownProfileData, setOwnProfileData] = useState<IUserData | null>(null);
+    const [fetchOwnProfileError, setFetchOwnProfileError] = useState<string | null>(null);
     const [deactivateStatus, setDeactivateStatus] = useState<boolean>(false);
 
     const fetchUserData = useCallback(async () => {
         try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/profile`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authService.getToken()}`,
-                    },
+            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/profile`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authService.getToken()}`,
                 },
-            );
+            });
             setOwnProfileData(response.data);
 
             if (ownProfileData?.locked) {

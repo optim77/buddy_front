@@ -14,16 +14,13 @@ export const useFetchLoops = () => {
         if (!hasMore) return;
 
         try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/loops`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authService.getToken() || ''}`,
-                    },
-                    params: { page, size: 20 },
+            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/loops`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authService.getToken() || ''}`,
                 },
-            );
+                params: { page, size: 20 },
+            });
 
             const newVideos = response.data.content;
             setVideos((prevVideos) => [...prevVideos, ...newVideos]);

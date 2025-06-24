@@ -33,15 +33,12 @@ const EditMedia: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
     const fetchMedia = async (imageId: string) => {
         try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/image/` + imageId,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + authService.getToken(),
-                    },
+            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/image/` + imageId, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + authService.getToken(),
                 },
-            );
+            });
             return response.data;
         } catch (err) {
             throw new Error('Error fetching media');
@@ -81,8 +78,7 @@ const EditMedia: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
         try {
             const response = await axios.put(
-                `${process.env.REACT_APP_API_ADDRESS}/image/update/` +
-                    media.imageId,
+                `${process.env.REACT_APP_API_ADDRESS}/image/update/` + media.imageId,
                 formData,
                 {
                     headers: {
@@ -98,25 +94,18 @@ const EditMedia: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 setErrorMessage('An error occurred: ' + response.data.message);
             }
         } catch (error: any) {
-            setErrorMessage(
-                error.response?.data?.message || 'An error occurred',
-            );
+            setErrorMessage(error.response?.data?.message || 'An error occurred');
         }
     };
 
     const findTags = async (input: string) => {
         try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/tags/${input}`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/tags/${input}`, {
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-            );
-            const fetchedTags = response.data.content
-                .map((tag: { name: string }) => tag.name)
-                .slice(0, 5);
+            });
+            const fetchedTags = response.data.content.map((tag: { name: string }) => tag.name).slice(0, 5);
             setSuggestedTags(fetchedTags);
             if (fetchedTags.length > 0) {
                 setShowSuggestions(true);
@@ -130,9 +119,7 @@ const EditMedia: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
     const addTag = (newTag: string) => {
         setTags((prevTags) => {
-            const tagsArray = prevTags
-                ? prevTags.split(',').map((t) => t.trim())
-                : [];
+            const tagsArray = prevTags ? prevTags.split(',').map((t) => t.trim()) : [];
 
             if (tagsArray.length > 0) {
                 tagsArray.pop();
@@ -156,16 +143,12 @@ const EditMedia: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const deleteMedia = async () => {
         try {
             await axios
-                .post(
-                    `${process.env.REACT_APP_API_ADDRESS}/image/delete/` +
-                        media.imageId,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${authService.getToken()}`,
-                        },
+                .post(`${process.env.REACT_APP_API_ADDRESS}/image/delete/` + media.imageId, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authService.getToken()}`,
                     },
-                )
+                })
                 .then((res) => {
                     if (res.status === 200) {
                         navigate('/profile');
@@ -216,14 +199,10 @@ const EditMedia: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             value={tags}
                             onChange={(event) => {
                                 const input = event.target.value;
-                                const tagsArray = input
-                                    .split(',')
-                                    .map((t) => t.trim());
+                                const tagsArray = input.split(',').map((t) => t.trim());
 
                                 if (tagsArray.length > 20) {
-                                    setErrorMessage(
-                                        'You can only add up to 20 tags.',
-                                    );
+                                    setErrorMessage('You can only add up to 20 tags.');
                                     return;
                                 }
 
@@ -254,9 +233,7 @@ const EditMedia: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                             }}
                                             sx={{ cursor: 'pointer' }}
                                         >
-                                            <StyledListItemText>
-                                                {tag}
-                                            </StyledListItemText>
+                                            <StyledListItemText>{tag}</StyledListItemText>
                                         </ListItem>
                                     ))}
                                 </List>
@@ -265,16 +242,15 @@ const EditMedia: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     </div>
                     <div>
                         <Tooltip
-                            title="Check this option to make your post visible to everyone. If unchecked, the post will remain private."
+                            title="Check this option to make your post visible to everyone.
+                            If unchecked, the post will remain private."
                             arrow
                         >
                             <FormControlLabel
                                 control={
                                     <Checkbox
                                         checked={isOpen}
-                                        onChange={(event) =>
-                                            setIsOpen(event.target.checked)
-                                        }
+                                        onChange={(event) => setIsOpen(event.target.checked)}
                                         color="primary"
                                     />
                                 }
@@ -282,13 +258,7 @@ const EditMedia: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             />
                         </Tooltip>
                     </div>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        onClick={send}
-                        disabled={isSending}
-                    >
+                    <Button type="submit" fullWidth variant="contained" onClick={send} disabled={isSending}>
                         Update
                     </Button>
                     <Button

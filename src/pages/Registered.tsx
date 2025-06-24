@@ -18,14 +18,12 @@ const Card = styled(MuiCard)(({ theme }) => ({
     padding: theme.spacing(4),
     gap: theme.spacing(2),
     margin: 'auto',
-    boxShadow:
-        'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+    boxShadow: 'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
     [theme.breakpoints.up('sm')]: {
         width: '450px',
     },
     ...theme.applyStyles('dark', {
-        boxShadow:
-            'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
+        boxShadow: 'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
     }),
 }));
 
@@ -33,9 +31,7 @@ export default function Registered(props: { disableCustomTheme?: boolean }) {
     return (
         <AppTheme {...props}>
             <CssBaseline enableColorScheme />
-            <ColorModeSelect
-                sx={{ position: 'fixed', top: '1rem', right: '1rem' }}
-            />
+            <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
             <MainContainer direction="column" justifyContent="center">
                 <Card variant="outlined">
                     <SitemarkIcon />
@@ -50,13 +46,8 @@ export default function Registered(props: { disableCustomTheme?: boolean }) {
                     >
                         Registration Successful!
                     </Typography>
-                    <Typography
-                        component="p"
-                        variant="body1"
-                        sx={{ textAlign: 'center', color: 'text.secondary' }}
-                    >
-                        Thank you for registering. Verify your email and then
-                        you can now sign in to your account &nbsp;
+                    <Typography component="p" variant="body1" sx={{ textAlign: 'center', color: 'text.secondary' }}>
+                        Thank you for registering. Verify your email and then you can now sign in to your account &nbsp;
                         <Link to="/sign-in">Sign in</Link>
                     </Typography>
                 </Card>

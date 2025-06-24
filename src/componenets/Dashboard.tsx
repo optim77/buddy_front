@@ -27,7 +27,8 @@ const cardData = [
         tag: 'Engineering',
         title: 'Revolutionizing software development with cutting-edge tools',
         description:
-            'Our latest engineering tools are designed to streamline workflows and boost productivity. Discover how these innovations are transforming the software development landscape.',
+            'Our latest engineering tools are designed to streamline workflows and boost productivity. ' +
+            'Discover how these innovations are transforming the software development landscape.',
         authors: [
             { name: 'Remy Sharp', avatar: '/static/images/avatar/1.jpg' },
             { name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg' },
@@ -38,37 +39,28 @@ const cardData = [
         tag: 'Product',
         title: 'Innovative product features that drive success',
         description:
-            'Explore the key features of our latest product release that are helping businesses achieve their goals. From user-friendly interfaces to robust functionality, learn why our product stands out.',
-        authors: [
-            { name: 'Erica Johns', avatar: '/static/images/avatar/6.jpg' },
-        ],
+            'Explore the key features of our latest product release that are helping businesses achieve their goals. ',
+        authors: [{ name: 'Erica Johns', avatar: '/static/images/avatar/6.jpg' }],
     },
     {
         img: 'https://picsum.photos/800/450?random=3',
         tag: 'Design',
         title: 'Designing for the future: trends and insights',
-        description:
-            'Stay ahead of the curve with the latest design trends and insights. Our design team shares their expertise on creating intuitive and visually stunning user experiences.',
-        authors: [
-            { name: 'Kate Morrison', avatar: '/static/images/avatar/7.jpg' },
-        ],
+        description: 'Stay ahead of the curve with the latest design trends and insights. ',
+        authors: [{ name: 'Kate Morrison', avatar: '/static/images/avatar/7.jpg' }],
     },
     {
         img: 'https://picsum.photos/800/450?random=4',
         tag: 'Company',
         title: "Our company's journey: milestones and achievements",
-        description:
-            "Take a look at our company's journey and the milestones we've achieved along the way. From humble beginnings to industry leader, discover our story of growth and success.",
-        authors: [
-            { name: 'Cindy Baker', avatar: '/static/images/avatar/3.jpg' },
-        ],
+        description: "Take a look at our company's journey and the milestones we've achieved along the way.",
+        authors: [{ name: 'Cindy Baker', avatar: '/static/images/avatar/3.jpg' }],
     },
     {
         img: 'https://picsum.photos/800/450?random=45',
         tag: 'Engineering',
         title: 'Pioneering sustainable engineering solutions',
-        description:
-            "Learn about our commitment to sustainability and the innovative engineering solutions we're implementing to create a greener future. Discover the impact of our eco-friendly initiatives.",
+        description: 'Learn about our commitment to sustainability and the innovative engineering',
         authors: [
             { name: 'Agnes Walker', avatar: '/static/images/avatar/4.jpg' },
             { name: 'Trevor Henderson', avatar: '/static/images/avatar/5.jpg' },
@@ -78,11 +70,8 @@ const cardData = [
         img: 'https://picsum.photos/800/450?random=6',
         tag: 'Product',
         title: 'Maximizing efficiency with our latest product updates',
-        description:
-            'Our recent product updates are designed to help you maximize efficiency and achieve more. Get a detailed overview of the new features and improvements that can elevate your workflow.',
-        authors: [
-            { name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg' },
-        ],
+        description: 'Our recent product updates are designed to help you maximize efficiency and achieve more.',
+        authors: [{ name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg' }],
     },
 ];
 
@@ -144,17 +133,10 @@ function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
             >
                 <AvatarGroup max={3}>
                     {authors.map((author, index) => (
-                        <Avatar
-                            key={index}
-                            alt={author.name}
-                            src={author.avatar}
-                            sx={{ width: 24, height: 24 }}
-                        />
+                        <Avatar key={index} alt={author.name} src={author.avatar} sx={{ width: 24, height: 24 }} />
                     ))}
                 </AvatarGroup>
-                <Typography variant="caption">
-                    {authors.map((author) => author.name).join(', ')}
-                </Typography>
+                <Typography variant="caption">{authors.map((author) => author.name).join(', ')}</Typography>
             </Box>
             <Typography variant="caption">July 14, 2021</Typography>
         </Box>
@@ -163,20 +145,14 @@ function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
 
 export function Search() {
     return (
-        <FormControl
-            sx={{ width: { xs: '100%', md: '25ch' } }}
-            variant="outlined"
-        >
+        <FormControl sx={{ width: { xs: '100%', md: '25ch' } }} variant="outlined">
             <OutlinedInput
                 size="small"
                 id="search"
                 placeholder="Search…"
                 sx={{ flexGrow: 1 }}
                 startAdornment={
-                    <InputAdornment
-                        position="start"
-                        sx={{ color: 'text.primary' }}
-                    >
+                    <InputAdornment position="start" sx={{ color: 'text.primary' }}>
                         <SearchRoundedIcon fontSize="small" />
                     </InputAdornment>
                 }
@@ -189,9 +165,7 @@ export function Search() {
 }
 
 const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const [focusedCardIndex, setFocusedCardIndex] = React.useState<
-        number | null
-    >(null);
+    const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(null);
 
     const handleFocus = (index: number) => {
         setFocusedCardIndex(index);
@@ -202,11 +176,7 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
     };
 
     return (
-        <Container
-            maxWidth="lg"
-            component="main"
-            sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
-        >
+        <Container maxWidth="lg" component="main" sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}>
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
@@ -313,11 +283,7 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     onFocus={() => handleFocus(0)}
                                     onBlur={handleBlur}
                                     tabIndex={0}
-                                    className={
-                                        focusedCardIndex === 0
-                                            ? 'Mui-focused'
-                                            : ''
-                                    }
+                                    className={focusedCardIndex === 0 ? 'Mui-focused' : ''}
                                 >
                                     <CardMedia
                                         component="img"
@@ -330,25 +296,13 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                         }}
                                     />
                                     <SyledCardContent>
-                                        <Typography
-                                            gutterBottom
-                                            variant="caption"
-                                            component="div"
-                                        >
+                                        <Typography gutterBottom variant="caption" component="div">
                                             {cardData[0].tag}
                                         </Typography>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h6"
-                                            component="div"
-                                        >
+                                        <Typography gutterBottom variant="h6" component="div">
                                             {cardData[0].title}
                                         </Typography>
-                                        <StyledTypography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            gutterBottom
-                                        >
+                                        <StyledTypography variant="body2" color="text.secondary" gutterBottom>
                                             {cardData[0].description}
                                         </StyledTypography>
                                     </SyledCardContent>
@@ -361,11 +315,7 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     onFocus={() => handleFocus(1)}
                                     onBlur={handleBlur}
                                     tabIndex={0}
-                                    className={
-                                        focusedCardIndex === 1
-                                            ? 'Mui-focused'
-                                            : ''
-                                    }
+                                    className={focusedCardIndex === 1 ? 'Mui-focused' : ''}
                                 >
                                     <CardMedia
                                         component="img"
@@ -378,25 +328,13 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                         }}
                                     />
                                     <SyledCardContent>
-                                        <Typography
-                                            gutterBottom
-                                            variant="caption"
-                                            component="div"
-                                        >
+                                        <Typography gutterBottom variant="caption" component="div">
                                             {cardData[1].tag}
                                         </Typography>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h6"
-                                            component="div"
-                                        >
+                                        <Typography gutterBottom variant="h6" component="div">
                                             {cardData[1].title}
                                         </Typography>
-                                        <StyledTypography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            gutterBottom
-                                        >
+                                        <StyledTypography variant="body2" color="text.secondary" gutterBottom>
                                             {cardData[1].description}
                                         </StyledTypography>
                                     </SyledCardContent>
@@ -409,11 +347,7 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     onFocus={() => handleFocus(2)}
                                     onBlur={handleBlur}
                                     tabIndex={0}
-                                    className={
-                                        focusedCardIndex === 2
-                                            ? 'Mui-focused'
-                                            : ''
-                                    }
+                                    className={focusedCardIndex === 2 ? 'Mui-focused' : ''}
                                     sx={{ height: '100%' }}
                                 >
                                     <CardMedia
@@ -429,25 +363,13 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                         }}
                                     />
                                     <SyledCardContent>
-                                        <Typography
-                                            gutterBottom
-                                            variant="caption"
-                                            component="div"
-                                        >
+                                        <Typography gutterBottom variant="caption" component="div">
                                             {cardData[2].tag}
                                         </Typography>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h6"
-                                            component="div"
-                                        >
+                                        <Typography gutterBottom variant="h6" component="div">
                                             {cardData[2].title}
                                         </Typography>
-                                        <StyledTypography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            gutterBottom
-                                        >
+                                        <StyledTypography variant="body2" color="text.secondary" gutterBottom>
                                             {cardData[2].description}
                                         </StyledTypography>
                                     </SyledCardContent>
@@ -468,11 +390,7 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                         onFocus={() => handleFocus(3)}
                                         onBlur={handleBlur}
                                         tabIndex={0}
-                                        className={
-                                            focusedCardIndex === 3
-                                                ? 'Mui-focused'
-                                                : ''
-                                        }
+                                        className={focusedCardIndex === 3 ? 'Mui-focused' : ''}
                                         sx={{ height: '100%' }}
                                     >
                                         <SyledCardContent
@@ -484,25 +402,13 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                             }}
                                         >
                                             <div>
-                                                <Typography
-                                                    gutterBottom
-                                                    variant="caption"
-                                                    component="div"
-                                                >
+                                                <Typography gutterBottom variant="caption" component="div">
                                                     {cardData[3].tag}
                                                 </Typography>
-                                                <Typography
-                                                    gutterBottom
-                                                    variant="h6"
-                                                    component="div"
-                                                >
+                                                <Typography gutterBottom variant="h6" component="div">
                                                     {cardData[3].title}
                                                 </Typography>
-                                                <StyledTypography
-                                                    variant="body2"
-                                                    color="text.secondary"
-                                                    gutterBottom
-                                                >
+                                                <StyledTypography variant="body2" color="text.secondary" gutterBottom>
                                                     {cardData[3].description}
                                                 </StyledTypography>
                                             </div>
@@ -514,11 +420,7 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                         onFocus={() => handleFocus(4)}
                                         onBlur={handleBlur}
                                         tabIndex={0}
-                                        className={
-                                            focusedCardIndex === 4
-                                                ? 'Mui-focused'
-                                                : ''
-                                        }
+                                        className={focusedCardIndex === 4 ? 'Mui-focused' : ''}
                                         sx={{ height: '100%' }}
                                     >
                                         <SyledCardContent
@@ -530,25 +432,13 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                             }}
                                         >
                                             <div>
-                                                <Typography
-                                                    gutterBottom
-                                                    variant="caption"
-                                                    component="div"
-                                                >
+                                                <Typography gutterBottom variant="caption" component="div">
                                                     {cardData[4].tag}
                                                 </Typography>
-                                                <Typography
-                                                    gutterBottom
-                                                    variant="h6"
-                                                    component="div"
-                                                >
+                                                <Typography gutterBottom variant="h6" component="div">
                                                     {cardData[4].title}
                                                 </Typography>
-                                                <StyledTypography
-                                                    variant="body2"
-                                                    color="text.secondary"
-                                                    gutterBottom
-                                                >
+                                                <StyledTypography variant="body2" color="text.secondary" gutterBottom>
                                                     {cardData[4].description}
                                                 </StyledTypography>
                                             </div>
@@ -563,11 +453,7 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     onFocus={() => handleFocus(5)}
                                     onBlur={handleBlur}
                                     tabIndex={0}
-                                    className={
-                                        focusedCardIndex === 5
-                                            ? 'Mui-focused'
-                                            : ''
-                                    }
+                                    className={focusedCardIndex === 5 ? 'Mui-focused' : ''}
                                     sx={{ height: '100%' }}
                                 >
                                     <CardMedia
@@ -583,25 +469,13 @@ const Dashboard: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                         }}
                                     />
                                     <SyledCardContent>
-                                        <Typography
-                                            gutterBottom
-                                            variant="caption"
-                                            component="div"
-                                        >
+                                        <Typography gutterBottom variant="caption" component="div">
                                             {cardData[5].tag}
                                         </Typography>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h6"
-                                            component="div"
-                                        >
+                                        <Typography gutterBottom variant="h6" component="div">
                                             {cardData[5].title}
                                         </Typography>
-                                        <StyledTypography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            gutterBottom
-                                        >
+                                        <StyledTypography variant="body2" color="text.secondary" gutterBottom>
                                             {cardData[5].description}
                                         </StyledTypography>
                                     </SyledCardContent>

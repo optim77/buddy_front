@@ -3,16 +3,12 @@ import axios from 'axios';
 import authService from '../../../services/authService';
 
 export const useFetchProfileMedia = (userId?: string) => {
-    const [fetchMediaProfileLoading, setFetchMediaProfileLoading] =
-        useState<boolean>(true);
-    const [fetchProfileMediaContent, setFetchProfileMediaContent] =
-        useState<boolean>(true);
+    const [fetchMediaProfileLoading, setFetchMediaProfileLoading] = useState<boolean>(true);
+    const [fetchProfileMediaContent, setFetchProfileMediaContent] = useState<boolean>(true);
     const [media, setMedia] = useState<any[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const [fetchProfileImagesError, setFetchProfileImagesError] = useState<
-        string | null
-    >(null);
+    const [fetchProfileImagesError, setFetchProfileImagesError] = useState<string | null>(null);
 
     const fetchProfileImages = useCallback(async () => {
         if (!userId) {
@@ -23,16 +19,13 @@ export const useFetchProfileMedia = (userId?: string) => {
         if (!hasMore) return;
 
         try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/image/user/${userId}`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authService.getToken() || ''}`,
-                    },
-                    params: { page, size: 20 },
+            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/image/user/${userId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authService.getToken() || ''}`,
                 },
-            );
+                params: { page, size: 20 },
+            });
             if (response.data.length === 0) {
                 setFetchProfileMediaContent(false);
             }

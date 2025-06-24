@@ -13,13 +13,7 @@ import { useInView } from 'react-intersection-observer';
 import SessionList from './SessionList';
 
 const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
-    const {
-        isLoadingSessions,
-        messageFetchingSession,
-        hasMore,
-        setPage,
-        sessions,
-    } = useFetchSessions();
+    const { isLoadingSessions, messageFetchingSession, hasMore, setPage, sessions } = useFetchSessions();
 
     const { ref, inView } = useInView({ threshold: 0.5 });
 
@@ -56,9 +50,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                             <CircularProgress />
                         </Box>
                     ) : messageFetchingSession ? (
-                        <Typography color="error">
-                            {messageFetchingSession}
-                        </Typography>
+                        <Typography color="error">{messageFetchingSession}</Typography>
                     ) : sessions ? (
                         <SessionList sessions={sessions} />
                     ) : (

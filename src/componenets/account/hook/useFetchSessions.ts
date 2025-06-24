@@ -22,10 +22,7 @@ export const useFetchSessions = () => {
                 })
                 .then((res) => {
                     const newSessions = res.data.content;
-                    setSessions((prevSession) => [
-                        ...prevSession,
-                        ...newSessions,
-                    ]);
+                    setSessions((prevSession) => [...prevSession, ...newSessions]);
                     setHasMore(page + 1 < res.data.page.totalPages);
                     setIsLoadingSessions(false);
                 });

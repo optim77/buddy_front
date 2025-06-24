@@ -8,10 +8,7 @@ interface ViewModeToggleProps {
     onChange: (mode: string) => void;
 }
 
-const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
-    viewMode,
-    onChange,
-}) => {
+const ViewModeToggle: React.FC<ViewModeToggleProps> = ({ viewMode, onChange }) => {
     return (
         <div
             style={{
@@ -24,15 +21,11 @@ const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
                 variant={viewMode === 'wall' ? 'contained' : 'outlined'}
                 onClick={() => onChange('wall')}
                 sx={{
-                    backgroundColor:
-                        viewMode === 'wall' ? 'primary.dark' : 'transparent',
+                    backgroundColor: viewMode === 'wall' ? 'primary.dark' : 'transparent',
                     color: viewMode === 'wall' ? '#2c2020' : 'primary.main',
                     borderColor: 'primary.main',
                     '&:hover': {
-                        backgroundColor:
-                            viewMode === 'wall'
-                                ? 'primary.dark'
-                                : 'rgba(0, 0, 0, 0.04)',
+                        backgroundColor: viewMode === 'wall' ? 'primary.dark' : 'rgba(0, 0, 0, 0.04)',
                     },
                 }}
             >
@@ -42,15 +35,11 @@ const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
                 variant={viewMode === 'grid' ? 'contained' : 'outlined'}
                 onClick={() => onChange('grid')}
                 sx={{
-                    backgroundColor:
-                        viewMode === 'grid' ? 'primary.dark' : 'transparent',
+                    backgroundColor: viewMode === 'grid' ? 'primary.dark' : 'transparent',
                     color: viewMode === 'grid' ? '#2c2020' : 'primary.main',
                     borderColor: 'primary.main',
                     '&:hover': {
-                        backgroundColor:
-                            viewMode === 'grid'
-                                ? 'primary.dark'
-                                : 'rgba(0, 0, 0, 0.04)',
+                        backgroundColor: viewMode === 'grid' ? 'primary.dark' : 'rgba(0, 0, 0, 0.04)',
                     },
                 }}
             >

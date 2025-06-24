@@ -16,19 +16,10 @@ import { fetchMessage } from '../../utils/fetchMessage';
 
 const EditPlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const id = useParams<{ id: string }>();
-    const { plan, fetchPlanMessage, fetchPlanMessageType } = useFetchPlan(
-        id.id,
-    );
+    const { plan, fetchPlanMessage, fetchPlanMessageType } = useFetchPlan(id.id);
 
-    const {
-        isSendingPlan,
-        messageSendPlan,
-        messageTypeSendPlan,
-        setName,
-        setDescription,
-        setPrice,
-        sendPlan,
-    } = useCreatePlan();
+    const { isSendingPlan, messageSendPlan, messageTypeSendPlan, setName, setDescription, setPrice, sendPlan } =
+        useCreatePlan();
 
     return (
         <AppTheme {...props}>
@@ -39,10 +30,8 @@ const EditPlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         Edit plan
                     </Typography>
 
-                    {fetchPlanMessage &&
-                        fetchMessage(fetchPlanMessage, fetchPlanMessageType)}
-                    {messageSendPlan &&
-                        fetchMessage(messageSendPlan, messageTypeSendPlan)}
+                    {fetchPlanMessage && fetchMessage(fetchPlanMessage, fetchPlanMessageType)}
+                    {messageSendPlan && fetchMessage(messageSendPlan, messageTypeSendPlan)}
                     <Typography variant="h4" component="h1" gutterBottom>
                         Name
                     </Typography>
@@ -70,13 +59,7 @@ const EditPlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             setPrice(Number(event.target.value));
                         }}
                     />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        onClick={sendPlan}
-                        disabled={isSendingPlan}
-                    >
+                    <Button type="submit" fullWidth variant="contained" onClick={sendPlan} disabled={isSendingPlan}>
                         Update
                     </Button>
                 </StyledCard>

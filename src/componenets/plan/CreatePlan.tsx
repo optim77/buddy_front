@@ -9,15 +9,8 @@ import { useCreatePlan } from './hooks/useSendPlan';
 import { fetchMessage } from '../../utils/fetchMessage';
 
 const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const {
-        isSendingPlan,
-        messageSendPlan,
-        messageTypeSendPlan,
-        setName,
-        setDescription,
-        setPrice,
-        sendPlan,
-    } = useCreatePlan();
+    const { isSendingPlan, messageSendPlan, messageTypeSendPlan, setName, setDescription, setPrice, sendPlan } =
+        useCreatePlan();
 
     return (
         <AppTheme {...props}>
@@ -28,8 +21,7 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         Create plan
                     </Typography>
 
-                    {messageSendPlan &&
-                        fetchMessage(messageSendPlan, messageTypeSendPlan)}
+                    {messageSendPlan && fetchMessage(messageSendPlan, messageTypeSendPlan)}
                     <Typography variant="h4" component="h1" gutterBottom>
                         Name
                     </Typography>
@@ -57,13 +49,7 @@ const CreatePlan: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             setPrice(Number(event.target.value));
                         }}
                     />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        onClick={sendPlan}
-                        disabled={isSendingPlan}
-                    >
+                    <Button type="submit" fullWidth variant="contained" onClick={sendPlan} disabled={isSendingPlan}>
                         Create
                     </Button>
                 </StyledCard>

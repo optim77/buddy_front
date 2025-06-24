@@ -13,8 +13,7 @@ export const useFetchPlan = (id: string | undefined) => {
         };
     const [plan, setPlan] = useState<Plan | null>(null);
     const [fetchPlanMessage, setFetchPlanMessage] = useState<string>('');
-    const [fetchPlanMessageType, setFetchPlanMessageType] =
-        useState<string>('');
+    const [fetchPlanMessageType, setFetchPlanMessageType] = useState<string>('');
 
     useEffect(() => {
         const getPlan = async () => {
@@ -41,15 +40,12 @@ export const useFetchPlan = (id: string | undefined) => {
 
 const fetchPlan = async (id: string) => {
     try {
-        const res = await axios.get(
-            `${process.env.REACT_APP_API_ADDRESS}/plan/${id}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + authService.getToken(),
-                },
+        const res = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/plan/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + authService.getToken(),
             },
-        );
+        });
         return res.data;
     } catch (error) {
         return null;

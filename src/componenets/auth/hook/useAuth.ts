@@ -4,6 +4,7 @@ import authService from '../../../services/authService';
 import { useAuthValidation } from './useAuthValidation';
 import { showBanner } from '../../banner/BannerUtils';
 import { apiClient } from '../../api/apiClient';
+import { initWebSocket } from '../../ws/Connect';
 
 interface useAuthProps {
     login: (email: string, password: string) => Promise<void>;
@@ -30,6 +31,7 @@ export const useAuth = (): useAuthProps => {
             if (res?.data?.token && res?.data?.userId) {
                 authService.setToken(res.data.token);
                 authService.setBuddyUser(res.data.userId);
+                initWebSocket(res.data.token, res.data.userId);
                 navigate(0);
             } else {
                 showBanner('Wrong email or password', 'error');

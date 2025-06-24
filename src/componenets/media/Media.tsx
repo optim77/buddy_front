@@ -41,12 +41,10 @@ const DashboardContainer = styled(Stack)(({ theme }) => ({
         position: 'absolute',
         zIndex: -1,
         inset: 0,
-        backgroundImage:
-            'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
+        backgroundImage: 'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
         backgroundRepeat: 'no-repeat',
         ...theme.applyStyles('dark', {
-            backgroundImage:
-                'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
+            backgroundImage: 'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
         }),
     },
 }));
@@ -60,15 +58,12 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
 
     const fetchMedia = async (imageId: string) => {
         try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/image/` + imageId,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + authService.getToken(),
-                    },
+            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/image/` + imageId, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + authService.getToken(),
                 },
-            );
+            });
             return response.data;
         } catch (err) {
             throw new Error('Error fetching media');
@@ -95,11 +90,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
     };
 
     return (
-        <Container
-            maxWidth="lg"
-            component="main"
-            sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
-        >
+        <Container maxWidth="lg" component="main" sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}>
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <DashboardContainer>
@@ -150,10 +141,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                 >
                                     {media.tags
                                         ? media.tags.map((tag: ITag) => (
-                                              <Link
-                                                  to={`/tag/${tag}`}
-                                                  key={tag.toString()}
-                                              >
+                                              <Link to={`/tag/${tag}`} key={tag.toString()}>
                                                   <Chip
                                                       label={tag.toString()}
                                                       variant="filled"
@@ -185,19 +173,9 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     justifyContent="space-between"
                                     sx={{ marginBottom: 2 }}
                                 >
-                                    <Stack
-                                        direction="row"
-                                        spacing={2}
-                                        alignItems="center"
-                                    >
+                                    <Stack direction="row" spacing={2} alignItems="center">
                                         <Avatar
-                                            src={
-                                                media.avatar
-                                                    ? buildMediaLink(
-                                                          media.avatar,
-                                                      )
-                                                    : undefined
-                                            }
+                                            src={media.avatar ? buildMediaLink(media.avatar) : undefined}
                                             alt={media.username}
                                         />
                                         <Typography variant="subtitle1">
@@ -213,12 +191,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                         </Typography>
                                     </Stack>
 
-                                    <Stack
-                                        direction="row"
-                                        spacing={2}
-                                        alignItems="center"
-                                        sx={{ ml: 'auto' }}
-                                    >
+                                    <Stack direction="row" spacing={2} alignItems="center" sx={{ ml: 'auto' }}>
                                         <Tooltip
                                             title={`Uploaded on: ${new Date(media.uploadedDate).toLocaleString()}`}
                                         >
@@ -228,11 +201,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                         </Tooltip>
                                         {editable && (
                                             <Button variant="text" size="small">
-                                                <Link
-                                                    to={
-                                                        '/edit/' + media.imageId
-                                                    }
-                                                >
+                                                <Link to={'/edit/' + media.imageId}>
                                                     <EditIcon />
                                                 </Link>
                                             </Button>
@@ -243,25 +212,15 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                                     setMuted(!muted);
                                                 }}
                                             >
-                                                {muted ? (
-                                                    <VolumeOff />
-                                                ) : (
-                                                    <VolumeUp />
-                                                )}
+                                                {muted ? <VolumeOff /> : <VolumeUp />}
                                             </Button>
                                         ) : null}
                                     </Stack>
                                 </Stack>
                             </CardContent>
                             <CardActions>
-                                <LikeButton
-                                    mediaId={media.imageId}
-                                    isLiked={media.likedByCurrentUser}
-                                ></LikeButton>
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                >
+                                <LikeButton mediaId={media.imageId} isLiked={media.likedByCurrentUser}></LikeButton>
+                                <Typography variant="body2" color="text.secondary">
                                     {formatLikes(media.likeCount)}
                                 </Typography>
                             </CardActions>

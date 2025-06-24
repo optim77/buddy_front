@@ -5,14 +5,12 @@ import authService, { destroyThisSession } from '../../../services/authService';
 export const useDeleteSingleSession = () => {
     const [deletingSingle, setDeletingSingle] = useState(false);
 
-    const deleteSession = async (sessionId: string): Promise<undefined | boolean>  => {
+    const deleteSession = async (sessionId: string): Promise<undefined | boolean> => {
         if (deletingSingle) return;
         const isCurrent = sessionId === authService.getToken();
         let commit: boolean | undefined;
         if (isCurrent) {
-            commit = confirm(
-                'You are deleting your actual session, after that you will be log out!',
-            );
+            commit = confirm('You are deleting your actual session, after that you will be log out!');
         }
 
         if (sessionId) {

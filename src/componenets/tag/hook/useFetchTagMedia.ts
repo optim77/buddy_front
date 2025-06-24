@@ -4,16 +4,12 @@ import axios from 'axios';
 import authService from '../../../services/authService';
 
 export const useFetchTagMedia = (tag?: string) => {
-    const [fetchMediaTagContent, setFetchMediaTagContent] =
-        useState<boolean>(false);
-    const [fetchMediaTagLoading, setFetchMediaTagLoading] =
-        useState<boolean>(true);
+    const [fetchMediaTagContent, setFetchMediaTagContent] = useState<boolean>(false);
+    const [fetchMediaTagLoading, setFetchMediaTagLoading] = useState<boolean>(true);
     const [media, setMedia] = useState<IMedia[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const [fetchTagMediaError, setFetchTagMediaError] = useState<string | null>(
-        null,
-    );
+    const [fetchTagMediaError, setFetchTagMediaError] = useState<string | null>(null);
 
     const fetchTagMedia = useCallback(async () => {
         if (!tag) {
@@ -22,16 +18,13 @@ export const useFetchTagMedia = (tag?: string) => {
         if (!hasMore) return;
 
         try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/tag/${tag}`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + authService.getToken(),
-                    },
-                    params: { page, size: 20 },
+            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/tag/${tag}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + authService.getToken(),
                 },
-            );
+                params: { page, size: 20 },
+            });
             if (response.data.length === 0) {
                 setFetchMediaTagContent(false);
             }

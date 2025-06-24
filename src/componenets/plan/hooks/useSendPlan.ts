@@ -7,8 +7,7 @@ import { HTTP_CODE } from '../../../utils/CODE';
 export const useCreatePlan = (update = false) => {
     const [isSendingPlan, setIsSendingPlan] = useState<boolean>(false);
     const [messageSendPlan, setMessageSendPlan] = useState<string>('');
-    const [messageTypeSendPlan, setMessageTypeSendPlan] =
-        useState<string>('error');
+    const [messageTypeSendPlan, setMessageTypeSendPlan] = useState<string>('error');
     const [name, setName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [price, setPrice] = useState<number | null>(null);
@@ -45,32 +44,22 @@ export const useCreatePlan = (update = false) => {
 
             try {
                 if (update) {
-                    await axios.post(
-                        `${process.env.REACT_APP_API_ADDRESS}/plan/create`,
-                        formData,
-                        {
-                            headers: {
-                                'Content-Type': 'application/json',
-                                Authorization: `Bearer ${authService.getToken()}`,
-                            },
+                    await axios.post(`${process.env.REACT_APP_API_ADDRESS}/plan/create`, formData, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${authService.getToken()}`,
                         },
-                    );
+                    });
                 } else {
-                    await axios.post(
-                        `${process.env.REACT_APP_API_ADDRESS}/plan/create`,
-                        formData,
-                        {
-                            headers: {
-                                'Content-Type': 'application/json',
-                                Authorization: `Bearer ${authService.getToken()}`,
-                            },
+                    await axios.post(`${process.env.REACT_APP_API_ADDRESS}/plan/create`, formData, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${authService.getToken()}`,
                         },
-                    );
+                    });
                 }
 
-                setMessageSendPlan(
-                    'Created! You will be redirected to profile page',
-                );
+                setMessageSendPlan('Created! You will be redirected to profile page');
                 setMessageTypeSendPlan('success');
                 setTimeout(() => {
                     navigate('/profile');

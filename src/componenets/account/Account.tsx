@@ -21,10 +21,7 @@ import axios from 'axios';
 import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-import {
-    StyledTextareaAutosizeEditProfile,
-    VisuallyHiddenInput,
-} from '../../customStyles/Element';
+import { StyledTextareaAutosizeEditProfile, VisuallyHiddenInput } from '../../customStyles/Element';
 import { MainContainer } from '../../customStyles/MainContainer';
 import authService from '../../services/authService';
 import { buildMediaLink } from '../../utils/FormatMediaLink';
@@ -67,15 +64,12 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
 
     const fetchUserData = useCallback(async () => {
         try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/profile`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authService.getToken()}`,
-                    },
+            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/profile`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authService.getToken()}`,
                 },
-            );
+            });
             setUserData(response.data);
         } catch (err) {
             setError('Failed to fetch user data.');
@@ -109,16 +103,12 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                     [editField]: editValue,
                 };
                 await axios
-                    .put(
-                        `${process.env.REACT_APP_API_ADDRESS}/user/update`,
-                        updatedUserData,
-                        {
-                            headers: {
-                                'Content-Type': 'application/json',
-                                Authorization: `Bearer ${authService.getToken()}`,
-                            },
+                    .put(`${process.env.REACT_APP_API_ADDRESS}/user/update`, updatedUserData, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${authService.getToken()}`,
                         },
-                    )
+                    })
                     .then((res) => {
                         if (res.status === 200 && editField === 'username') {
                             authService.logout();
@@ -169,12 +159,8 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
         if (event.target.files) {
             const files = Array.from(event.target.files);
 
-            const images = files.filter((file) =>
-                file.type.startsWith('image/'),
-            );
-            const invalidFiles = files.filter(
-                (file) => !file.type.startsWith('image/'),
-            );
+            const images = files.filter((file) => file.type.startsWith('image/'));
+            const invalidFiles = files.filter((file) => !file.type.startsWith('image/'));
 
             if (invalidFiles.length > 0) {
                 setAvatarError('Only images are allowed.');
@@ -201,16 +187,12 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
             const formData = new FormData();
             formData.append('file', uploadedImage);
             await axios
-                .put(
-                    `${process.env.REACT_APP_API_ADDRESS}/user/change_avatar`,
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                            Authorization: `Bearer ${authService.getToken()}`,
-                        },
+                .put(`${process.env.REACT_APP_API_ADDRESS}/user/change_avatar`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${authService.getToken()}`,
                     },
-                )
+                })
                 .then((res) => {
                     if (res.status === 200) {
                         setEditAvatar(false);
@@ -261,23 +243,13 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                 gap: 2,
                             }}
                         >
-                            {message ? (
-                                <Typography color="success">
-                                    {message}
-                                </Typography>
-                            ) : null}
+                            {message ? <Typography color="success">{message}</Typography> : null}
                             {changePasswordMessage ? (
-                                <Typography color="success">
-                                    {changePasswordMessage}
-                                </Typography>
+                                <Typography color="success">{changePasswordMessage}</Typography>
                             ) : null}
 
                             <Avatar
-                                src={
-                                    userData.avatar
-                                        ? buildMediaLink(userData.avatar)
-                                        : undefined
-                                }
+                                src={userData.avatar ? buildMediaLink(userData.avatar) : undefined}
                                 alt={userData.username}
                                 sx={{
                                     width: 100,
@@ -285,16 +257,13 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                     cursor: 'pointer',
                                     transition: '0.3s',
                                     '&:hover': {
-                                        boxShadow:
-                                            '0px 4px 12px rgba(0, 0, 0, 0.2)',
+                                        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
                                         transform: 'scale(1.05)',
                                     },
                                 }}
                                 onClick={() => setEditAvatar(true)}
                             />
-                            <CardContent
-                                sx={{ textAlign: 'center', width: '100%' }}
-                            >
+                            <CardContent sx={{ textAlign: 'center', width: '100%' }}>
                                 <Box
                                     sx={{
                                         display: 'flex',
@@ -307,14 +276,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                     <Typography variant="h4" gutterBottom>
                                         {userData.username}
                                     </Typography>
-                                    <IconButton
-                                        onClick={() =>
-                                            handleEdit(
-                                                'username',
-                                                userData?.username.toString(),
-                                            )
-                                        }
-                                    >
+                                    <IconButton onClick={() => handleEdit('username', userData?.username.toString())}>
                                         <EditIcon fontSize={'small'} />
                                     </IconButton>
                                 </Box>
@@ -327,11 +289,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                         mb: 2,
                                     }}
                                 >
-                                    <Typography
-                                        variant="body1"
-                                        color="text.secondary"
-                                        gutterBottom
-                                    >
+                                    <Typography variant="body1" color="text.secondary" gutterBottom>
                                         {userData.email}
                                     </Typography>
                                 </Box>
@@ -342,14 +300,9 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                             width: '100%',
                                         }}
                                     >
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                        >
+                                        <Typography variant="body2" color="text.secondary">
                                             {userData.locked ? (
-                                                <Typography color={'error'}>
-                                                    Your account is locked
-                                                </Typography>
+                                                <Typography color={'error'}>Your account is locked</Typography>
                                             ) : (
                                                 'Unlocked'
                                             )}
@@ -366,22 +319,10 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                         mb: 2,
                                     }}
                                 >
-                                    <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                    >
-                                        Description:{' '}
-                                        {userData.description ||
-                                            'No description available'}
+                                    <Typography variant="body2" color="text.secondary">
+                                        Description: {userData.description || 'No description available'}
                                     </Typography>
-                                    <IconButton
-                                        onClick={() =>
-                                            handleEdit(
-                                                'description',
-                                                userData.description,
-                                            )
-                                        }
-                                    >
+                                    <IconButton onClick={() => handleEdit('description', userData.description)}>
                                         <EditIcon fontSize={'small'} />
                                     </IconButton>
                                 </Box>
@@ -395,21 +336,11 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                         mb: 2,
                                     }}
                                 >
-                                    <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                    >
+                                    <Typography variant="body2" color="text.secondary">
                                         <TikTok />
                                         {userData.socialTikTok || ''}
                                     </Typography>
-                                    <IconButton
-                                        onClick={() =>
-                                            handleEdit(
-                                                'description',
-                                                userData.description,
-                                            )
-                                        }
-                                    >
+                                    <IconButton onClick={() => handleEdit('description', userData.description)}>
                                         <EditIcon fontSize={'small'} />
                                     </IconButton>
                                 </Box>
@@ -468,9 +399,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                         width: '100%',
                                         marginTop: '10px',
                                     }}
-                                    onClick={() =>
-                                        setChangePasswordDialogOpen(true)
-                                    }
+                                    onClick={() => setChangePasswordDialogOpen(true)}
                                 >
                                     Change password
                                 </Button>
@@ -484,13 +413,9 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                         width: '100%',
                                         marginTop: '10px',
                                     }}
-                                    onClick={() =>
-                                        setDeactivateDialogOpen(true)
-                                    }
+                                    onClick={() => setDeactivateDialogOpen(true)}
                                 >
-                                    {userData?.locked && userData.locked
-                                        ? 'Active account'
-                                        : 'Deactivate account'}
+                                    {userData?.locked && userData.locked ? 'Active account' : 'Deactivate account'}
                                 </Button>
 
                                 <Button
@@ -509,9 +434,7 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                             </CardContent>
                         </Card>
                     ) : (
-                        <Typography variant="h5">
-                            No user data found.
-                        </Typography>
+                        <Typography variant="h5">No user data found.</Typography>
                     )}
                 </MainContainer>
 
@@ -524,22 +447,16 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                     maxWidth={editField === 'description' ? 'lg' : 'sm'}
                     fullWidth={editField === 'description'}
                 >
-                    <DialogTitle sx={{ fontSize: '1.2rem' }}>
-                        Edit {editField}
-                    </DialogTitle>
-                    {editError ? (
-                        <Typography color={'error'}>{editError}</Typography>
-                    ) : null}
+                    <DialogTitle sx={{ fontSize: '1.2rem' }}>Edit {editField}</DialogTitle>
+                    {editError ? <Typography color={'error'}>{editError}</Typography> : null}
                     <DialogContent
                         sx={{
-                            minHeight:
-                                editField === 'description' ? '200px' : 'auto',
+                            minHeight: editField === 'description' ? '200px' : 'auto',
                         }}
                     >
                         {editField === 'username' ? (
                             <Typography sx={{ padding: '10px' }}>
-                                After changing your username, you will be
-                                required to log in again!
+                                After changing your username, you will be required to log in again!
                             </Typography>
                         ) : null}
                         {editField === 'description' ? (
@@ -561,34 +478,22 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                         )}
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => setOpenDialog(false)}>
-                            Cancel
-                        </Button>
+                        <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
                         <Button onClick={handleSave} color="primary">
                             Save
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <Dialog
-                    open={changePasswordDialogOpen}
-                    onClose={() => setChangePasswordDialogOpen(false)}
-                    fullWidth
-                >
+                <Dialog open={changePasswordDialogOpen} onClose={() => setChangePasswordDialogOpen(false)} fullWidth>
                     <DialogTitle>Change Password</DialogTitle>
-                    {changePasswordError ? (
-                        <Typography color="error">
-                            {changePasswordError}
-                        </Typography>
-                    ) : null}
+                    {changePasswordError ? <Typography color="error">{changePasswordError}</Typography> : null}
                     <DialogContent>
                         <TextField
                             label="New Password"
                             type="password"
                             fullWidth
                             value={changePasswordNewPassword}
-                            onChange={(e) =>
-                                setChangePasswordNewPassword(e.target.value)
-                            }
+                            onChange={(e) => setChangePasswordNewPassword(e.target.value)}
                             sx={{ my: 4 }}
                         />
                         <TextField
@@ -596,83 +501,47 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                             type="password"
                             fullWidth
                             value={changePasswordNewPasswordConfirm}
-                            onChange={(e) =>
-                                setChangePasswordNewPasswordConfirm(
-                                    e.target.value,
-                                )
-                            }
+                            onChange={(e) => setChangePasswordNewPasswordConfirm(e.target.value)}
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button
-                            onClick={() => setChangePasswordDialogOpen(false)}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            onClick={() => changePassword()}
-                            color="primary"
-                        >
+                        <Button onClick={() => setChangePasswordDialogOpen(false)}>Cancel</Button>
+                        <Button onClick={() => changePassword()} color="primary">
                             Save
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <Dialog
-                    open={deleteDialogOpen}
-                    onClose={() => setDeleteDialogOpen(false)}
-                    fullWidth
-                >
+                <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)} fullWidth>
                     <DialogTitle>Delete account</DialogTitle>
-                    {deleteAccountError ? (
-                        <Typography color="error">
-                            {deleteAccountError}
-                        </Typography>
-                    ) : null}
+                    {deleteAccountError ? <Typography color="error">{deleteAccountError}</Typography> : null}
                     <DialogContent>
                         <Typography>Are you sure to delete account?</Typography>
                         <br />
                         <Typography>
-                            After deletion we will keep your data for 3 months
-                            after that time it will be deleted, your account
-                            will not be visible from the moment you delete your
-                            account
+                            After deletion we will keep your data for 3 months after that time it will be deleted, your
+                            account will not be visible from the moment you delete your account
                         </Typography>
                         <br />
                         <Typography>
-                            Once you delete your account, you will be logged out
-                            and will no longer have access to it
+                            Once you delete your account, you will be logged out and will no longer have access to it
                         </Typography>
                     </DialogContent>
                     <DialogActions>
-                        <Button
-                            color={'success'}
-                            onClick={() => setDeleteDialogOpen(false)}
-                        >
+                        <Button color={'success'} onClick={() => setDeleteDialogOpen(false)}>
                             Cancel
                         </Button>
                         <Button onClick={() => deleteAccount()}>Delete</Button>
                     </DialogActions>
                 </Dialog>
 
-                <Dialog
-                    open={deactivateDialogOpen}
-                    onClose={() => setDeactivateDialogOpen(false)}
-                    fullWidth
-                >
+                <Dialog open={deactivateDialogOpen} onClose={() => setDeactivateDialogOpen(false)} fullWidth>
                     <DialogTitle>
-                        {userData?.locked && userData.locked
-                            ? 'Active account'
-                            : 'Deactivate account'}
+                        {userData?.locked && userData.locked ? 'Active account' : 'Deactivate account'}
                     </DialogTitle>
-                    {lockError ? (
-                        <Typography color="error">{lockError}</Typography>
-                    ) : null}
+                    {lockError ? <Typography color="error">{lockError}</Typography> : null}
                     <DialogContent>
                         <Typography>
-                            Are you sure you want to{' '}
-                            {userData?.locked && userData.locked
-                                ? 'active '
-                                : 'deactivate '}{' '}
+                            Are you sure you want to {userData?.locked && userData.locked ? 'active ' : 'deactivate '}{' '}
                             the account?
                         </Typography>
                         <br />
@@ -683,16 +552,11 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                         </Typography>
                     </DialogContent>
                     <DialogActions>
-                        <Button
-                            color={'success'}
-                            onClick={() => setDeactivateDialogOpen(false)}
-                        >
+                        <Button color={'success'} onClick={() => setDeactivateDialogOpen(false)}>
                             Cancel
                         </Button>
                         <Button onClick={() => deactivateAccount()}>
-                            {userData?.locked && userData.locked
-                                ? 'Active account'
-                                : 'Deactivate account'}
+                            {userData?.locked && userData.locked ? 'Active account' : 'Deactivate account'}
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -706,13 +570,10 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                     fullWidth
                 >
                     <DialogTitle>Edit avatar</DialogTitle>
-                    {avatarError ? (
-                        <Typography color="error">{avatarError}</Typography>
-                    ) : null}
+                    {avatarError ? <Typography color="error">{avatarError}</Typography> : null}
                     <DialogContent>
                         <Typography sx={{ mb: 2 }}>
-                            Your current avatar will be replaced with an
-                            uploaded one.
+                            Your current avatar will be replaced with an uploaded one.
                         </Typography>
                         <Box>
                             <Typography variant="body2" sx={{ mb: 1 }}>
@@ -736,16 +597,10 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                         </Box>
                     </DialogContent>
                     <DialogActions>
-                        <Button
-                            color={'success'}
-                            onClick={() => setEditAvatar(false)}
-                        >
+                        <Button color={'success'} onClick={() => setEditAvatar(false)}>
                             Cancel
                         </Button>
-                        <Button
-                            onClick={() => handleChangeAvatar()}
-                            color="primary"
-                        >
+                        <Button onClick={() => handleChangeAvatar()} color="primary">
                             Change avatar
                         </Button>
                     </DialogActions>

@@ -23,15 +23,9 @@ interface ProfileCardProps {
 const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
     const theme = useTheme();
     const [error, setError] = useState<string | null>(null);
-    const [followState, setFollowState] = useState<boolean>(
-        profile.followed ? profile.followed : false,
-    );
-    const [subscribeState, setSubscribeState] = useState<boolean>(
-        profile.subscribed ? profile.subscribed : false,
-    );
-    const [followersCount, setFollowersCount] = useState<number>(
-        profile.followers || 0,
-    );
+    const [followState, setFollowState] = useState<boolean>(profile.followed ? profile.followed : false);
+    const [subscribeState, setSubscribeState] = useState<boolean>(profile.subscribed ? profile.subscribed : false);
+    const [followersCount, setFollowersCount] = useState<number>(profile.followers || 0);
     const navigate = useNavigate();
     const follow = async (user: string) => {
         if (authService.getBuddyUser() === null) {
@@ -48,9 +42,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                 .then((res) => {
                     if (res.status === 200) {
                         setFollowState(!followState);
-                        setFollowersCount((prev) =>
-                            followState ? prev - 1 : prev + 1,
-                        );
+                        setFollowersCount((prev) => (followState ? prev - 1 : prev + 1));
                     } else {
                         setError('Error following user');
                     }
@@ -79,10 +71,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
         >
             <CardContent>
                 {error && (
-                    <Typography
-                        sx={{ alignItems: 'center', textAlign: 'center' }}
-                        color="error"
-                    >
+                    <Typography sx={{ alignItems: 'center', textAlign: 'center' }} color="error">
                         {error}
                     </Typography>
                 )}
@@ -120,11 +109,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                         sx={{
                             fontStyle: 'italic',
                             textAlign: 'center',
-                            fontSize:
-                                profile.description &&
-                                profile.description.length >= 650
-                                    ? '10px'
-                                    : '14px',
+                            fontSize: profile.description && profile.description.length >= 650 ? '10px' : '14px',
                         }}
                     >
                         {profile.description || 'No description available.'}
@@ -149,29 +134,19 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                                     sx={{ textTransform: 'capitalize' }}
                                     // onClick={() => subscribe(profile.uuid)}
                                 >
-                                    {subscribeState
-                                        ? 'Unsubscribe'
-                                        : 'Subscribe'}
+                                    {subscribeState ? 'Unsubscribe' : 'Subscribe'}
                                 </Button>
                             </>
                         )}
                     </Stack>
 
                     {/* Stats Section */}
-                    <Stack
-                        direction="row"
-                        spacing={4}
-                        alignItems="center"
-                        justifyContent="center"
-                        mt={3}
-                    >
+                    <Stack direction="row" spacing={4} alignItems="center" justifyContent="center" mt={3}>
                         <Stack alignItems="center">
                             <Typography variant="body2" color="text.secondary">
                                 Posts
                             </Typography>
-                            <Typography variant="h6">
-                                {profile.posts}
-                            </Typography>
+                            <Typography variant="h6">{profile.posts}</Typography>
                         </Stack>
 
                         {authService.getBuddyUser() === profile.uuid ? (
@@ -183,28 +158,18 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                                 }}
                             >
                                 <Stack alignItems="center">
-                                    <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                    >
+                                    <Typography variant="body2" color="text.secondary">
                                         Followers
                                     </Typography>
-                                    <Typography variant="h6">
-                                        {formatLikes(followersCount)}
-                                    </Typography>
+                                    <Typography variant="h6">{formatLikes(followersCount)}</Typography>
                                 </Stack>
                             </Link>
                         ) : (
                             <Stack alignItems="center">
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                >
+                                <Typography variant="body2" color="text.secondary">
                                     Followers
                                 </Typography>
-                                <Typography variant="h6">
-                                    {formatLikes(followersCount)}
-                                </Typography>
+                                <Typography variant="h6">{formatLikes(followersCount)}</Typography>
                             </Stack>
                         )}
 
@@ -217,28 +182,18 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                                 }}
                             >
                                 <Stack alignItems="center">
-                                    <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                    >
+                                    <Typography variant="body2" color="text.secondary">
                                         Following
                                     </Typography>
-                                    <Typography variant="h6">
-                                        {formatLikes(profile.following)}
-                                    </Typography>
+                                    <Typography variant="h6">{formatLikes(profile.following)}</Typography>
                                 </Stack>
                             </Link>
                         ) : (
                             <Stack alignItems="center">
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                >
+                                <Typography variant="body2" color="text.secondary">
                                     Following
                                 </Typography>
-                                <Typography variant="h6">
-                                    {formatLikes(profile.following)}
-                                </Typography>
+                                <Typography variant="h6">{formatLikes(profile.following)}</Typography>
                             </Stack>
                         )}
 
@@ -246,11 +201,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                             <Typography variant="body2" color="text.secondary">
                                 Subscribers
                             </Typography>
-                            <Typography variant="h6">
-                                {profile.subscribers
-                                    ? profile.subscribers
-                                    : '0'}
-                            </Typography>
+                            <Typography variant="h6">{profile.subscribers ? profile.subscribers : '0'}</Typography>
                         </Stack>
                     </Stack>
                 </Stack>

@@ -15,9 +15,7 @@ import { fetchMessage } from '../../utils/fetchMessage';
 
 const PlanView: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const id = useParams<{ id: string }>();
-    const { plan, fetchPlanMessage, fetchPlanMessageType } = useFetchPlan(
-        id.id,
-    );
+    const { plan, fetchPlanMessage, fetchPlanMessageType } = useFetchPlan(id.id);
 
     return (
         <AppTheme {...props}>
@@ -25,14 +23,10 @@ const PlanView: React.FC = (props: { disableCustomTheme?: boolean }) => {
             <MainContainer>
                 <StyledCard variant="outlined">
                     <Typography variant="h4" component="h1" gutterBottom>
-                        Plan of{' '}
-                        <LinkWhite to={'/user/' + plan?.planOwnerId}>
-                            {plan?.planOwnerName}
-                        </LinkWhite>
+                        Plan of <LinkWhite to={'/user/' + plan?.planOwnerId}>{plan?.planOwnerName}</LinkWhite>
                     </Typography>
 
-                    {fetchPlanMessage &&
-                        fetchMessage(fetchPlanMessage, fetchPlanMessageType)}
+                    {fetchPlanMessage && fetchMessage(fetchPlanMessage, fetchPlanMessageType)}
                     <Typography variant="h4" component="h1" gutterBottom>
                         Name
                     </Typography>

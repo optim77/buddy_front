@@ -14,15 +14,12 @@ export const useFetchUser = (userId?: string) => {
             return;
         }
         try {
-            const res = await axios.get(
-                `${process.env.REACT_APP_API_ADDRESS}/user/${userId}`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authService.getToken()}`,
-                    },
+            const res = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/user/${userId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authService.getToken()}`,
                 },
-            );
+            });
             setUserLoading(false);
             return res.data;
         } catch (error) {
