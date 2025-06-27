@@ -6,26 +6,23 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { buildMediaLink, formatMediaLink } from '../../utils/FormatMediaLink';
+import { buildMediaLink } from '../../utils/FormatMediaLink';
 
 import { FollowListUser } from './FollowListUser';
 
 const FollowList = ({
     isContent,
     isLoading,
-    fetchFollowersError,
     followers,
 }: {
     isContent: boolean;
     isLoading: boolean;
-    fetchFollowersError: string | null;
     followers: FollowListUser[];
 }) => {
     return (
         <Grid container spacing={2}>
             {!isContent && <Typography>No content</Typography>}
             {isLoading && <Typography>Loading...</Typography>}
-            {fetchFollowersError && <Typography>fetchFollowersError</Typography>}
             {followers.map((follower) => (
                 <Grid item xs={12} sm={6} md={4} key={follower.id}>
                     <Link to={`/user/${follower.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>

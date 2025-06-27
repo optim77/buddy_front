@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FollowListUser } from '../FollowListUser';
-import axios from 'axios';
-import authService from '../../../services/authService';
+import { apiClient } from '../../api/apiClient';
+import { showBanner } from '../../banner/BannerUtils';
+import { useInView } from 'react-intersection-observer';
 
 export const useFetchFollow = (type: string) => {
     const [isContent, setIsContent] = useState(false);
@@ -9,28 +10,28 @@ export const useFetchFollow = (type: string) => {
     const [followers, setFollowers] = useState<FollowListUser[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const [fetchFollowersError, setFetchFollowersError] = useState<string | null>(null);
+    const { ref, inView } = useInView({ threshold: 0.5 });
 
     const fetchFollowers = useCallback(async () => {
         if (!hasMore) return;
         try {
-            await axios
-                .get(`${process.env.REACT_APP_API_ADDRESS}/${type}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: authService.getToken() ? `Bearer ${authService.getToken()}` : '',
-                    },
-                    params: { page, size: 20 },
-                })
-                .then((response) => {
-                    const newFollowers = response.data.content;
-                    setFollowers((prevFollowers) => [...prevFollowers, ...newFollowers]);
-                    setHasMore(page + 1 < response.data.page.totalPages);
-                });
+            const res = await apiClient.get(`/${type}`, { params: { page, size: 20 } });
+            if (res.status === 200) {
+                setFollowers((prevFollowers) => [...prevFollowers, ...res.data.content]);
+                setHasMore(page + 1 < res.data.page.totalPages);
+            } else {
+                showBanner('Something went wrong', 'error');
+            }
         } catch (err) {
-            setFetchFollowersError('Something went wrong');
+            showBanner('Something went wrong', 'error');
         }
     }, [page, hasMore]);
+
+    useEffect(() => {
+        if (inView && hasMore) {
+            setPage((prevPage) => prevPage + 1);
+        }
+    }, [inView, hasMore]);
 
     useEffect(() => {
         fetchFollowers();
@@ -38,12 +39,5 @@ export const useFetchFollow = (type: string) => {
         setIsContent(true);
     }, []);
 
-    return {
-        isContent,
-        isLoading,
-        fetchFollowersError,
-        followers,
-        hasMore,
-        setPage,
-    };
+    return { isContent, isLoading, followers, ref };
 };
