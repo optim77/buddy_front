@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { ISession } from '../types/ISession';
 import axios from 'axios';
 import authService from '../../../services/authService';
+import { useInView } from "react-intersection-observer";
 
 export const useFetchSessions = () => {
     const [isLoadingSessions, setIsLoadingSessions] = useState<boolean>(true);
@@ -9,6 +10,7 @@ export const useFetchSessions = () => {
     const [sessions, setSessions] = useState<ISession[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
+    const { ref, inView } = useInView({ threshold: 0.5 });
 
     const fetchSessions = useCallback(async () => {
         try {
@@ -36,11 +38,16 @@ export const useFetchSessions = () => {
         fetchSessions();
     }, []);
 
+    useEffect(() => {
+        if (inView && hasMore) {
+            setPage((prevPage) => prevPage + 1);
+        }
+    }, [inView, hasMore]);
+
     return {
         isLoadingSessions,
         messageFetchingSession,
-        hasMore,
-        setPage,
         sessions,
+        ref,
     };
 };
