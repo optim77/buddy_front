@@ -16,6 +16,7 @@ interface authResponse {
     token: string;
     message: string;
     userId: string;
+    uuid: string;
 }
 
 export const useAuth = (): useAuthProps => {
@@ -31,6 +32,7 @@ export const useAuth = (): useAuthProps => {
             if (res?.data?.token && res?.data?.userId) {
                 authService.setToken(res.data.token);
                 authService.setBuddyUser(res.data.userId);
+                authService.setBuddySessionUUID(res.data.uuid);
                 initWebSocket(res.data.token, res.data.userId);
                 navigate(0);
             } else {

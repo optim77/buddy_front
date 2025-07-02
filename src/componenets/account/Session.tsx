@@ -36,16 +36,16 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                                 height: '60vh',
                             }}
                         >
-                            <CircularProgress/>
+                            <CircularProgress />
                         </Box>
                     ) : messageFetchingSession ? (
                         <Typography color="error">{messageFetchingSession}</Typography>
                     ) : sessions ? (
-                        <SessionList sessions={sessions}/>
+                        <SessionList sessions={sessions} />
                     ) : (
                         <Typography variant="h5">No sessions</Typography>
                     )}
-                    <div ref={ref} style={{height: '1px'}}/>
+                    <div ref={ref} style={{ height: '1px' }} />
                 </MainContainer>
             </AppTheme>
         </Container>

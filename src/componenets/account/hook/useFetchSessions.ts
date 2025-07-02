@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { ISession } from '../types/ISession';
 import axios from 'axios';
 import authService from '../../../services/authService';
-import { useInView } from "react-intersection-observer";
+import { useInView } from 'react-intersection-observer';
 
 export const useFetchSessions = () => {
     const [isLoadingSessions, setIsLoadingSessions] = useState<boolean>(true);
