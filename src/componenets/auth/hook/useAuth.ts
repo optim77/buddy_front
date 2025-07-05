@@ -33,7 +33,7 @@ export const useAuth = (): useAuthProps => {
                 authService.setToken(res.data.token);
                 authService.setBuddyUser(res.data.userId);
                 authService.setBuddySessionUUID(res.data.uuid);
-                initWebSocket(res.data.token, res.data.userId);
+                initWebSocket();
                 navigate(0);
             } else {
                 showBanner('Wrong email or password', 'error');
