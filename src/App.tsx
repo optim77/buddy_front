@@ -3,12 +3,15 @@ import React from 'react';
 
 import AppRouter from './AppRouter';
 import { GlobalBanner } from './componenets/banner/GlobalBanner';
+import { WebSocketProvider } from './componenets/ws/WebSocketContext';
 
 const App: React.FC = () => {
     return (
         <>
-            <GlobalBanner />
-            <AppRouter />
+            <WebSocketProvider>
+                <GlobalBanner />
+                <AppRouter />
+            </WebSocketProvider>
         </>
     );
 };

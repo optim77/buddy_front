@@ -1,8 +1,7 @@
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { LinkWhite, StyledCard } from '../../customStyles/Element';

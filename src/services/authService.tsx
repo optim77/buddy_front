@@ -1,5 +1,4 @@
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
-import { deactivateWebSocket } from '../componenets/ws/Connect';
 import { apiClient } from '../componenets/api/apiClient';
 
 const setToken = (token: string) => {
@@ -36,15 +35,14 @@ const getBuddySessionId = () => {
 const logout = async (): Promise<void> => {
     try {
         const res = await apiClient.post('/session/logout/single', {
-            params: { sessionId: getBuddySessionId(), session: getToken() },
+            sessionId: getBuddySessionId(),
+            session: getToken(),
         });
         if (res.status == 200) {
             destroyThisSession();
-            deactivateWebSocket();
         }
     } catch {
         destroyThisSession();
-        deactivateWebSocket();
     }
 };
 
