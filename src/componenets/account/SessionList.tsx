@@ -5,7 +5,6 @@ import React from 'react';
 import { formatDate } from '../../utils/FormatDate';
 import { useDeleteSingleSession } from './hook/useDeleteSingleSession';
 import { useDeleteAllSessions } from './hook/useDeleteAllSessions';
-import authService from '../../services/authService';
 
 interface SessionListProps {
     sessions: ISession[];

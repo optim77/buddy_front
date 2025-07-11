@@ -4,7 +4,6 @@ import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import { LinkWhite } from '../../customStyles/Element';
 import { truncateText } from '../../utils/FormatText';

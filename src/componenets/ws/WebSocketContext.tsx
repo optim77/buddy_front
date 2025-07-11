@@ -2,6 +2,7 @@ import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { createContext, useContext, useEffect, useRef, useState, ReactNode, useCallback } from 'react';
 import authService from '../../services/authService';
+import { toast } from "react-toastify";
 
 type WebSocketContextType = {
     client: Client | null;
@@ -22,12 +23,17 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     const handleNotification = (payload: any) => {
         console.log('🔔 Notification received in context:', payload);
 
-        if ('Notification' in window && Notification.permission === 'granted') {
-            new Notification(payload.type || 'Notification', {
+        if ("Notification" in window && Notification.permission === "granted") {
+            new Notification(payload.title || 'Notification', {
                 body: payload.message,
                 icon: '/favicon.ico',
             });
         }
+
+        toast(payload.message || "Notification", {
+            type: payload.type === "ERROR" ? "error" : "default",
+            theme: 'dark'
+        });
 
         window.dispatchEvent(
             new CustomEvent('notification', {
@@ -57,7 +63,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
             heartbeatOutgoing: 4000,
             connectionTimeout: 10000,
 
-            onConnect: (frame) => {
+            onConnect: () => {
                 const topic = `/topic/notifications/${userId}`;
 
                 client.subscribe(topic, (message) => {
