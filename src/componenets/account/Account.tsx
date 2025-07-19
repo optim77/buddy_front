@@ -541,14 +541,16 @@ const UserProfile: React.FC<{ disableCustomTheme?: boolean }> = (props) => {
                     {lockError ? <Typography color="error">{lockError}</Typography> : null}
                     <DialogContent>
                         <Typography>
-                            Are you sure you want to {userData?.locked && userData.locked ? 'active ' : 'deactivate '}{' '}
+                            Are you sure you want to {userData?.locked && userData.locked ? 'activate ' : 'deactivate '}
                             the account?
                         </Typography>
                         <br />
                         <Typography>
-                            {userData?.locked && userData.locked
-                                ? 'After reactivation it will be possible to search for your account and your posts will become viewable'
-                                : 'After deactivation, it will not be possible to search for your account or see your posts, your account will remain active'}
+                            {
+                                userData?.locked && userData.locked
+                                    ? 'After reactivation it will be possible to search for your account and your posts will become viewable' // eslint-disable-line max-len
+                                    : 'After deactivation, it will not be possible to search for your account or see your posts, your account will remain active' // eslint-disable-line max-len
+                            }
                         </Typography>
                     </DialogContent>
                     <DialogActions>

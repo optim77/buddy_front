@@ -32,6 +32,7 @@ export const useFetchProfileMedia = (userId?: string) => {
             const newMedia = response.data.content;
             setMedia((prevMedia) => [...prevMedia, ...newMedia]);
             setHasMore(page + 1 < response.data.page.totalPages);
+            setFetchMediaProfileLoading(false);
         } catch (error) {
             setFetchProfileImagesError('Error fetching profile images');
         }
@@ -39,7 +40,6 @@ export const useFetchProfileMedia = (userId?: string) => {
 
     useEffect(() => {
         fetchProfileImages();
-        setFetchMediaProfileLoading(false);
     }, [page, userId]);
 
     return {

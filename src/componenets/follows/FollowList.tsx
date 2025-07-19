@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { buildMediaLink } from '../../utils/FormatMediaLink';
 
 import { FollowListUser } from './FollowListUser';
+import { BlankList } from '../../utils/BlankList';
 
 const FollowList = ({
     isContent,
@@ -21,7 +22,7 @@ const FollowList = ({
 }) => {
     return (
         <Grid container spacing={2}>
-            {!isContent && <Typography>No content</Typography>}
+            {isContent && <BlankList />}
             {isLoading && <Typography>Loading...</Typography>}
             {followers.map((follower) => (
                 <Grid item xs={12} sm={6} md={4} key={follower.id}>

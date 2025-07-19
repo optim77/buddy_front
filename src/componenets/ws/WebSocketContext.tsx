@@ -1,8 +1,7 @@
 import { Client } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
 import { createContext, useContext, useEffect, useRef, useState, ReactNode, useCallback } from 'react';
 import authService from '../../services/authService';
-import { toast } from "react-toastify";
+import { handleNotification } from './WebSocketNotificationMessage';
 
 type WebSocketContextType = {
     client: Client | null;
@@ -13,34 +12,14 @@ type WebSocketContextType = {
 const WebSocketContext = createContext<WebSocketContextType>({
     client: null,
     isConnected: false,
-    sendMessage: () => {},
+    sendMessage: (destination: string, message: any) => {
+        throw new Error('sendMessage called outside of WebSocketProvider');
+    },
 });
 
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     const clientRef = useRef<Client | null>(null);
     const [isConnected, setIsConnected] = useState(false);
-
-    const handleNotification = (payload: any) => {
-        console.log('🔔 Notification received in context:', payload);
-
-        if ("Notification" in window && Notification.permission === "granted") {
-            new Notification(payload.title || 'Notification', {
-                body: payload.message,
-                icon: '/favicon.ico',
-            });
-        }
-
-        toast(payload.message || "Notification", {
-            type: payload.type === "ERROR" ? "error" : "default",
-            theme: 'dark'
-        });
-
-        window.dispatchEvent(
-            new CustomEvent('notification', {
-                detail: payload,
-            }),
-        );
-    };
 
     const initWebSocket = useCallback(() => {
         const token = authService.getToken();
@@ -55,13 +34,16 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
             clientRef.current = null;
         }
 
-        const wsUrl = `${process.env.REACT_APP_WS_ADDRESS}`;
         const client = new Client({
-            webSocketFactory: () => new SockJS(wsUrl),
-            reconnectDelay: 5000,
+            webSocketFactory: () => new WebSocket(`ws://localhost:9090/ws`),
+            reconnectDelay: 10000,
             heartbeatIncoming: 4000,
             heartbeatOutgoing: 4000,
-            connectionTimeout: 10000,
+            connectionTimeout: 60000,
+
+            connectHeaders: {
+                Authorization: `Bearer ${token}`,
+            },
 
             onConnect: () => {
                 const topic = `/topic/notifications/${userId}`;

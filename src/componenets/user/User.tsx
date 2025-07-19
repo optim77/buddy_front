@@ -16,6 +16,7 @@ import { useFetchUser } from './hook/useFetchUser';
 import { fetchMessage } from '../../utils/fetchMessage';
 import { MESSAGE_TYPE } from '../../utils/CODE';
 import { useFetchProfileMedia } from './hook/useFetchProfileMedia';
+import { BlankProfileInfo } from '../../utils/BlankProfileInfo';
 
 const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const { ref, inView } = useInView({ threshold: 0.5 });
@@ -45,16 +46,12 @@ const User: React.FC = (props: { disableCustomTheme?: boolean }) => {
                 <MainContainer>
                     {fetchUserMessage && fetchMessage(fetchUserMessage, MESSAGE_TYPE.ERROR)}
                     {fetchProfileImagesError && fetchMessage(fetchProfileImagesError, MESSAGE_TYPE.ERROR)}
-                    {!userLoading && <p>Loading...</p>}
+                    {userLoading && <p>Loading...</p>}
 
                     {user && <ProfileWidget profile={user} />}
 
-                    {!fetchMediaProfileLoading && <p>Loading...</p>}
-                    {fetchProfileMediaContent && (
-                        <Typography variant="h1" gutterBottom>
-                            There is no posts yet ;)
-                        </Typography>
-                    )}
+                    {fetchMediaProfileLoading && <p>Loading...</p>}
+                    {!fetchProfileMediaContent && <BlankProfileInfo />}
 
                     {media.length === 0 ? null : <ViewModeToggle viewMode={viewMode} onChange={handleViewChange} />}
                     {viewMode === 'grid' ? (

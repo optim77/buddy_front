@@ -10,63 +10,18 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { alpha, styled } from '@mui/material/styles';
-import Toolbar from '@mui/material/Toolbar';
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { getCookie } from 'typescript-cookie';
 
 import ColorModeIconDropdown from '.././theme/ColorModeIconDropdown';
-import authService from '../../services/authService';
 import { SettingIcon, SitemarkIcon } from '../CustomIcons';
-
-const StyledToolbar = styled(Toolbar)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexShrink: 0,
-    borderRadius: `calc(${theme.shape.borderRadius}px + 8px)`,
-    backdropFilter: 'blur(24px)',
-    border: '1px solid',
-    borderColor: theme.palette.divider,
-    backgroundColor: theme ? `rgba(${theme.palette.background.default} / 0.4)` : alpha(theme, 0.4),
-    boxShadow: theme.shadows[1],
-    padding: '8px 12px',
-}));
-
-const StyledButton = styled(Button)(({ theme }) => ({
-    marginRight: theme.spacing(2),
-}));
-
-const StyledLink = styled(Link)(({ theme }) => ({
-    textDecoration: 'none',
-    color: 'inherit',
-    fontWeight: 'bold',
-}));
+import { StyledButton, StyledLink, StyledToolbar } from '../../customStyles/Element';
+import { useNavbar } from './useNavbar';
 
 export default function AppAppBar() {
-    const [open, setOpen] = React.useState(false);
-    const navigate = useNavigate();
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const isOpen = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const toggleDrawer = (newOpen: boolean) => () => {
-        setOpen(newOpen);
-    };
-
-    const handleLogout = async () => {
-        await authService.logout();
-        navigate('/');
-    };
-
+    const { handleLogout, handleClick, handleClose, toggleDrawer, anchorEl, isOpen, open } = useNavbar();
     const isAuthenticated = !!getCookie('buddy-token');
+
     return (
         <AppBar
             position="fixed"

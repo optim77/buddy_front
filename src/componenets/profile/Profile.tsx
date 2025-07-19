@@ -15,6 +15,7 @@ import ProfileWidget from './ProfileWidget';
 import { useProfile } from './hook/useProfile';
 import { useProfileImages } from './hook/useProfileImages';
 import { errorBox } from '../../utils/errorBox';
+import { BlankProfileInfo } from '../../utils/BlankProfileInfo';
 
 const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const { images, hasMore, setPage, profileImageError, profileImagesLoading } = useProfileImages();
@@ -67,23 +68,7 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             : null}
                     </div>
 
-                    {images.length === 0 ? (
-                        <Typography
-                            sx={{
-                                textAlign: 'center',
-                                padding: '15px',
-                                borderRadius: '8px',
-                                fontSize: '20px',
-                                fontWeight: 'medium',
-                                border: '1px solid',
-                                maxWidth: '400px',
-                                margin: '0 auto',
-                                lineHeight: '1.5',
-                            }}
-                        >
-                            No posts yet? ;)
-                        </Typography>
-                    ) : null}
+                    {images.length === 0 ? <BlankProfileInfo /> : null}
 
                     {viewMode === 'grid' ? (
                         <div
