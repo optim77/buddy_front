@@ -53,7 +53,7 @@ const FollowList = ({
                                     fontWeight="bold"
                                     sx={{
                                         color: 'black',
-                                        '&:hover': { color: '#1976d2' }, // Kontrastowy kolor tekstu na hover
+                                        '&:hover': { color: '#1976d2' },
                                     }}
                                 >
                                     {follower.username}

@@ -16,7 +16,7 @@ import { getCookie } from 'typescript-cookie';
 import ColorModeIconDropdown from '.././theme/ColorModeIconDropdown';
 import { SettingIcon, SitemarkIcon } from '../CustomIcons';
 import { StyledButton, StyledLink, StyledToolbar } from '../../customStyles/Element';
-import { useNavbar } from './useNavbar';
+import { useNavbar } from './hook/useNavbar';
 
 export default function AppAppBar() {
     const { handleLogout, handleClick, handleClose, toggleDrawer, anchorEl, isOpen, open } = useNavbar();
