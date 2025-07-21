@@ -4,6 +4,7 @@ import { alpha, styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
 
 export const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -149,4 +150,17 @@ export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 export const StyledButton = styled(Button)(({ theme }) => ({
     marginRight: theme.spacing(2),
+}));
+
+export const FollowPaper = styled(Paper)(() => ({
+    display: 'flex',
+    alignItems: 'center',
+    padding: 2,
+    borderRadius: 2,
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    backgroundColor: 'white',
+    '&:hover': {
+        backgroundColor: '#f9f9f9',
+    },
 }));
