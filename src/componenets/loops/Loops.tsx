@@ -14,6 +14,14 @@ import { ILoop } from './ILoop';
 import { Link } from 'react-router-dom';
 import { truncateText } from '../../utils/FormatText';
 import { errorBox } from '../../utils/errorBox';
+import {
+    LoopUserItemBox,
+    LoopUserItemInnerBox,
+    LoopVideoControlBox,
+    LoopVideoInnerControlBox,
+    MainUserItemMotionDiv,
+    MainVideoControlMotionDiv,
+} from './elements/LoopElements';
 
 const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const { videos, hasMore, setPage, error, loading } = useFetchLoops();
@@ -178,101 +186,34 @@ const VideoControls: React.FC<{
     setMuted: (muted: boolean) => void;
 }> = ({ video, muted, setMuted }) => {
     return (
-        <motion.div
+        <MainVideoControlMotionDiv
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 1 }}
-            style={{
-                position: 'absolute',
-                bottom: '20px',
-                left: '2%',
-                right: '20px',
-                zIndex: 2,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 8,
-            }}
         >
-            <Box
-                sx={{
-                    position: 'absolute',
-                    bottom: '140px',
-                    left: '17%',
-                    right: '20px',
-                    zIndex: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 2,
-                }}
-            >
-                <Box
-                    sx={{
-                        background: 'rgba(0, 0, 0, 0.5)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        padding: '5px',
-                        borderRadius: '8px',
-                        width: '60px',
-                        textAlign: 'center',
-                    }}
-                >
+            <LoopVideoControlBox>
+                <LoopVideoInnerControlBox>
                     <Typography variant="h6">{formatLikes(video.likeCount)}</Typography>
                     <LikeButton mediaId={video.imageId} isLiked={video.likedByCurrentUser} />
                     <Button onClick={() => setMuted(!muted)}>{muted ? <VolumeOff /> : <VolumeUp />}</Button>
                     <Button>
                         <MoreVert />
                     </Button>
-                </Box>
-            </Box>
-        </motion.div>
+                </LoopVideoInnerControlBox>
+            </LoopVideoControlBox>
+        </MainVideoControlMotionDiv>
     );
 };
 
 const UserItem: React.FC<{ video: ILoop }> = ({ video }) => {
     return (
-        <motion.div
+        <MainUserItemMotionDiv
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.5 }}
-            style={{
-                position: 'absolute',
-                bottom: '20px',
-                left: '2%',
-                right: '20px',
-                zIndex: 2,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 8,
-            }}
         >
-            <Box
-                sx={{
-                    background: 'rgba(0, 0, 0, 0.5)',
-                    padding: '10px',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 1,
-                    height: '120px',
-                    width: '67%',
-                    justifyContent: 'left',
-                    alignItems: 'left',
-                    margin: 'auto',
-                    position: 'absolute',
-                    bottom: '1%',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    zIndex: 3,
-                }}
-            >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 2,
-                    }}
-                >
+            <LoopUserItemBox>
+                <LoopUserItemInnerBox>
                     <Avatar
                         src={video.avatar ? buildMediaLink(video.avatar) : undefined}
                         alt={video.username}
@@ -283,10 +224,9 @@ const UserItem: React.FC<{ video: ILoop }> = ({ video }) => {
                             {video.username}
                         </Link>
                     </Typography>
-                </Box>
-
+                </LoopUserItemInnerBox>
                 <Typography variant="body2">{truncateText(video.description || 'No description', 300)}</Typography>
-            </Box>
-        </motion.div>
+            </LoopUserItemBox>
+        </MainUserItemMotionDiv>
     );
 };
