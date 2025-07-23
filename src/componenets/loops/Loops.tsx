@@ -1,8 +1,7 @@
 import { VolumeOff, VolumeUp, MoreVert } from '@mui/icons-material';
-import { Container, Typography, Grid, CssBaseline, CircularProgress, Box, Avatar, Button } from '@mui/material';
+import { Container, Typography, Grid, CssBaseline, CircularProgress, Avatar, Button, Grid2 } from '@mui/material';
 import { motion } from 'framer-motion';
-import React, { useEffect, useState, useRef } from 'react';
-import { useInView } from 'react-intersection-observer';
+import React from 'react';
 
 import { MainContainer } from '../../customStyles/MainContainer';
 import { formatLikes } from '../../utils/FormatLike';
@@ -13,8 +12,8 @@ import { useFetchLoops } from './hook/useFetchLoops';
 import { ILoop } from './ILoop';
 import { Link } from 'react-router-dom';
 import { truncateText } from '../../utils/FormatText';
-import { errorBox } from '../../utils/errorBox';
 import {
+    LoadingBox,
     LoopUserItemBox,
     LoopUserItemInnerBox,
     LoopVideoControlBox,
@@ -24,50 +23,7 @@ import {
 } from './elements/LoopElements';
 
 const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const { videos, hasMore, setPage, error, loading } = useFetchLoops();
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [muted, setMuted] = useState(true);
-    const [isScrolling, setIsScrolling] = useState(false);
-    const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-    const { ref, inView } = useInView({ threshold: 0.5 });
-
-    useEffect(() => {
-        if (inView && hasMore) {
-            setPage((prevPage) => prevPage + 1);
-        }
-    }, [inView, hasMore]);
-
-    useEffect(() => {
-        if (isScrolling) {
-            const timer = setTimeout(() => setIsScrolling(false), 800);
-            return () => clearTimeout(timer);
-        }
-    }, [isScrolling]);
-
-    useEffect(() => {
-        const handleScroll = (e: WheelEvent) => {
-            if (isScrolling) return;
-
-            if (e.deltaY > 0 && currentIndex < videos.length - 1) {
-                setCurrentIndex((prevIndex) => prevIndex + 1);
-            } else if (e.deltaY < 0 && currentIndex > 0) {
-                setCurrentIndex((prevIndex) => prevIndex - 1);
-            }
-
-            setIsScrolling(true);
-        };
-
-        window.addEventListener('wheel', handleScroll);
-        return () => window.removeEventListener('wheel', handleScroll);
-    }, [videos, currentIndex, isScrolling]);
-
-    useEffect(() => {
-        videoRefs.current.forEach((video, index) => {
-            if (video) {
-                index === currentIndex ? video.play() : video.pause();
-            }
-        });
-    }, [currentIndex]);
+    const { videos, loading, muted, setMuted, currentIndex, videoRefs, ref } = useFetchLoops();
 
     return (
         <Container
@@ -84,23 +40,13 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MainContainer>
-                    {error && errorBox(error)}
-
                     {loading && (
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                height: '80vh',
-                            }}
-                        >
+                        <LoadingBox>
                             <CircularProgress />
-                        </Box>
+                        </LoadingBox>
                     )}
-
                     {!loading && (
-                        <Grid
+                        <Grid2
                             container
                             sx={{
                                 position: 'relative',
@@ -120,7 +66,7 @@ const Loops: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                     videoRefs={videoRefs}
                                 />
                             ))}
-                        </Grid>
+                        </Grid2>
                     )}
 
                     <div ref={ref} style={{ height: '1px' }} />
@@ -219,13 +165,15 @@ const UserItem: React.FC<{ video: ILoop }> = ({ video }) => {
                         alt={video.username}
                         sx={{ width: 40, height: 40 }}
                     />
-                    <Typography variant="h6">
+                    <Typography sx={{ marginLeft: '10px' }} variant="h6">
                         <Link to={`/user/${video.userId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             {video.username}
                         </Link>
                     </Typography>
                 </LoopUserItemInnerBox>
-                <Typography variant="body2">{truncateText(video.description || 'No description', 300)}</Typography>
+                <Typography sx={{ padding: '10px' }} variant="body2">
+                    {truncateText(video.description || 'No description', 300)}
+                </Typography>
             </LoopUserItemBox>
         </MainUserItemMotionDiv>
     );

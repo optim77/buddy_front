@@ -14,7 +14,7 @@ export const LoopContainer = styled(Container)({
 export const MainVideoControlMotionDiv = styled(motion.div)({
     position: 'absolute',
     bottom: '20px',
-    left: '2%',
+    left: '1.5%',
     right: '20px',
     zIndex: 2,
     display: 'flex',
@@ -72,9 +72,17 @@ export const LoopUserItemBox = styled(Box)({
     left: '50%',
     transform: 'translateX(-50%)',
     zIndex: 3,
-})
+});
+
 export const LoopUserItemInnerBox = styled(Box)({
     display: 'flex',
     alignItems: 'center',
     gap: 2,
-})
+});
+
+export const LoadingBox = styled(Box)({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '80vh',
+});
