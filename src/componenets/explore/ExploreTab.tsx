@@ -3,7 +3,7 @@ import MediaGrip from '../media/grid/MediaGrip';
 import MediaWall from '../media/wall/MediaWall';
 import TagList from './TagList';
 import React from 'react';
-import { MediaObject } from '../media/MediaObject';
+import { MediaObject } from '../media/types/MediaObject';
 import { ITag } from '../tag/ITag';
 
 interface ExploreTabProps {

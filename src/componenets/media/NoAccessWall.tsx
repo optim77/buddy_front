@@ -1,8 +1,8 @@
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 import { formatMediaLink } from '../../utils/FormatMediaLink';
+import { NoAccessBox } from "./elements/MediaElements";
 
 export const NoAccessWall = ({
     username,
@@ -14,28 +14,9 @@ export const NoAccessWall = ({
     backgroundImage: string;
 }) => {
     const blurredLink = formatMediaLink(backgroundImage);
-    console.log(blurredLink);
+
     return (
-        <Box
-            sx={{
-                height: 500,
-                width: '100%',
-                position: 'relative',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundImage: `url(${blurredLink})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backdropFilter: 'blur(10px)',
-                borderRadius: '8px',
-                textAlign: 'center',
-                color: '#fff',
-            }}
-        >
+        <NoAccessBox sx={{backgroundImage: `url(${blurredLink})`}}>
             <Typography variant="h3" component="div" sx={{ marginBottom: 2 }}>
                 Get a subscription to view the {mediaType === 'VIDEO' ? 'video' : 'photo'}
             </Typography>
@@ -53,6 +34,6 @@ export const NoAccessWall = ({
             >
                 Get Access
             </Button>
-        </Box>
+        </NoAccessBox>
     );
 };

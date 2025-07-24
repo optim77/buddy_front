@@ -7,7 +7,7 @@ import { formatMediaLink } from '../../../utils/FormatMediaLink';
 import { truncateText } from '../../../utils/FormatText';
 import LikeButton from '../../like/LikeButton';
 import { NoAccessWall } from '../NoAccessWall';
-import { IMedia } from '../IMedia';
+import { IMedia } from '../types/IMedia';
 
 const MediaGrip = ({ image }: { image: IMedia }) => {
     return (

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { MediaObject } from '../../media/MediaObject';
+import { MediaObject } from '../../media/types/MediaObject';
 import { ITag } from '../../tag/ITag';
 import { showBanner } from '../../banner/BannerUtils';
 import { apiClient } from '../../api/apiClient';

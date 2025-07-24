@@ -1,4 +1,4 @@
-import { ITag } from '../tag/ITag';
+import { ITag } from '../../tag/ITag';
 
 export interface MediaObject {
     avatar: string | null;

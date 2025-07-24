@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { IMedia } from '../../media/IMedia';
+import { IMedia } from '../../media/types/IMedia';
 import axios from 'axios';
 import authService from '../../../services/authService';
 

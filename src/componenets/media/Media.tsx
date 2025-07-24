@@ -10,13 +10,11 @@ import Chip from '@mui/material/Chip';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-
 import authService from '../../services/authService';
 import { formatLikes } from '../../utils/FormatLike';
 import { buildMediaLink } from '../../utils/FormatMediaLink';
@@ -25,29 +23,12 @@ import LikeButton from '../like/LikeButton';
 import { ITag } from '../tag/ITag';
 import AppTheme from '../theme/AppTheme';
 
-import { MediaObject } from './MediaObject';
+import { MediaObject } from './types/MediaObject';
 import { NoAccessWall } from './NoAccessWall';
+import { MediaDashboardContainer } from './elements/MediaElements';
+import { buildImageUrl } from "../../utils/BuildMediaUrl";
 
-const DashboardContainer = styled(Stack)(({ theme }) => ({
-    height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
-    minHeight: '100%',
-    padding: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(4),
-    },
-    '&::before': {
-        content: '""',
-        display: 'block',
-        position: 'absolute',
-        zIndex: -1,
-        inset: 0,
-        backgroundImage: 'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-        backgroundRepeat: 'no-repeat',
-        ...theme.applyStyles('dark', {
-            backgroundImage: 'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-        }),
-    },
-}));
+
 
 const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const { imageId } = useParams<{ imageId: string }>();
@@ -85,15 +66,12 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
         }
     }, [imageId]);
 
-    const buildImageUrl = (relativePath: string) => {
-        return `${process.env.REACT_APP_API_ADDRESS}${relativePath.replace(/\\/g, '/')}`;
-    };
 
     return (
         <Container maxWidth="lg" component="main" sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}>
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
-                <DashboardContainer>
+                <MediaDashboardContainer>
                     {error ? (
                         <Typography color="error">{error}</Typography>
                     ) : media ? (
@@ -228,7 +206,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                     ) : (
                         <Typography>Loading media...</Typography>
                     )}
-                </DashboardContainer>
+                </MediaDashboardContainer>
             </AppTheme>
         </Container>
     );
