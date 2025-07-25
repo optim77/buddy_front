@@ -27,6 +27,7 @@ const PlanWidget = ({ plan }: { plan: Plan }) => {
                         height: 'auto',
                         boxSizing: 'border-box',
                         textAlign: 'center',
+                        borderRadius: '0px',
                     }}
                 >
                     <LinkWhite to={'/plan/' + plan.id}>

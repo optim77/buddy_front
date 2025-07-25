@@ -12,10 +12,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import authService from '../../services/authService';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { formatLikes } from '../../utils/FormatLike';
 import { buildMediaLink } from '../../utils/FormatMediaLink';
 import { EditIcon, InfoIcon } from '../CustomIcons';
@@ -23,58 +21,20 @@ import LikeButton from '../like/LikeButton';
 import { ITag } from '../tag/ITag';
 import AppTheme from '../theme/AppTheme';
 
-import { MediaObject } from './types/MediaObject';
 import { NoAccessWall } from './NoAccessWall';
 import { MediaDashboardContainer } from './elements/MediaElements';
-import { buildImageUrl } from "../../utils/BuildMediaUrl";
-
-
+import { buildImageUrl } from '../../utils/BuildMediaUrl';
+import { useMedia } from './hook/useMedia';
 
 const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
-    const { imageId } = useParams<{ imageId: string }>();
-    const [media, setMedia] = useState<MediaObject>();
-    const [error, setError] = useState<string | null>(null);
-    const [editable, setEditable] = useState(false);
-    const [muted, setMuted] = useState<boolean>(true);
-
-    const fetchMedia = async (imageId: string) => {
-        try {
-            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}/image/` + imageId, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + authService.getToken(),
-                },
-            });
-            return response.data;
-        } catch (err) {
-            throw new Error('Error fetching media');
-        }
-    };
-
-    useEffect(() => {
-        if (imageId) {
-            fetchMedia(imageId)
-                .then((data) => {
-                    setMedia(data);
-                    if (data.userId === authService.getBuddyUser()) {
-                        setEditable(true);
-                    }
-                })
-                .catch(() => {
-                    setError('Failed to load media');
-                });
-        }
-    }, [imageId]);
-
+    const { media, editable, muted, setMuted } = useMedia();
 
     return (
         <Container maxWidth="lg" component="main" sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}>
             <AppTheme {...props}>
                 <CssBaseline enableColorScheme />
                 <MediaDashboardContainer>
-                    {error ? (
-                        <Typography color="error">{error}</Typography>
-                    ) : media ? (
+                    {media ? (
                         <Card sx={{ borderRadius: '0px' }}>
                             {media.imageUrl ? (
                                 media.mediaType === 'VIDEO' ? (

@@ -1,6 +1,5 @@
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 

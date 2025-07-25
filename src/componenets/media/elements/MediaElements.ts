@@ -1,6 +1,6 @@
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
 export const NoAccessBox = styled(Box)({
     height: 500,
