@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import authService from '../../../services/authService';
 import { HTTP_CODE } from '../../../utils/CODE';
+import { showBanner } from '../../banner/BannerUtils';
+import { apiClient } from '../../api/apiClient';
 
 export const useCreatePlan = (update = false) => {
     const [isSendingPlan, setIsSendingPlan] = useState<boolean>(false);
-    const [messageSendPlan, setMessageSendPlan] = useState<string>('');
-    const [messageTypeSendPlan, setMessageTypeSendPlan] = useState<string>('error');
     const [name, setName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [price, setPrice] = useState<number | null>(null);
@@ -15,21 +13,20 @@ export const useCreatePlan = (update = false) => {
 
     const validate = (): boolean => {
         if (!name) {
-            setMessageSendPlan('You need to fill name!');
+            showBanner('You need to fill name!', 'error');
             setIsSendingPlan(false);
             return false;
         }
         if (description && description.length < 50) {
-            setMessageSendPlan('Description is too short!');
+            showBanner('Description is too short!', 'error');
             setIsSendingPlan(false);
             return false;
         }
         if (price === null || price < 0 || Number.isNaN(price)) {
-            setMessageSendPlan('Insert correct price');
+            showBanner('Insert correct price', 'error');
             setIsSendingPlan(false);
             return false;
         }
-        setMessageSendPlan('');
         return true;
     };
 
@@ -44,31 +41,20 @@ export const useCreatePlan = (update = false) => {
 
             try {
                 if (update) {
-                    await axios.post(`${process.env.REACT_APP_API_ADDRESS}/plan/create`, formData, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${authService.getToken()}`,
-                        },
-                    });
+                    await apiClient.post('/plan/update', { formData });
                 } else {
-                    await axios.post(`${process.env.REACT_APP_API_ADDRESS}/plan/create`, formData, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${authService.getToken()}`,
-                        },
-                    });
+                    await apiClient.post('/plan/create', { formData });
                 }
 
-                setMessageSendPlan('Created! You will be redirected to profile page');
-                setMessageTypeSendPlan('success');
+                showBanner('Created! You will be redirected to profile page', 'info');
                 setTimeout(() => {
                     navigate('/profile');
                 }, 2000);
             } catch (error: any) {
                 if (error.response?.status === HTTP_CODE.CONFLICT) {
-                    setMessageSendPlan('You have too many plans');
+                    showBanner('You have too many plans', 'error');
                 } else {
-                    setMessageSendPlan('Something went wrong, try again later');
+                    showBanner('Something went wrong, try again later', 'error');
                 }
                 setIsSendingPlan(false);
             }
@@ -77,8 +63,6 @@ export const useCreatePlan = (update = false) => {
 
     return {
         isSendingPlan,
-        messageSendPlan,
-        messageTypeSendPlan,
         setName,
         setDescription,
         setPrice,
