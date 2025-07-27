@@ -63,6 +63,7 @@ const authService = {
     setToken,
     setBuddyUser,
     setBuddySessionUUID,
+    destroyThisSession,
 };
 
 export default authService;

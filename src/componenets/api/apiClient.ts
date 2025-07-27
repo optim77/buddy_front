@@ -22,7 +22,13 @@ apiClient.interceptors.response.use(
     (response) => response,
     (error) => {
         const message = error.response?.data?.message || 'Unexpected error occurred';
+        const status = error.response?.status;
         useErrorStore.getState().setBanner(message, 'error');
+        if (status === 403) {
+            authService.logout().then(() => {
+                authService.destroyThisSession();
+            });
+        }
         return Promise.reject(error);
     },
 );
