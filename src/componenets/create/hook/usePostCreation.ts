@@ -11,6 +11,7 @@ const usePostCreation = (tags: string) => {
     const [isOpen, setIsOpen] = useState(false);
     const [description, setDescription] = useState<string>('');
     const navigate = useNavigate();
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     const { validatePostCreate } = useFileValidation();
 
@@ -24,7 +25,8 @@ const usePostCreation = (tags: string) => {
             showBanner('Only images and videos are allowed.', 'error');
             return;
         }
-
+        console.log(files);
+        setSelectedFile(files[0]);
         setFile(validFile);
     };
 
@@ -74,7 +76,7 @@ const usePostCreation = (tags: string) => {
         }
     };
 
-    return { isSending, send, file, handleFileChange, setDescription, setIsOpen, isOpen };
+    return { isSending, send, handleFileChange, setDescription, setIsOpen, isOpen, selectedFile };
 };
 
 export default usePostCreation;
