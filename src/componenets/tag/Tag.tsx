@@ -39,7 +39,7 @@ const Tag: React.FC = (props: { disableCustomTheme?: boolean }) => {
                         </Typography>
                     )}
 
-                    <Grid container spacing={4}>
+                    <Grid container>
                         {media.map((m) => (
                             <MediaGrip key={m.imageId} image={m} />
                         ))}
