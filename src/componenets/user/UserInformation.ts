@@ -1,4 +1,4 @@
-import Plan from '../plan/Plan';
+import { Plan } from '../plan/Plan';
 
 export interface UserInformation {
     active: boolean;

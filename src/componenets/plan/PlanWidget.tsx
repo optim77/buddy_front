@@ -4,8 +4,8 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import { LinkWhite } from '../../customStyles/Element';
 import { truncateText } from '../../utils/FormatText';
-import Plan from './Plan';
 import { PlanWidgetCard } from './elements/PlanElements';
+import { Plan } from './Plan';
 
 const PlanWidget = ({ plan }: { plan: Plan }) => {
     return (

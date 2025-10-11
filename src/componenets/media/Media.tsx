@@ -79,7 +79,7 @@ const Media: React.FC = (props: { disableCustomTheme?: boolean }) => {
                                 >
                                     {media.tags
                                         ? media.tags.map((tag: ITag) => (
-                                              <Link to={`/tag/${tag}`} key={tag.toString()}>
+                                              <Link to={`/tags/${tag}`} key={tag.toString()}>
                                                   <Chip
                                                       label={tag.toString()}
                                                       variant="filled"

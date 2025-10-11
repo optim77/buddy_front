@@ -2,9 +2,11 @@ import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import authService from '../../../services/authService';
 import { ProfileInformation } from '../ProfileInformation';
+import { Plan } from '../../plan/Plan';
 
 export const useProfile = () => {
     const [profile, setProfile] = useState<ProfileInformation>();
+    const [plans, setPlans] = useState<Plan[] | null>([]);
     const [profileError, setProfileError] = useState<string>('');
     const [profileLoading, setProfileLoading] = useState<boolean>(true);
 
@@ -16,6 +18,7 @@ export const useProfile = () => {
                     Authorization: 'Bearer ' + authService.getToken(),
                 },
             });
+            setPlans(response.data.plans);
             setProfile(response.data);
         } catch (error) {
             setProfileError('Error fetching profile information');
@@ -27,5 +30,5 @@ export const useProfile = () => {
         setProfileLoading(false);
     }, [fetchProfile]);
 
-    return { profile, profileError, profileLoading };
+    return { profile, profileError, profileLoading, plans };
 };

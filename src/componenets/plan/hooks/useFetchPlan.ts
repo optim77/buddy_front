@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import Plan from '../Plan';
+
 import { MESSAGE_TYPE, MESSAGE_TYPE_ERROR } from '../../../utils/CODE';
 import axios from 'axios';
 import authService from '../../../services/authService';
+import { Plan } from '../Plan';
 
 export const useFetchPlan = (id: string | undefined) => {
     if (!id)

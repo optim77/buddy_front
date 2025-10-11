@@ -19,7 +19,7 @@ import { BlankProfileInfo } from '../../utils/BlankProfileInfo';
 const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
     const { images, hasMore, setPage, profileImageError, profileImagesLoading } = useProfileImages();
     const { viewMode, handleViewChange } = useViewMode();
-    const { profile, profileError, profileLoading } = useProfile();
+    const { profile, profileError, profileLoading, plans } = useProfile();
     const { ref, inView } = useInView({ threshold: 0.5 });
 
     useEffect(() => {
@@ -62,8 +62,8 @@ const Profile: React.FC = (props: { disableCustomTheme?: boolean }) => {
                             padding: '10px',
                         }}
                     >
-                        {profile?.plans && profile?.plans?.length > 0
-                            ? profile?.plans?.map((plan) => <PlanWidget key={plan.id} plan={plan} />)
+                        {plans && plans.length > 0
+                            ? plans.map((plan) => <PlanWidget key={plan.id} plan={plan} />)
                             : null}
                     </div>
 
